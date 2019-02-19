@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.servicehi.dao.AhriUrlDao">
+    <resultMap id="AhriUrlResult" type="com.example.servicehi.entity.AhriUrl">
+        <result column="UUID" property="uuid"/>
+        <result column="URL" property="url"/>
+        <result column="IS_DEL" property="isDel"/>
+        <result column="STATUS" property="status"/>
+        <result column="CREATE_USER_UUID" property="createUserUUID"/>
+        <result column="CREATE_DATE" property="createDate"/>
+        <result column="MODI_USER_UUID" property="modiUserUUID"/>
+        <result column="MODI_DATE" property="modiDate"/>
+    </resultMap>
+
+    <update id="delete" parameterType="com.example.servicehi.entity.AhriUrl">
+        update AHRI_URL set IS_DEL = '1' where UUID = #{uuid}
+    </update>
+
+    <delete id="realDelete" parameterType="com.example.servicehi.entity.AhriUrl">
+        delete from AHRI_URL where UUID = #{uuid}
+    </delete>
+
+    <update id="update" parameterType="com.example.servicehi.entity.AhriUrl">
+        update AHRI_URL set URL = #{url}
+    </update>
+
+    <insert id="insert" parameterType="com.example.servicehi.entity.AhriUrl">
+        insert into AHRI_URL (UUID,URL,CREATE_DATE,MODI_DATE) values (#{uuid},#{url},#{createDate},#{modiDate})
+    </insert>
+
+    <select id="selectByUUID" resultMap="AhriUrlResult" parameterType="com.example.servicehi.entity.AhriUrl">
+        select * from AHRI_URL where UUID = #{uuid};
+    </select>
+
+    <select id="selectByUUIDNotDel" resultMap="AhriUrlResult" parameterType="com.example.servicehi.entity.AhriUrl">
+        select * from AHRI_URL where IS_DEL = '0' and UUID = #{uuid};
+    </select>
+
+    <select id="selectAll" resultMap="AhriUrlResult" parameterType="com.example.servicehi.entity.AhriUrl">
+        select * from AHRI_URL;
+    </select>
+
+    <select id="selectAllNotDel" resultMap="AhriUrlResult" parameterType="com.example.servicehi.entity.AhriUrl">
+        select * from AHRI_URL where IS_DEL = '0';
+    </select>
+
+    <select id="selectURL" resultMap="AhriUrlResult" parameterType="com.example.servicehi.entity.AhriUrl">
+        select * from AHRI_URL where URL LIKE CONCAT ('%',#{url},'%');
+    </select>
+
+    <select id="selectTodayURL" resultMap="AhriUrlResult">
+        select * from AHRI_URL where DATE_FORMAT(CREATE_DATE,'%Y-%m-%d') >= DATE_FORMAT(NOW(),'%Y-%m-%d') and IS_DEL = '0' limit 0,9;
+    </select>
+</mapper>

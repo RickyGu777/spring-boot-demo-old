@@ -3,7 +3,6 @@ package com.example.servicehi.util;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.example.servicehi.entity.AhriUrl;
-import com.sun.org.apache.bcel.internal.generic.NEW;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -11,16 +10,19 @@ import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
 import org.jsoup.select.Elements;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
 public class JsoupTest {
     private volatile static List<AhriUrl> urlList = new ArrayList<AhriUrl>();
@@ -33,14 +35,12 @@ public class JsoupTest {
     public static String BASE_URL = "https://ahri.host";
 
     public synchronized static void addUrl(List<AhriUrl> url) {
-//        urlList.addAll(url);
         bq.addAll(url);
         System.err.println(bq.size());
         System.err.println("add");
     }
 
     public synchronized static void removeUrl(AhriUrl ahriUrl) {
-//        urlList.remove(ahriUrl);
         bq.remove(ahriUrl);
     }
 
@@ -63,7 +63,6 @@ public class JsoupTest {
         public void run() {
             while (!JsoupTest.begin) {
                 System.err.println("开启线程");
-//                System.err.println(urlList.size());
                 System.err.println(bq.size());
                 try {
                     Thread.sleep(5000);
@@ -168,7 +167,6 @@ class dnewUrl {
  * 详情页下载
  */
 class innerUrl {
-    //    public static String BASE_PATH = "/mnt/windows_file/";
     public static String BASE_PATH = "E://share//";
 
     public static void getUrl(String comic_info_url) throws Exception {

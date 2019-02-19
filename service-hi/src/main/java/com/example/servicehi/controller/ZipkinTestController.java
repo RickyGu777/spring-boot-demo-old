@@ -24,13 +24,15 @@ public class ZipkinTestController {
 
     @RequestMapping("/zipkinhi")
     public String callHome() {
-        log.info(Level.INFO + "calling trace service-hi  ");
+//        log.info(Level.INFO + "calling trace service-hi  ");
+        log.info("calling trace service-hi  ");
         return restTemplate.getForObject("http://localhost:8989/miya", String.class);
     }
 
     @RequestMapping("/info")
     public String info() {
-        log.info(Level.INFO + "calling trace service-hi ");
+//        log.info(Level.INFO + "calling trace service-hi ");
+        log.info("calling trace service-hi ");
         return "i'm service-hi";
 
     }
