@@ -22,7 +22,6 @@
         <module>config-server</module>
         <module>eureka-server</module>
         <module>service-feign</module>
-        <module>service-miya</module>
         <module>service-hi</module>
         <module>service-ribbon</module>
         <module>service-zuul</module>
