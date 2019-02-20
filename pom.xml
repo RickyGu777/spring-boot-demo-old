@@ -27,6 +27,7 @@
         <module>service-ribbon</module>
         <module>service-zuul</module>
         <module>shiro-server</module>
+        <module>tool</module>
     </modules>
 
     <properties>

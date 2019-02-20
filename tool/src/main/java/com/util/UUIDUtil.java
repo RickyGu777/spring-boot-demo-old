@@ -1,9 +1,9 @@
-package com.example.servicehi.util;
+package com.util;
 
 import java.util.UUID;
 
 public class UUIDUtil {
-    public static String getUUID(){
+    public static String createUUID(){
         return UUID.randomUUID().toString().replace("-", "");
     }
 }

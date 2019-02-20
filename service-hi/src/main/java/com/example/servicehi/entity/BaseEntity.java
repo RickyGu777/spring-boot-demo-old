@@ -1,7 +1,7 @@
 package com.example.servicehi.entity;
 
 
-import com.example.servicehi.util.UUIDUtil;
+import com.util.UUIDUtil;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -25,7 +25,7 @@ public class BaseEntity implements Serializable {
 
     public BaseEntity() {
         if (this.uuid == null) {
-            this.uuid = UUIDUtil.getUUID();
+            this.uuid = UUIDUtil.createUUID();
             log.info("CREATE UUID ---> " + this.uuid);
         }
     }
