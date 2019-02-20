@@ -2,7 +2,7 @@ server:
   port: 8089
 spring:
   application:
-    name: admin-client
+    name: ADMIN-CLIENT
   boot:
     admin:
       client:

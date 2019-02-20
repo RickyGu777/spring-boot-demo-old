@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: service-hi
+    name: SERVICE-HI
   jackson:
     time-zone: GMT-8
     default-property-inclusion: non_empty
