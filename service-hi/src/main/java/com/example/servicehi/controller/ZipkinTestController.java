@@ -1,14 +1,8 @@
 package com.example.servicehi.controller;
 
-import brave.sampler.Sampler;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
-
-import java.util.logging.Level;
 
 @RestController
 @RequestMapping

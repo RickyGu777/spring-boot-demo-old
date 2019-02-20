@@ -45,6 +45,9 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <outputDirectory>/usr/local/app/springboot/shiro-server/</outputDirectory>
+                </configuration>
             </plugin>
         </plugins>
     </build>
