@@ -167,7 +167,7 @@ class dnewUrl {
  * 详情页下载
  */
 class innerUrl {
-    public static String BASE_PATH = "E://share//";
+    public static String BASE_PATH = "D://share//";
 
     public static void getUrl(String comic_info_url) throws Exception {
         Connection connection = GetConnection.getConnection(comic_info_url);
@@ -184,7 +184,7 @@ class innerUrl {
  */
 class ComicUrl {
     //    public static String BASE_PATH = "/mnt/windows_file/";
-    public static String BASE_PATH = "E://share//";
+    public static String BASE_PATH = "D://share//";
 
     public static void getPictureUrl(String url, String file) throws Exception {
         Connection connect = GetConnection.getConnection(url); // 外部首页分析
