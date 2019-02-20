@@ -9,7 +9,8 @@ import java.io.IOException;
 public class CompressImageUtil {
     public static void compress(MultipartFile multipartFile) {
         String origFilename = multipartFile.getOriginalFilename(); // 图片名
-        File dest = new File("D:/images/" + System.currentTimeMillis() + origFilename); // 保存位置
+        File dest = new File("D:/images/" + UUIDUtil.getUUID()); // 保存位置
+        FileUtil.checkParentFile(dest);
         try {
             // 先尝试压缩并保存图片
             Thumbnails.of(multipartFile.getInputStream()).scale(1f).outputQuality(0.25f).toFile(dest);
