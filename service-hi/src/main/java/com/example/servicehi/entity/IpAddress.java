@@ -7,4 +7,5 @@ import org.apache.ibatis.type.Alias;
 @Data
 public class IpAddress extends BaseEntity {
     private String ip;
+    private String mac;
 }

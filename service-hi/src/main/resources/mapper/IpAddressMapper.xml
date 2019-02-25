@@ -4,22 +4,23 @@
     <resultMap id="IpAddressResult" type="com.example.servicehi.entity.IpAddress">
         <result column="UUID" property="uuid"/>
         <result column="IP" property="ip"/>
+        <result column="MAC" property="mac"/>
         <result column="CREATE_DATE" property="createDate"/>
     </resultMap>
 
     <select id="selectIP" resultMap="IpAddressResult" parameterType="IpAddress">
-        select * from IP_ADDRESS where IP = #{ip}
+        select * from IP_ADDRESS where MAC = #{mac}
     </select>
 
     <update id="updateIP" parameterType="IpAddress">
-        update IP_ADDRESS set IP = #{ip}
+        update IP_ADDRESS set IP = #{ip} where MAC = #{mac}
     </update>
 
     <insert id="insert" parameterType="IpAddress">
-        insert into IP_ADDRESS (uuid, ip) values (#{uuid},#{ip})
+        insert into IP_ADDRESS (uuid, ip, mac) values (#{uuid},#{ip},#{mac})
     </insert>
 
     <delete id="delete">
-        delete from IP_ADDRESS
+        delete from IP_ADDRESS where MAC = #{mac}
     </delete>
 </mapper>
