@@ -56,7 +56,12 @@ public class ScheduledService {
             Double exec = Double.parseDouble(CmdUtil.exec("/opt/vc/bin/vcgencmd measure_temp").replace("temp=", "").replace("'C", "").replace("\n", ""));
             if (exec > 65) {
                 sendMail.send("CPU温度过高", "当前CPU温度为" + exec + "，执行关机处理。当前服务器时间" + new Date());
-                CmdUtil.exec("sudo shutdown now");
+                try {
+                    CmdUtil.exec("sudo shutdown now");
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                    sendMail.send("CPU温度过高，执行关机处理失败", "当前CPU温度为" + exec + "；当前服务器时间" + new Date());
+                }
             }
         }
     }
