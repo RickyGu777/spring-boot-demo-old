@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.servicehi.dao.IpAddressDao">
+    <resultMap id="IpAddressResult" type="com.example.servicehi.entity.IpAddress">
+        <result column="UUID" property="uuid"/>
+        <result column="IP" property="ip"/>
+        <result column="CREATE_DATE" property="createDate"/>
+    </resultMap>
+
+    <select id="selectIP" resultMap="IpAddressResult" parameterType="IpAddress">
+        select * from IP_ADDRESS where IP = #{ip}
+    </select>
+
+    <update id="updateIP" parameterType="IpAddress">
+        update IP_ADDRESS set IP = #{ip}
+    </update>
+
+    <insert id="insert" parameterType="IpAddress">
+        insert into IP_ADDRESS (uuid, ip) values (#{uuid},#{ip})
+    </insert>
+
+    <delete id="delete">
+        delete from IP_ADDRESS
+    </delete>
+</mapper>
