@@ -17,10 +17,14 @@
     </update>
 
     <insert id="insert" parameterType="IpAddress">
-        insert into IP_ADDRESS (uuid, ip, mac) values (#{uuid},#{ip},#{mac})
+        insert into IP_ADDRESS (UUID, IP, MAC) values (#{uuid},#{ip},#{mac})
     </insert>
 
     <delete id="delete">
+        delete from IP_ADDRESS where MAC = #{mac}
+    </delete>
+
+    <delete id="deleteByMac" parameterType="IpAddress">
         delete from IP_ADDRESS where MAC = #{mac}
     </delete>
 </mapper>

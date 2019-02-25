@@ -41,9 +41,7 @@ public class ScheduledService {
 
         ipAddress = ipAddressService.selectMac(ipAddress);
 
-        if (ipAddress == null) {
-            sendMail.send("新增MAC", "外网IP为:" + v4IP);
-        } else if (!ipAddress.getIp().equals(v4IP)) {
+        if (!ipAddress.getIp().equals(v4IP)) {
             sendMail.send("IP地址变更", "变更MAC为:" + localMac + ";变更前IP为:" + ipAddress.getIp() + ";变更后IP为:" + v4IP);
         }
     }

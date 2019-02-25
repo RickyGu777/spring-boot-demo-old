@@ -12,4 +12,6 @@ public interface IpAddressDao<T extends IpAddress> {
     void insert(T t);
 
     void delete();
+
+    void deleteByMac(T t);
 }

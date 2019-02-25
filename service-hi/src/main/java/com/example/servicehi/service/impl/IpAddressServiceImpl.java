@@ -30,4 +30,9 @@ public class IpAddressServiceImpl<T extends IpAddress> implements IpAddressServi
     public void delete() {
         ipAddressDao.delete();
     }
+
+    @Override
+    public void deleteByMac(T t) {
+        ipAddressDao.deleteByMac(t);
+    }
 }
