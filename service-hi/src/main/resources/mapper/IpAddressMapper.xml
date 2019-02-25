@@ -8,7 +8,7 @@
         <result column="CREATE_DATE" property="createDate"/>
     </resultMap>
 
-    <select id="selectIP" resultMap="IpAddressResult" parameterType="IpAddress">
+    <select id="selectMac" resultMap="IpAddressResult" parameterType="IpAddress">
         select * from IP_ADDRESS where MAC = #{mac}
     </select>
 

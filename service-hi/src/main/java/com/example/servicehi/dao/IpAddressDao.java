@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IpAddressDao<T extends IpAddress> {
-    T selectIP(T t);
+    T selectMac(T t);
 
     void updateIP();
 

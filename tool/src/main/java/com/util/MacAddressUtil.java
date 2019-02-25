@@ -8,8 +8,8 @@ import java.net.UnknownHostException;
 /*
  * 物理地址是48位，别和ipv6搞错了
  */
-public class MacAddress {
-    private static String getLocalMac() throws SocketException, UnknownHostException {
+public class MacAddressUtil {
+    public static String getLocalMac() throws SocketException, UnknownHostException {
         //获取网卡，获取地址
         InetAddress ia = InetAddress.getLocalHost();
         byte[] mac = NetworkInterface.getByInetAddress(ia).getHardwareAddress();

@@ -12,8 +12,8 @@ public class IpAddressServiceImpl<T extends IpAddress> implements IpAddressServi
     private IpAddressDao<T> ipAddressDao;
 
     @Override
-    public T selectIP(T t) {
-        return ipAddressDao.selectIP(t);
+    public T selectMac(T t) {
+        return ipAddressDao.selectMac(t);
     }
 
     @Override

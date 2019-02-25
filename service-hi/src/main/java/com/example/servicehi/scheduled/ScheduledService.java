@@ -5,6 +5,7 @@ import com.example.servicehi.entity.IpAddress;
 import com.example.servicehi.service.IpAddressService;
 import com.util.CmdUtil;
 import com.util.IPAddressUtil;
+import com.util.MacAddressUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -33,19 +34,23 @@ public class ScheduledService {
     public void getIP() throws IOException, MessagingException {
         log.info("=====>>>>>使用cron  {}", System.currentTimeMillis());
         String v4IP = IPAddressUtil.getV4IP();
-        IpAddress ipAddress = new IpAddress();
-        ipAddress.setIp(v4IP);
+        String localMac = MacAddressUtil.getLocalMac();
 
-        ipAddress = ipAddressService.selectIP(ipAddress);
+        IpAddress ipAddress = new IpAddress();
+        ipAddress.setMac(localMac);
+
+        ipAddress = ipAddressService.selectMac(ipAddress);
 
         if (ipAddress == null) {
-            sendMail.send("IP地址变更", "外网IP为:" + v4IP);
+            sendMail.send("新增MAC", "外网IP为:" + v4IP);
+        } else if (!ipAddress.getIp().equals(v4IP)) {
+            sendMail.send("IP地址变更", "变更MAC为:" + localMac + ";变更前IP为:" + ipAddress.getIp() + ";变更后IP为:" + v4IP);
         }
     }
 
     @Scheduled(cron = "0 0/5 * * * ? ")
     public void getTemp() throws InterruptedException {
-        Properties props=System.getProperties();
+        Properties props = System.getProperties();
         String property = props.getProperty("os.name");
         if ("Linux".equals(property)) {
             Double exec = Double.parseDouble(CmdUtil.exec("/opt/vc/bin/vcgencmd measure_temp").replace("temp=", "").replace("'C", "").replace("\n", ""));
