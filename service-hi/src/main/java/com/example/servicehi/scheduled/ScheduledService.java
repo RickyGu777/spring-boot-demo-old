@@ -12,8 +12,10 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import javax.mail.MessagingException;
+import javax.servlet.Servlet;
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Properties;
 
 @Slf4j
@@ -46,8 +48,15 @@ public class ScheduledService {
         }
     }
 
+    /**
+     * 每5分钟更新一次CPU温度，超过65则报警并关闭系统，暂时只支持树莓派，还未在其他系统上测试命令
+     *
+     * @throws InterruptedException
+     */
     @Scheduled(cron = "0 0/5 * * * ? ")
     public void getTemp() throws InterruptedException {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("1", "1");
         Properties props = System.getProperties();
         String property = props.getProperty("os.name");
         if ("Linux".equals(property)) {
