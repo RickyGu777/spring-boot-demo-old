@@ -10,7 +10,8 @@
     <!--<foot-menu :activeIndex="0"></foot-menu>-->
     <!-- main -->
     <div class="main_wrapper">
-      <img src="../../static/GIF/7fb813b4ly4g0eyw6tuawj20qo0jrafp.jpg">
+      <img src="../../static/GIF/sanjiu.gif">
+      <!--<video src="../../static/GIF/QQ视频20190123163248.mp4"></video>-->
       <h1 class="title">{{ msg }}</h1>
     </div>
   </div>
