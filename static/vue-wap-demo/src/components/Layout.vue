@@ -1,16 +1,16 @@
 <template>
   <div class="app_wrapper" :class="{hideSidebar:sidebar}">
     <!-- head -->
-    <head-top @toggleSideBar="toggleSideBar"></head-top>
+    <!--<head-top @toggleSideBar="toggleSideBar"></head-top>-->
     <!-- sidebar -->
-    <sidebar></sidebar>
+    <!--<sidebar></sidebar>-->
     <!-- masking -->
-    <masking></masking>
+    <!--<masking></masking>-->
     <!-- footer -->
-    <foot-menu :activeIndex="0"></foot-menu>
+    <!--<foot-menu :activeIndex="0"></foot-menu>-->
     <!-- main -->
     <div class="main_wrapper">
-      <img src="../assets/logo.png">
+      <img src="../../static/GIF/7fb813b4ly4g0eyw6tuawj20qo0jrafp.jpg">
       <h1 class="title">{{ msg }}</h1>
     </div>
   </div>
