@@ -7,8 +7,8 @@ import java.io.File;
 import java.io.IOException;
 
 public class CompressImageUtil {
-    public static void compress(MultipartFile multipartFile) {
-        File dest = new File("D:/images/" + UUIDUtil.createUUID()); // 保存位置
+    public static String compress(MultipartFile multipartFile) {
+        File dest = new File("D:/images/" + UUIDUtil.createUUID() + "." + multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().lastIndexOf(".") + 1)); // 保存位置
         FileUtil.checkParentFile(dest);
         try {
             // 先尝试压缩并保存图片
@@ -21,5 +21,6 @@ public class CompressImageUtil {
                 e1.printStackTrace();
             }
         }
+        return dest.getPath();
     }
 }

@@ -14,6 +14,8 @@ Vue.config.productionTip = false
 
 Vue.use(VueQuillEditor)
 
+// Vue.prototype.HOST = '/apis'
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

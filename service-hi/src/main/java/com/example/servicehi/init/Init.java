@@ -28,15 +28,15 @@ public class Init implements InitializingBean {
     }
 
     private void sendIP() throws IOException {
-        String v4IP = IPAddressUtil.getV4IP();
-        String localMac = MacAddressUtil.getLocalMac();
-        IpAddress ipAddress = new IpAddress();
-        ipAddress.setIp(v4IP);
-        ipAddress.setCreateDate(new Date());
-        ipAddress.setMac(localMac);
-        ipAddressService.deleteByMac(ipAddress);
-        ipAddressService.insert(ipAddress);
-
-        sendMail.send("项目初始化IP地址查询", "项目初始化外网IP为:" + v4IP + ";MAC地址为:" + localMac + ";");
+//        String v4IP = IPAddressUtil.getV4IP();
+//        String localMac = MacAddressUtil.getLocalMac();
+//        IpAddress ipAddress = new IpAddress();
+//        ipAddress.setIp(v4IP);
+//        ipAddress.setCreateDate(new Date());
+//        ipAddress.setMac(localMac);
+//        ipAddressService.deleteByMac(ipAddress);
+//        ipAddressService.insert(ipAddress);
+//
+//        sendMail.send("项目初始化IP地址查询", "项目初始化外网IP为:" + v4IP + ";MAC地址为:" + localMac + ";");
     }
 }
