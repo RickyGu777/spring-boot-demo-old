@@ -23,8 +23,8 @@
             <groupId>SpringCloud</groupId>
             <artifactId>tool</artifactId>
             <version>1.0-SNAPSHOT</version>
-            <scope>system</scope>
-            <systemPath>/usr/local/app/springboot/spring-boot-demo/tool/target/tool-1.0-SNAPSHOT.jar</systemPath>
+            <!--<scope>system</scope>-->
+            <!--<systemPath>/usr/local/app/springboot/spring-boot-demo/tool/target/tool-1.0-SNAPSHOT.jar</systemPath>-->
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -78,6 +78,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <outputDirectory>/usr/local/app/springboot/service-hi-8762/</outputDirectory>
+                    <mainClass>com.example.servicehi.ServiceHiApplication</mainClass>
                 </configuration>
             </plugin>
         </plugins>
