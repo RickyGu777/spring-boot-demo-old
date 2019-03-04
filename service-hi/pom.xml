@@ -23,6 +23,8 @@
             <groupId>SpringCloud</groupId>
             <artifactId>tool</artifactId>
             <version>1.0-SNAPSHOT</version>
+            <scope>system</scope>
+            <systemPath>/usr/local/app/springboot/spring-boot-demo/tool/target/tool-1.0-SNAPSHOT.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
