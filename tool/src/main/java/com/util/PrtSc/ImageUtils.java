@@ -84,16 +84,16 @@ class ImageUtilsTest{
      * @param args
      * @throws Exception
      */
-    public static void main(String[] args) throws Exception {
-        long l = System.currentTimeMillis();
-        ImageUtils.cutJPG(new FileInputStream("/home/kanlad/Screenshot_20181204-190844"+".jpg"),
-                new FileOutputStream("/home/kanlad/"+l+".jpg"), 1840,760,320,320);
-        l = System.currentTimeMillis();
-        ImageUtils.cutJPG(new FileInputStream("/home/kanlad/Screenshot_20181204-190854"+".jpg"),
-                new FileOutputStream("/home/kanlad/"+l+".jpg"), 1840,760,320,320);
-/*
-        ImageUtils.cutPNG(new FileInputStream("/home/kanlad/bootstrap栅格1.png"),
-                new FileOutputStream("/home/kanlad/bootstrap栅格2.png"), 0,0,50,40);
-*/
-    }
+//    public static void main(String[] args) throws Exception {
+//        long l = System.currentTimeMillis();
+//        ImageUtils.cutJPG(new FileInputStream("/home/kanlad/Screenshot_20181204-190844"+".jpg"),
+//                new FileOutputStream("/home/kanlad/"+l+".jpg"), 1840,760,320,320);
+//        l = System.currentTimeMillis();
+//        ImageUtils.cutJPG(new FileInputStream("/home/kanlad/Screenshot_20181204-190854"+".jpg"),
+//                new FileOutputStream("/home/kanlad/"+l+".jpg"), 1840,760,320,320);
+///*
+//        ImageUtils.cutPNG(new FileInputStream("/home/kanlad/bootstrap栅格1.png"),
+//                new FileOutputStream("/home/kanlad/bootstrap栅格2.png"), 0,0,50,40);
+//*/
+//    }
 }

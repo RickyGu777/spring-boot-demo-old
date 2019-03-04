@@ -49,8 +49,8 @@ class GetFileExtTest{
     /**
      * 判断图片类型
      */
-    public static void main(String[] args) {
-        String fileExt = GetFileExt.getFileExt("/home/kanlad/Screenshot_20181204-190844.jpg");
-        System.out.println(fileExt);
-    }
+//    public static void main(String[] args) {
+//        String fileExt = GetFileExt.getFileExt("/home/kanlad/Screenshot_20181204-190844.jpg");
+//        System.out.println(fileExt);
+//    }
 }

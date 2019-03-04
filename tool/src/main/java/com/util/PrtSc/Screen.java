@@ -27,10 +27,10 @@ public class Screen {
     }
 }
 
-class ScreenTest {
-    public static void main(String[] args) {
-        int screenWidth=Screen.getScreenWidth();
-        int screenHeight=Screen.getScreenHeight();
-        System.out.println("屏幕宽为："+screenWidth+"---屏幕高为："+screenHeight);
-    }
-}
+//class ScreenTest {
+//    public static void main(String[] args) {
+//        int screenWidth=Screen.getScreenWidth();
+//        int screenHeight=Screen.getScreenHeight();
+//        System.out.println("屏幕宽为："+screenWidth+"---屏幕高为："+screenHeight);
+//    }
+//}

@@ -72,13 +72,13 @@ class FileDigestTest{
      * 比较图片是否相同
      * @param args
      */
-    public static void main(String[] args) {
-        File file1 = new File("D:\\诺亚幻想\\基础图片\\QUYU1544264476533.bmp");
-        File file2 = new File("D:\\诺亚幻想\\基础图片\\QUYU1544264495154.bmp");
-        FileUtil.checkParentFile(file1);
-        FileUtil.checkParentFile(file2);
-        System.err.println(FileDigest.getFileMD5(file1));
-        System.err.println(FileDigest.getFileMD5(file2));
-//        System.out.println(FileDigest.getFileMD5(file1).equals(FileDigest.getFileMD5(file2)));
-    }
+//    public static void main(String[] args) {
+//        File file1 = new File("D:\\诺亚幻想\\基础图片\\QUYU1544264476533.bmp");
+//        File file2 = new File("D:\\诺亚幻想\\基础图片\\QUYU1544264495154.bmp");
+//        FileUtil.checkParentFile(file1);
+//        FileUtil.checkParentFile(file2);
+//        System.err.println(FileDigest.getFileMD5(file1));
+//        System.err.println(FileDigest.getFileMD5(file2));
+////        System.out.println(FileDigest.getFileMD5(file1).equals(FileDigest.getFileMD5(file2)));
+//    }
 }

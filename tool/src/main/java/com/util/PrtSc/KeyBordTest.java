@@ -43,9 +43,9 @@ public class KeyBordTest extends JFrame implements KeyListener {
     private BufferedImage pointI1;
     private BufferedImage pointI2;
 
-    public static void main(String[] args) {
-        KeyBordTest ket = new KeyBordTest();
-    }
+//    public static void main(String[] args) {
+//        KeyBordTest ket = new KeyBordTest();
+//    }
 
     public KeyBordTest() {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
