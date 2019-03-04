@@ -13,8 +13,8 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class SaveAndPostImg {
-    public static HashMap<String, Object> compress(MultipartFile multipartFile, String path, String postUrl) throws IOException {
-        File dest = new File(path + UUIDUtil.createUUID() + "." + multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().lastIndexOf(".") + 1)); // 保存位置
+    public static String compress(MultipartFile multipartFile, String path, String fileName, String postUrl) throws IOException {
+        File dest = new File(path + File.separator + fileName); // 保存位置
         FileUtil.checkParentFile(dest);
         multipartFile.transferTo(dest);
 
@@ -139,13 +139,7 @@ public class SaveAndPostImg {
         HashMap<String, Object> hashMap = new HashMap<>();
         Map map = JSON.parseObject(res, new TypeReference<Map>() {
         });
-        if ("success".equals(map.get("code").toString())) {
-            hashMap.put("img", ((Map) map.get("data")).get("url"));
-            hashMap.put("code", 0);
-        } else if ("error".equals(map.get("code").toString())) {
-            hashMap.put("msg", map.get("msg"));
-            hashMap.put("code", 1);
-        }
-        return hashMap;
+
+        return res;
     }
 }

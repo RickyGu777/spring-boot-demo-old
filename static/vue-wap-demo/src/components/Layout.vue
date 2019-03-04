@@ -1,6 +1,7 @@
 <template>
   <div class="quill-wrap">
     <!--<img src="../../static/GIF/sanjiu.gif">-->
+    <h1 class="title">{{ content }}</h1>
     <quill-editor
       v-model="content"
       ref="myQuillEditor"
@@ -35,7 +36,6 @@
                 if (res.code == 0) {
                   return res.img;
                 } else {
-                  this.content = this.content + "上传图片出错了,错误提示:" + res.msg;
                   return "/static/img/sanjiu.77fbfad.gif";
                 }
               },
