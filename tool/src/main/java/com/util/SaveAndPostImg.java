@@ -1,19 +1,34 @@
 package com.util;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.activation.MimetypesFileTypeMap;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public class PostImg {
-    public static String formUpload(String urlStr, Map<String, String> textMap, Map<String, String> fileMap) {
+public class SaveAndPostImg {
+    public static HashMap<String, Object> compress(MultipartFile multipartFile, String path, String postUrl) throws IOException {
+        File dest = new File(path + UUIDUtil.createUUID() + "." + multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().lastIndexOf(".") + 1)); // 保存位置
+        FileUtil.checkParentFile(dest);
+        multipartFile.transferTo(dest);
+
+        Map<String, String> textMap = new HashMap<>();
+        textMap.put("file_id", dest.getPath());
+
+        Map<String, String> fileMap = new HashMap<>();
+        fileMap.put("smfile", dest.getPath());
+
         String res = "";
         HttpURLConnection conn = null;
         String BOUNDARY = "----WebKitFormBoundarypAIqI1RWBfPWiOKq"; //boundary就是request头和上传文件内容的分隔符
         try {
-            URL url = new URL(urlStr);
+            URL url = new URL(postUrl);
             conn = (HttpURLConnection) url.openConnection();
             conn.setConnectTimeout(5000);
             conn.setReadTimeout(30000);
@@ -47,6 +62,9 @@ public class PostImg {
                     if (filename.endsWith(".png")) {
                         contentType = "image/png";
                     }
+                    if (filename.endsWith(".gif")) {
+                        contentType = "image/gif";
+                    }
                     if (filename.endsWith(".jpg") || filename.endsWith(".jpeg")) {
                         contentType = "image/jpeg";
                     }
@@ -61,14 +79,6 @@ public class PostImg {
 
                     out.write(strBuf.toString().getBytes());
 
-//                    DataInputStream in = new DataInputStream(
-//                            new FileInputStream(file));
-//                    int bytes = 0;
-//                    byte[] bufferOut = new byte[1024];
-//                    while ((bytes = in.read(bufferOut)) != -1) {
-//                        out.write(bufferOut, 0, bytes);
-//                    }
-//                    in.close();
                 }
             }
 
@@ -118,7 +128,7 @@ public class PostImg {
             reader.close();
             reader = null;
         } catch (Exception e) {
-            System.out.println("发送POST请求出错。" + urlStr);
+            System.out.println("发送POST请求出错。" + postUrl);
             e.printStackTrace();
         } finally {
             if (conn != null) {
@@ -126,6 +136,16 @@ public class PostImg {
                 conn = null;
             }
         }
-        return res;
+        HashMap<String, Object> hashMap = new HashMap<>();
+        Map map = JSON.parseObject(res, new TypeReference<Map>() {
+        });
+        if ("success".equals(map.get("code").toString())) {
+            hashMap.put("img", ((Map) map.get("data")).get("url"));
+            hashMap.put("code", 0);
+        } else if ("error".equals(map.get("code").toString())) {
+            hashMap.put("msg", map.get("msg"));
+            hashMap.put("code", 1);
+        }
+        return hashMap;
     }
 }

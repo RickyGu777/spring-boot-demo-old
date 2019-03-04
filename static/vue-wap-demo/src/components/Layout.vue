@@ -1,5 +1,6 @@
 <template>
   <div class="quill-wrap">
+    <!--<img src="../../static/GIF/sanjiu.gif">-->
     <quill-editor
       v-model="content"
       ref="myQuillEditor"
@@ -30,8 +31,13 @@
               // 例如服务器返回{code: 200; data:{ url: 'baidu.com'}}
               // 则 return res.data.url
               response: (res) => {
-                console.log(res.img);
-                return res.img
+                // console.log(res.img);
+                if (res.code == 0) {
+                  return res.img;
+                } else {
+                  this.content = this.content + "上传图片出错了,错误提示:" + res.msg;
+                  return "/static/img/sanjiu.77fbfad.gif";
+                }
               },
               headers: (xhr) => {
               },  // 可选参数 设置请求头部
@@ -39,7 +45,7 @@
               },  // 可选参数 自定义开始上传触发事件
               end: () => {
               },  // 可选参数 自定义上传结束触发的事件，无论成功或者失败
-              error: () => {
+              error: (res) => {
               },  // 可选参数 自定义网络错误触发的事件
               change: (xhr, formData) => {
               } // 可选参数 选择图片触发，也可用来设置头部，但比headers多了一个参数，可设置formData
