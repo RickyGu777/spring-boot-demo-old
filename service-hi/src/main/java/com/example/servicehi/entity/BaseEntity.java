@@ -1,7 +1,7 @@
 package com.example.servicehi.entity;
 
 
-import com.util.UUIDUtil;
+import com.example.servicehi.util.UUIDUtil;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

@@ -1,7 +1,4 @@
-package com.util.PrtSc;
-
-import java.awt.*;
-import java.awt.event.InputEvent;
+package com.example.servicehi.util.PrtSc;
 
 public class MouseTest {
 //    public static void main(String[] args) {

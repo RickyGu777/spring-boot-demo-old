@@ -1,4 +1,4 @@
-package com.util.PrtSc;
+package com.example.servicehi.util.PrtSc;
 
 /**
  * 获取系统分辨率

@@ -1,4 +1,4 @@
-package com.util;
+package com.example.servicehi.util;
 
 public class SystemUtil {
     public static boolean isWindows() {

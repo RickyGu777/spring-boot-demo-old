@@ -1,4 +1,4 @@
-package com.util;
+package com.example.servicehi.util;
 
 import java.io.*;
 import java.util.logging.Level;

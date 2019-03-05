@@ -1,6 +1,4 @@
-package com.util.PrtSc;
-
-import com.util.FileUtil;
+package com.example.servicehi.util.PrtSc;
 
 import java.io.File;
 import java.io.FileInputStream;

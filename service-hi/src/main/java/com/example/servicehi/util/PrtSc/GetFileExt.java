@@ -1,4 +1,4 @@
-package com.util.PrtSc;
+package com.example.servicehi.util.PrtSc;
 
 import org.apache.commons.io.FilenameUtils;
 

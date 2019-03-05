@@ -1,4 +1,4 @@
-package com.util;
+package com.example.servicehi.util;
 
 import java.net.InetAddress;
 import java.net.NetworkInterface;

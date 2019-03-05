@@ -1,4 +1,4 @@
-package com.util;
+package com.example.servicehi.util;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;

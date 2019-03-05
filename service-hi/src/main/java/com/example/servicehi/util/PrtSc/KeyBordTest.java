@@ -1,5 +1,10 @@
-package com.util.PrtSc;
+package com.example.servicehi.util.PrtSc;
 
+import javax.imageio.ImageIO;
+import javax.imageio.ImageReadParam;
+import javax.imageio.ImageReader;
+import javax.imageio.stream.ImageInputStream;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
@@ -14,11 +19,6 @@ import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import javax.imageio.ImageIO;
-import javax.imageio.ImageReadParam;
-import javax.imageio.ImageReader;
-import javax.imageio.stream.ImageInputStream;
-import javax.swing.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -172,7 +172,7 @@ public class KeyBordTest extends JFrame implements KeyListener {
         return bigInt.toString(16);
     }
 
-    private List<PointXY> getPoint(String mapName,String type){
+    private List<PointXY> getPoint(String mapName, String type){
         List<PointXY> list = new ArrayList<>();
         list.add(new PointXY(1648, 885,2)); // 编组
         list.add(new PointXY(1648, 885,3)); // 开始

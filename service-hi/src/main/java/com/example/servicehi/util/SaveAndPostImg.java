@@ -1,4 +1,4 @@
-package com.util;
+package com.example.servicehi.util;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;

@@ -1,16 +1,4 @@
-package com.util.PrtSc;
-
-import javax.imageio.ImageIO;
-import javax.imageio.ImageReadParam;
-import javax.imageio.ImageReader;
-import javax.imageio.stream.ImageInputStream;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.awt.image.ImageProducer;
-import java.io.*;
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.util.Iterator;
+package com.example.servicehi.util.PrtSc;
 
 /**
  * 尝试使用Java截图
