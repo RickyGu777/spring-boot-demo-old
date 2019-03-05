@@ -34,18 +34,18 @@ public class ScheduledService {
      */
     @Scheduled(cron = "0 0/30 * * * ? ")
     public void getIP() throws IOException, MessagingException {
-        log.info("=====>>>>>使用cron  {}", System.currentTimeMillis());
-        String v4IP = IPAddressUtil.getV4IP();
-        String localMac = MacAddressUtil.getLocalMac();
-
-        IpAddress ipAddress = new IpAddress();
-        ipAddress.setMac(localMac);
-
-        ipAddress = ipAddressService.selectMac(ipAddress);
-
-        if (!ipAddress.getIp().equals(v4IP)) {
-            sendMail.send("IP地址变更", "变更MAC为:" + localMac + ";变更前IP为:" + ipAddress.getIp() + ";变更后IP为:" + v4IP);
-        }
+//        log.info("=====>>>>>使用cron  {}", System.currentTimeMillis());
+//        String v4IP = IPAddressUtil.getV4IP();
+//        String localMac = MacAddressUtil.getLocalMac();
+//
+//        IpAddress ipAddress = new IpAddress();
+//        ipAddress.setMac(localMac);
+//
+//        ipAddress = ipAddressService.selectMac(ipAddress);
+//
+//        if (!ipAddress.getIp().equals(v4IP)) {
+//            sendMail.send("IP地址变更", "变更MAC为:" + localMac + ";变更前IP为:" + ipAddress.getIp() + ";变更后IP为:" + v4IP);
+//        }
     }
 
     /**
