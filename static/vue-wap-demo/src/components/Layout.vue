@@ -1,17 +1,19 @@
 <template>
   <div class="quill-wrap">
     <!--<img src="../../static/GIF/sanjiu.gif">-->
-    <h1 class="title">{{ content }}</h1>
+    <h1 class="title">{{ joke.title }}</h1>
+    <input v-model="joke.title">
     <quill-editor
-      v-model="content"
+      v-model="joke.content"
       ref="myQuillEditor"
       :options="editorOption"
     >
     </quill-editor>
+    <button @click="upload">上传</button>
   </div>
 </template>
 <script>
-  import {quillEditor, Quill} from 'vue-quill-editor'
+  import {Quill, quillEditor} from 'vue-quill-editor'
   import {container, ImageExtend, QuillWatch} from 'quill-image-extend-module'
 
   Quill.register('modules/ImageExtend', ImageExtend)
@@ -19,7 +21,12 @@
     components: {quillEditor},
     data() {
       return {
-        content: '',
+        joke:{
+          title:'',
+          content: ''
+        },
+        // content: '',
+        // title: '',
         // 富文本框参数设置
         editorOption: {
           modules: {
@@ -60,6 +67,11 @@
             }
           }
         }
+      }
+    },
+    methods: {
+      upload() {
+        console.log(this.joke);
       }
     }
   }

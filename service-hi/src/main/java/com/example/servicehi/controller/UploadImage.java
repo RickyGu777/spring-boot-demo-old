@@ -2,12 +2,14 @@ package com.example.servicehi.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
+import com.example.servicehi.common.Config;
 import com.example.servicehi.entity.UploadImg;
 import com.example.servicehi.service.UploadImgService;
 import com.example.servicehi.util.SaveAndPostImg;
 import com.example.servicehi.util.UUIDUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.SystemUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,11 +24,13 @@ import java.util.Map;
 public class UploadImage {
     private final UploadImgService<UploadImg> uploadImgService;
 
+    private final Config config;
+
     @PostMapping(value = "/upload")
     public Map uploadImage(@RequestParam("img") MultipartFile multipartFile) throws IOException {
         String originalFilename = multipartFile.getOriginalFilename();
         String fileName = UUIDUtil.createUUID() + "." + multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().lastIndexOf(".") + 1);
-        String compress = SaveAndPostImg.compress(multipartFile, "D:/images", fileName, "https://sm.ms/api/upload");
+        String compress = SaveAndPostImg.compress(multipartFile, SystemUtils.IS_OS_LINUX ? config.getLinux() : config.getWindows(), fileName, "https://sm.ms/api/upload");
         Map map = JSON.parseObject(compress, new TypeReference<Map>() {
         });
         HashMap<String, Object> hashMap = new HashMap<>();
