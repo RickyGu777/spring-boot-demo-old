@@ -4,13 +4,12 @@ import lombok.Data;
 import lombok.ToString;
 import org.apache.ibatis.type.Alias;
 
-import java.util.List;
-
-@Alias("Diary")
+@Alias("Joker")
 @Data
 @ToString
-public class Diary extends BaseEntity{
+public class Joke extends BaseEntity{
     private String title;
-    private String text;
-    private List<String> tips;
+    private String joke;
+    private String from;
+    private String remark;
 }

@@ -1,13 +1,13 @@
 package com.example.servicehi.entity;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.apache.ibatis.type.Alias;
 
 @Alias("UploadImg")
-@Getter
-@Setter
+@Data
 @ToString
 public class UploadImg extends BaseEntity{
     private String originalName;

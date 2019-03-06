@@ -2,6 +2,7 @@ package com.example.servicehi.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -12,8 +13,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import java.io.Serializable;
 
 @Alias("AhriUrl")
-@Getter
-@Setter
+@Data
 @ToString
 @JsonInclude(Include.NON_NULL)
 public class AhriUrl extends BaseEntity implements Serializable {

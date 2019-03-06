@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UploadImgDao<T extends UploadImg> {
     void insert(T t);
+
+    T selectImageInfoByOriginalName(T t);
 }

@@ -18,4 +18,8 @@
         insert into UPLOAD_IMG (UUID, ORIGINAL_NAME, RANDOM_NAME, RESPONSE_URL, IS_DEL, STATUS, CREATE_USER_UUID, CREATE_DATE, MODI_USER_UUID, MODI_DATE)
         values (#{uuid},#{originalName},#{randomName},#{responseUrl},#{isDel},#{status},#{createUserUUID},#{createDate},#{modiUserUUID},#{modiDate})
     </insert>
+
+    <select id="selectImageInfoByOriginalName" parameterType="UploadImg" resultMap="UploadImgResult">
+        select * from UPLOAD_IMG where ORIGINAL_NAME = #{originalName};
+    </select>
 </mapper>
