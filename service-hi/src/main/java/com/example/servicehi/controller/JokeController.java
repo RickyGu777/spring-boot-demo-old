@@ -19,13 +19,17 @@ public class JokeController {
 
     @PostMapping(value = "/selectByTitle")
     public ResponseUtil selectByTitle(@RequestBody Joke joke) {
-        jokeJokeService.selectByTitle(joke);
-        return new ResponseUtil();
+        return new ResponseUtil(jokeJokeService.selectByTitle(joke));
     }
 
     @PostMapping(value = "/insert")
     public ResponseUtil insert(@RequestBody Joke joke) {
         jokeJokeService.insert(joke);
         return new ResponseUtil();
+    }
+
+    @PostMapping(value = "/selectJokeList")
+    public ResponseUtil selectJokeList(Joke joke) {
+        return new ResponseUtil(jokeJokeService.selectJokeList(joke));
     }
 }

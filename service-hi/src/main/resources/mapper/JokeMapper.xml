@@ -18,10 +18,14 @@
     <insert id="insert" parameterType="Joker">
         insert into JOKE (UUID, TITLE, JOKE, "FROM", REMARK, IS_DEL, STATUS, CREATE_USER_UUID, CREATE_DATE, MODI_USER_UUID, MODI_DATE)
         values
-        (#{uuid},#{title},#{joke},#{from},#{remark},#{isDel},#{status},#{createUserUUID},#{createDate},#{modiUserUUID},#{modiDate});
+        (#{uuid},#{title},#{joke},#{from},#{remark},#{isDel},#{status},#{createUserUUID},#{createDate},#{modiUserUUID},#{modiDate})
     </insert>
 
     <select id="selectByTitle" parameterType="Joker" resultMap="JokeResult">
-        select * from JOKE where TITLE = #{title};
+        select * from JOKE where TITLE = #{title}
+    </select>
+
+    <select id="selectJokeList" parameterType="Joker" resultMap="JokeResult">
+        select * from JOKE order by CREATE_DATE desc
     </select>
 </mapper>

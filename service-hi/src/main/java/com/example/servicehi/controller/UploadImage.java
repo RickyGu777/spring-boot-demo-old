@@ -30,7 +30,7 @@ public class UploadImage {
     public Map uploadImage(@RequestParam("img") MultipartFile multipartFile) throws IOException {
         String originalFilename = multipartFile.getOriginalFilename();
         String fileName = UUIDUtil.createUUID() + "." + multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().lastIndexOf(".") + 1);
-        String compress = SaveAndPostImg.compress(multipartFile, SystemUtils.IS_OS_LINUX ? config.getLinux() : config.getWindows(), fileName, "https://sm.ms/api/upload");
+        String compress = SaveAndPostImg.compress(multipartFile, SystemUtils.IS_OS_LINUX ? config.getLinux() : config.getWindows(), fileName);
         Map map = JSON.parseObject(compress, new TypeReference<Map>() {
         });
         HashMap<String, Object> hashMap = new HashMap<>();

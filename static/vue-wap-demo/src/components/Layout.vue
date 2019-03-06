@@ -15,6 +15,7 @@
 <script>
   import {Quill, quillEditor} from 'vue-quill-editor'
   import {container, ImageExtend, QuillWatch} from 'quill-image-extend-module'
+  import {accountLogin} from '@/service/getData'
 
   Quill.register('modules/ImageExtend', ImageExtend)
   export default {

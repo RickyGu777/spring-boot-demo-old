@@ -13,7 +13,11 @@ public class ResponseUtil {
         this.msg = SUCCESS;
     }
 
+    public ResponseUtil(Object data) {
+        this.data = data;
+    }
+
     private String msg;
     private String code;
-    private String data;
+    private Object data;
 }

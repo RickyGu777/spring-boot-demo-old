@@ -6,6 +6,8 @@ import com.example.servicehi.service.JokeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class JokeServiceImpl<T extends Joke> implements JokeService<T> {
     @Autowired
@@ -19,5 +21,10 @@ public class JokeServiceImpl<T extends Joke> implements JokeService<T> {
     @Override
     public T selectByTitle(T t) {
         return jokeDao.selectByTitle(t);
+    }
+
+    @Override
+    public List<T> selectJokeList(T t) {
+        return jokeDao.selectJokeList(t);
     }
 }
