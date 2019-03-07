@@ -29,7 +29,7 @@ public class JokeController {
     }
 
     @PostMapping(value = "/selectJokeList")
-    public ResponseUtil selectJokeList(Joke joke) {
+    public ResponseUtil selectJokeList(@RequestBody Joke joke) {
         return new ResponseUtil(jokeJokeService.selectJokeList(joke));
     }
 }
