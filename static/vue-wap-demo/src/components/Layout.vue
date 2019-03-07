@@ -72,7 +72,11 @@
     },
     methods: {
       upload() {
-        console.log(this.joke);
+        this.axios.get('/config').then((response) => {
+          console.log(response);
+        }).catch((response) => {
+          console.log(response);
+        });
       }
     }
   }

@@ -43,3 +43,8 @@ management:
 uploadImagePath:
   windows: 'D:/images'
   linux: '/root/uploadImage'
+
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true

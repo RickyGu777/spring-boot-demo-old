@@ -16,6 +16,7 @@
     "quill-image-resize-module": "^3.0.0",
     "sass-loader": "^7.1.0",
     "vue": "^2.5.2",
+    "vue-axios": "^2.1.4",
     "vue-quill-editor": "^3.0.6",
     "vue-quill-editor-upload": "^1.1.0",
     "vue-router": "^3.0.1"

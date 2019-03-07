@@ -7,7 +7,8 @@ import lombok.ToString;
 import org.apache.ibatis.type.Alias;
 
 @Alias("UploadImg")
-@Data
+@Getter
+@Setter
 @ToString
 public class UploadImg extends BaseEntity{
     private String originalName;

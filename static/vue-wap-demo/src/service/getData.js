@@ -8,4 +8,4 @@ import axios from '../utils/axios';
 /**
  * 账号密码登录
  */
-export const accountLogin = (email, password) =>  axios('/loginController/login', {email, password}, 'POST');
+export const accountLogin = (email, password) =>  axios('/config', {email, password}, 'POST');

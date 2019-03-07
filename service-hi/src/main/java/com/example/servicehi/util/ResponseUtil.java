@@ -1,8 +1,10 @@
 package com.example.servicehi.util;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class ResponseUtil {
     public static final String SUCCESS = "success";
 

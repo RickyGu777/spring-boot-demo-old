@@ -1,13 +1,15 @@
 package com.example.servicehi.entity;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 import org.apache.ibatis.type.Alias;
 
 import java.util.List;
 
 @Alias("Diary")
-@Data
+@Getter
+@Setter
 @ToString
 public class Diary extends BaseEntity{
     private String title;

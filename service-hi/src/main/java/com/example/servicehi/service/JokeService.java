@@ -1,6 +1,7 @@
 package com.example.servicehi.service;
 
 import com.example.servicehi.entity.Joke;
+import com.github.pagehelper.PageInfo;
 
 import java.util.List;
 
@@ -10,5 +11,5 @@ public interface JokeService<T extends Joke> {
 
     T selectByTitle(T t);
 
-    List<T> selectJokeList(T t);
+    PageInfo selectJokeList(T t);
 }

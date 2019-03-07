@@ -1,11 +1,13 @@
 package com.example.servicehi.entity;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 import org.apache.ibatis.type.Alias;
 
 @Alias("Tips")
-@Data
+@Getter
+@Setter
 @ToString
 public class Tips extends BaseEntity {
     private String name;
