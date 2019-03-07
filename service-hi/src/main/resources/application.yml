@@ -34,6 +34,7 @@ mybatis:
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.example.servicehi.entity
 
+
 management:
   endpoints:
     web:
@@ -48,3 +49,6 @@ pagehelper:
   helper-dialect: mysql
   reasonable: true
   support-methods-arguments: true
+logging:
+  level:
+    com.example.servicehi.dao : debug

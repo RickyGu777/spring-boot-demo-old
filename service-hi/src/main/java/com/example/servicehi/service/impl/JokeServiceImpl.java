@@ -8,7 +8,7 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Date;
 
 @Service
 public class JokeServiceImpl<T extends Joke> implements JokeService<T> {
@@ -17,6 +17,9 @@ public class JokeServiceImpl<T extends Joke> implements JokeService<T> {
 
     @Override
     public void insert(T t) {
+        t.setIsDel("0");
+        t.setCreateDate(new Date());
+        t.setModiDate(new Date());
         jokeDao.insert(t);
     }
 
