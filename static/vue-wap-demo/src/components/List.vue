@@ -1,9 +1,9 @@
 <template>
   <div>
     <button @click="selectJokeList">selectJokeList</button>
-    <li v-for="joke in jokeList">
-      <div v-html="joke"></div>
-    </li>
+    <div v-for="data in jokeList" :key="data.uuid">
+      <div v-html="data.joke"></div>
+    </div>
   </div>
 </template>
 
@@ -20,8 +20,7 @@
     methods: {
       async selectJokeList() {
         let newVar = await selectJokeList(this.joke);
-        console.log(newVar);
-        this.jokeList = newVar;
+        this.jokeList = newVar.data.list;
       }
     }
   }

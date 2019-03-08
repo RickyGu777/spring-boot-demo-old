@@ -34,7 +34,7 @@ public class JokeController {
     }
 
     @PostMapping(value = "/selectJokeList")
-    public ResponseUtil selectJokeList(@RequestBody(required = false) Joke joke) {
+    public ResponseUtil selectJokeList(@RequestBody Joke joke) {
         return new ResponseUtil(jokeJokeService.selectJokeList(joke));
     }
 }
