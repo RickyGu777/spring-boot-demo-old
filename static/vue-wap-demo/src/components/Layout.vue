@@ -4,7 +4,7 @@
     <h1 class="title">{{ joke.title }}</h1>
     <input v-model="joke.title">
     <quill-editor
-      v-model="joke.content"
+      v-model="joke.joke"
       ref="myQuillEditor"
       :options="editorOption"
     >
@@ -24,9 +24,9 @@
       return {
         joke:{
           title:'',
-          content: ''
+          joke: ''
         },
-        // content: '',
+        // joke: '',
         // title: '',
         // 富文本框参数设置
         editorOption: {
@@ -44,7 +44,7 @@
                 if (res.code == 0) {
                   return res.img;
                 } else {
-                  return "/static/img/sanjiu.77fbfad.gif";
+                  return "/static/GIF/sanjiu.gif";
                 }
               },
               headers: (xhr) => {

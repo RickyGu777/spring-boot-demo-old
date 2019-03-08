@@ -24,12 +24,17 @@ public class JokeController {
 
     @PostMapping(value = "/insert")
     public ResponseUtil insert(@RequestBody Joke joke) {
-        jokeJokeService.insert(joke);
-        return new ResponseUtil();
+        if (jokeJokeService.selectByTitle(joke) == null) {
+            jokeJokeService.insert(joke);
+            return new ResponseUtil();
+        } else {
+            return ResponseUtil.buildERROR();
+        }
+
     }
 
     @PostMapping(value = "/selectJokeList")
-    public ResponseUtil selectJokeList(@RequestBody Joke joke) {
+    public ResponseUtil selectJokeList(@RequestBody(required = false) Joke joke) {
         return new ResponseUtil(jokeJokeService.selectJokeList(joke));
     }
 }
