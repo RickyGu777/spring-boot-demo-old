@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ResponseUtil {
+public class ResponseUtil<T> {
     public static final String SUCCESS = "success";
 
     private static final String ERROR = "error";
@@ -22,7 +22,7 @@ public class ResponseUtil {
         return new ResponseUtil(ResponseUtil.ERROR, 1);
     }
 
-    public ResponseUtil(Object data) {
+    public ResponseUtil(T data) {
         this.data = data;
     }
 
@@ -31,7 +31,7 @@ public class ResponseUtil {
         this.code = code;
     }
 
-    public ResponseUtil(String msg, int code, Object data) {
+    public ResponseUtil(String msg, int code, T data) {
         this.msg = msg;
         this.code = code;
         this.data = data;
@@ -39,5 +39,5 @@ public class ResponseUtil {
 
     private String msg;
     private int code;
-    private Object data;
+    private T data;
 }
