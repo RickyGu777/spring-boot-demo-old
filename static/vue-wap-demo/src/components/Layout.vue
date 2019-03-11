@@ -10,20 +10,29 @@
     >
     </quill-editor>
     <button @click="uploadJoke">上传</button>
+
+    <el-row>
+      <el-button>默认按钮</el-button>
+      <el-button type="primary">主要按钮</el-button>
+      <el-button type="success">成功按钮</el-button>
+      <el-button type="info">信息按钮</el-button>
+      <el-button type="warning">警告按钮</el-button>
+      <el-button type="danger">危险按钮</el-button>
+    </el-row>
   </div>
 </template>
 <script>
   import {Quill, quillEditor} from 'vue-quill-editor'
   import {container, ImageExtend, QuillWatch} from 'quill-image-extend-module'
-  import { uploadJoke } from '@/request/api';// 导入我们的api接口
+  import {uploadJoke} from '@/request/api';// 导入我们的api接口
 
   Quill.register('modules/ImageExtend', ImageExtend)
   export default {
     components: {quillEditor},
     data() {
       return {
-        joke:{
-          title:'',
+        joke: {
+          title: '',
           joke: ''
         },
         // joke: '',
