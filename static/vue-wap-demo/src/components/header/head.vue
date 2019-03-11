@@ -1,60 +1,62 @@
 <template>
-  <header class='header'>
-      <span class="head_toggle" @click="toggleSideBar">
-        <img class="top_image" src="https://cn.bing.com/az/hprichbg/rb/GreatSaltLake_ZH-CN12553220159_1920x1080.jpg"/>
-      </span>
-    <span class="head_text">LOGO</span>
-  </header>
+  <div>
+    <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
+      <el-menu-item index="1">处理中心</el-menu-item>
+      <el-submenu index="2">
+        <template slot="title">我的工作台</template>
+        <el-menu-item index="2-1">选项1</el-menu-item>
+        <el-menu-item index="2-2">选项2</el-menu-item>
+        <el-menu-item index="2-3">选项3</el-menu-item>
+        <el-submenu index="2-4">
+          <template slot="title">选项4</template>
+          <el-menu-item index="2-4-1">选项1</el-menu-item>
+          <el-menu-item index="2-4-2">选项2</el-menu-item>
+          <el-menu-item index="2-4-3">选项3</el-menu-item>
+        </el-submenu>
+      </el-submenu>
+      <el-menu-item index="3" disabled>消息中心</el-menu-item>
+      <el-menu-item index="4"><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item>
+    </el-menu>
+    <div class="line"></div>
+    <el-menu
+      :default-active="activeIndex2"
+      class="el-menu-demo"
+      mode="horizontal"
+      @select="handleSelect"
+      background-color="#545c64"
+      text-color="#fff"
+      active-text-color="#ffd04b">
+      <el-menu-item index="1">处理中心</el-menu-item>
+      <el-submenu index="2">
+        <template slot="title">我的工作台</template>
+        <el-menu-item index="2-1">选项1</el-menu-item>
+        <el-menu-item index="2-2">选项2</el-menu-item>
+        <el-menu-item index="2-3">选项3</el-menu-item>
+        <el-submenu index="2-4">
+          <template slot="title">选项4</template>
+          <el-menu-item index="2-4-1">选项1</el-menu-item>
+          <el-menu-item index="2-4-2">选项2</el-menu-item>
+          <el-menu-item index="2-4-3">选项3</el-menu-item>
+        </el-submenu>
+      </el-submenu>
+      <el-menu-item index="3" disabled>消息中心</el-menu-item>
+      <el-menu-item index="4"><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item>
+    </el-menu>
+  </div>
 </template>
 
 <script>
   export default {
-    methods: {
-      toggleSideBar() {
-        // this.sidebar = !this.sidebar;
-        // console.log("sidebar current value: " + this.sidebar);
-        this.$emit('toggleSideBar');
-      },
+    data() {
+      return {
+        activeIndex: '1',
+        activeIndex2: '1'
+      };
     },
+    methods: {
+      handleSelect(key, keyPath) {
+        console.log(key, keyPath);
+      }
+    }
   }
 </script>
-
-<style lang="scss" scoped>
-  /*header*/
-  .header {
-    background-color: #3190e8;
-    background: -webkit-linear-gradient(right top, #61b8f8 , #5e8bf7); /* Safari 5.1 - 6.0 */
-    background: -o-linear-gradient(bottom left, #61b8f8, #5e8bf7); /* Opera 11.1 - 12.0 */
-    background: -moz-linear-gradient(bottom left, #61b8f8, #5e8bf7); /* Firefox 3.6 - 15 */
-    background: linear-gradient(to bottom left, #61b8f8 , #5e8bf7); /* 标准的语法 */
-    position: fixed;
-    left: 0;
-    top: 0;
-    text-align: center;
-    width: 100%;
-    height: 1.95rem;
-    z-index: 10;
-    /*头像菜单按钮*/
-    .head_toggle {
-      position: absolute;
-      left:0.5rem;
-      img {
-        width: 1.5rem;
-        height: 1.5rem;
-        border-radius: 1rem;
-        margin-top: 0.2rem;
-      }
-      i {
-        line-height: 1.95rem;
-        font-size: 1rem;
-      }
-    }
-    /*文字*/
-    .head_text {
-      line-height: 1.95rem;
-      font-size: 0.7rem;
-      color: #fff;
-      display: inline-block;
-    }
-  }
-</style>

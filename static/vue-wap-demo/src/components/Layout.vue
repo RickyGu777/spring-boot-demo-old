@@ -1,5 +1,6 @@
 <template>
   <div class="quill-wrap">
+    <head-top></head-top>
     <!--<img src="../../static/GIF/sanjiu.gif">-->
     <h1 class="title">{{ joke.title }}</h1>
     <input v-model="joke.title">
@@ -9,8 +10,7 @@
       :options="editorOption"
     >
     </quill-editor>
-    <button @click="uploadJoke">上传</button>
-
+    <el-button @click="uploadJoke">上传</el-button>
     <el-row>
       <el-button>默认按钮</el-button>
       <el-button type="primary">主要按钮</el-button>
@@ -25,10 +25,11 @@
   import {Quill, quillEditor} from 'vue-quill-editor'
   import {container, ImageExtend, QuillWatch} from 'quill-image-extend-module'
   import {uploadJoke} from '@/request/api';// 导入我们的api接口
+  import headTop from './header/head'
 
   Quill.register('modules/ImageExtend', ImageExtend)
   export default {
-    components: {quillEditor},
+    components: {quillEditor,headTop},
     data() {
       return {
         joke: {
