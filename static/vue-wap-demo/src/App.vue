@@ -12,14 +12,6 @@
 
   export default {
     name: 'App',
-    components: {headTop},
-    mounted: function () {
-
-    },
-    methods: {
-      getMenuList() {
-
-      }
-    }
+    components: {headTop}
   }
 </script>
