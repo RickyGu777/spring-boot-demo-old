@@ -1,24 +1,31 @@
 <template>
   <div class="quill-wrap">
-    <head-top></head-top>
-    <!--<img src="../../static/GIF/sanjiu.gif">-->
-    <h1 class="title">{{ joke.title }}</h1>
-    <input v-model="joke.title">
-    <quill-editor
-      v-model="joke.joke"
-      ref="myQuillEditor"
-      :options="editorOption"
-    >
-    </quill-editor>
-    <el-button @click="uploadJoke">上传</el-button>
-    <el-row>
-      <el-button>默认按钮</el-button>
-      <el-button type="primary">主要按钮</el-button>
-      <el-button type="success">成功按钮</el-button>
-      <el-button type="info">信息按钮</el-button>
-      <el-button type="warning">警告按钮</el-button>
-      <el-button type="danger">危险按钮</el-button>
-    </el-row>
+    <el-header>
+      <el-row :gutter="20">
+        <el-col :span="12" :offset="6">
+          <el-input placeholder="请输入内容" v-model="joke.title">
+            <template slot="prepend">Titles</template>
+          </el-input>
+        </el-col>
+      </el-row>
+    </el-header>
+    <el-main>
+      <quill-editor
+        v-model="joke.joke"
+        ref="myQuillEditor"
+        :options="editorOption"
+      >
+      </quill-editor>
+      <el-button @click="uploadJoke">上传</el-button>
+      <el-row>
+        <el-button>默认按钮</el-button>
+        <el-button type="primary">主要按钮</el-button>
+        <el-button type="success">成功按钮</el-button>
+        <el-button type="info">信息按钮</el-button>
+        <el-button type="warning">警告按钮</el-button>
+        <el-button type="danger">危险按钮</el-button>
+      </el-row>
+    </el-main>
   </div>
 </template>
 <script>
@@ -29,7 +36,7 @@
 
   Quill.register('modules/ImageExtend', ImageExtend)
   export default {
-    components: {quillEditor,headTop},
+    components: {quillEditor, headTop},
     data() {
       return {
         joke: {
@@ -87,3 +94,14 @@
     }
   }
 </script>
+
+<style>
+  .el-header {
+    text-align: center;
+    line-height: 60px;
+  }
+
+  .quill-wrap {
+    width: 100%;
+  }
+</style>

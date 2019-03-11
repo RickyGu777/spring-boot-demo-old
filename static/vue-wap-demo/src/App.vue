@@ -1,11 +1,25 @@
 <template>
   <div id="app">
-    <router-view/>
+    <head-top></head-top>
+    <el-container>
+      <router-view/>
+    </el-container>
   </div>
 </template>
 
 <script>
-export default {
-  name: 'App'
-}
+  import headTop from './components/header/head'
+
+  export default {
+    name: 'App',
+    components: {headTop},
+    mounted: function () {
+
+    },
+    methods: {
+      getMenuList() {
+
+      }
+    }
+  }
 </script>
