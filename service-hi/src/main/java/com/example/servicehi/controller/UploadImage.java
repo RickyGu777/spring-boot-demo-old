@@ -33,21 +33,22 @@ public class UploadImage {
         String compress = SaveAndPostImg.compress(multipartFile, SystemUtils.IS_OS_LINUX ? config.getLinux() : config.getWindows(), fileName);
         Map map = JSON.parseObject(compress, new TypeReference<Map>() {
         });
+
         HashMap<String, Object> hashMap = new HashMap<>();
+        UploadImg uploadImg = new UploadImg();
+        uploadImg.setOriginalName(originalFilename);
+        uploadImg.setIsDel("0");
+        uploadImg.setRandomName(fileName);
         if ("success".equals(map.get("code").toString())) {
             String responseUrl = ((Map) map.get("data")).get("url").toString();
-            UploadImg uploadImg = new UploadImg();
-            uploadImg.setOriginalName(originalFilename);
-            uploadImg.setIsDel("0");
-            uploadImg.setRandomName(fileName);
             uploadImg.setResponseUrl(responseUrl);
-            uploadImgService.insert(uploadImg);
             hashMap.put("img", ((Map) map.get("data")).get("url"));
             hashMap.put("code", 0);
         } else if ("error".equals(map.get("code").toString())) {
             hashMap.put("msg", map.get("msg"));
             hashMap.put("code", 1);
         }
+        uploadImgService.insert(uploadImg);
         return hashMap;
     }
 }
