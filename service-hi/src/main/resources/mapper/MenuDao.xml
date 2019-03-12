@@ -31,6 +31,7 @@
               PARENT_MENU_UUID is null
           </otherwise>
         </choose>
+        order by `INDEX` asc
     </select>
 
     <insert id="insert" parameterType="Menu">

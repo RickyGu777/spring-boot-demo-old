@@ -1,8 +1,12 @@
 <template>
   <div id="app">
-    <head-top></head-top>
     <el-container>
-      <router-view/>
+      <el-aside width="200px">
+        <head-top></head-top>
+      </el-aside>
+      <el-main>
+        <router-view/>
+      </el-main>
     </el-container>
   </div>
 </template>
