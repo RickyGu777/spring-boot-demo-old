@@ -6,19 +6,23 @@
              class="el-menu-vertical-demo"
              :collapse="isCollapse"
              v-for="(menu,index) in menuObject" :key="index">
-      <el-submenu v-if="menu.nextMenuList" :index="menu.index">
+      <el-submenu v-if="menu.nextMenuList"
+                  :index="menu.index">
         <template slot="title">
           {{menu.menuName}}
           <span slot="title">{{menu.menuName}}</span>
         </template>
         <el-menu-item-group>
           <span slot="title">{{menu.menuName}}</span>
-          <el-menu-item v-for="(nextMenu,nextIndex) in menu.nextMenuList" :key="nextIndex" :index="nextMenu.index">
+          <el-menu-item v-for="(nextMenu,nextIndex) in menu.nextMenuList"
+                        :key="nextIndex"
+                        :index="nextMenu.index">
             {{nextMenu.menuName}}
           </el-menu-item>
         </el-menu-item-group>
       </el-submenu>
-      <el-menu-item v-if="!menu.nextMenuList" :index="menu.index">
+      <el-menu-item v-if="!menu.nextMenuList"
+                    :index="menu.index">
         {{menu.menuName}}
         <span slot="title">{{menu.menuName}}</span>
       </el-menu-item>

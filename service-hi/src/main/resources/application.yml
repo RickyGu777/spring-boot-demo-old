@@ -52,6 +52,9 @@ pagehelper:
   helper-dialect: mysql
   reasonable: true
   support-methods-arguments: true
+
 logging:
   level:
     com.example.servicehi.dao : debug
+
+delete_old_auth: true #删除旧权限
