@@ -19,4 +19,9 @@ public class AuthController {
     public Object selectAllAuth(){
         return authService.selectAll();
     }
+
+    @PostMapping(value = "/selectAuthTree")
+    public Object selectAuthTree(Auth auth) {
+        return authService.selectAuthTree(auth);
+    }
 }

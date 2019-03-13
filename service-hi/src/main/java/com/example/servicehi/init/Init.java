@@ -85,6 +85,7 @@ public class Init implements InitializingBean {
             for (RequestMethod requestMethod : methodsCondition.getMethods()) {
                 auth.setType(requestMethod.toString());
             }
+            auth.setClassGroup(method.getBean().toString());
             auths.add(auth);
         }
 

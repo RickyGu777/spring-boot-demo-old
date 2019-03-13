@@ -14,5 +14,10 @@ public interface AuthDao<T extends Auth> {
     T selectByUrl(T t);
 
     void delete(T t);
-}
 
+    void updateAuthName(T t);
+
+    List<T> selectAuthTree(T t);
+
+    List<T> selectByGroup(T t);
+}

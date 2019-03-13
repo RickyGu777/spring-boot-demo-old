@@ -12,4 +12,8 @@ public interface AuthService<T extends Auth> {
     T selectByUrl(T t);
 
     void delete(T t);
+
+    void updateAuthName(T t);
+
+    List<T> selectAuthTree(T t);
 }

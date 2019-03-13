@@ -17,6 +17,10 @@ public class Auth extends BaseEntity {
     private String className;
     private String type;
     private String url;
+    private String authName;
+    private String defaultCheck;
+    private String authType;
+    private String classGroup;
 
     @Override
     public boolean equals(Object o) {
@@ -26,11 +30,15 @@ public class Auth extends BaseEntity {
         return Objects.equals(method, auth.method) &&
                 Objects.equals(className, auth.className) &&
                 Objects.equals(type, auth.type) &&
-                Objects.equals(url, auth.url);
+                Objects.equals(url, auth.url) &&
+                Objects.equals(authName, auth.authName) &&
+                Objects.equals(defaultCheck, auth.defaultCheck) &&
+                Objects.equals(authType, auth.authType) &&
+                Objects.equals(classGroup, auth.classGroup);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(method, className, type, url);
+        return Objects.hash(method, className, type, url, authName, defaultCheck, authType, classGroup);
     }
 }

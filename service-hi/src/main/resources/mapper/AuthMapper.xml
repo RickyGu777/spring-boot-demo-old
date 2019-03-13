@@ -7,12 +7,16 @@
         <result column="CLASS_NAME" property="className"/>
         <result column="TYPE" property="type"/>
         <result column="URL" property="url"/>
+        <result column="AUTH_NAME" property="authName"/>
+        <result column="DEFAULT_CHECK" property="defaultCheck"/>
+        <result column="AUTH_TYPE" property="authType"/>
+        <result column="CLASS_GROUP" property="classGroup"/>
     </resultMap>
 
     <insert id="insert" parameterType="Auth">
-      insert into AUTH(uuid, method, class_name, type, url)
+      insert into AUTH (UUID, METHOD, CLASS_NAME, TYPE, URL, AUTH_NAME, DEFAULT_CHECK, AUTH_TYPE, CLASS_GROUP)
       values
-      (#{uuid},#{method},#{className},#{type},#{url})
+      (#{uuid},#{method},#{className},#{type},#{url},#{authName},#{defaultCheck},#{authType},#{classGroup})
     </insert>
 
     <select id="selectAll" resultMap="AuthResult">
@@ -29,4 +33,29 @@
             and TYPE = #{type}
         </if>
     </delete>
+
+    <update id="updateAuthName" parameterType="Auth">
+        update AUTH set AUTH_NAME = #{authName}  where URL = #{url};
+    </update>
+
+    <resultMap id="AuthDtoResult" type="AuthDto" extends="AuthResult">
+        <collection property="authList" column="{classGroup=CLASS_GROUP}"
+                    ofType="AuthDto" select="com.example.servicehi.dao.AuthDao.selectByGroup"/>
+    </resultMap>
+
+    <select id="selectAuthTree" parameterType="AuthDto" resultMap="AuthDtoResult">
+        select CLASS_GROUP from AUTH a
+        where 1 = 1
+        <if test="authType!=null and authType!=''">
+            and AUTH_TYPE = #{authType}
+        </if>
+        <if test="classGroup!=null and classGroup!=''">
+            and CLASS_GROUP = #{classGroup}
+        </if>
+        group by a.CLASS_GROUP
+    </select>
+
+    <select id="selectByGroup" resultMap="AuthResult" parameterType="Auth">
+        select * from AUTH where CLASS_GROUP = #{classGroup};
+    </select>
 </mapper>

@@ -32,4 +32,14 @@ public class AuthServiceImpl<T extends Auth> implements AuthService<T> {
     public void delete(T t) {
         authDao.delete(t);
     }
+
+    @Override
+    public void updateAuthName(T t) {
+        authDao.updateAuthName(t);
+    }
+
+    @Override
+    public List<T> selectAuthTree(T t) {
+        return authDao.selectAuthTree(t);
+    }
 }
