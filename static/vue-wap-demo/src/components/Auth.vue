@@ -15,73 +15,55 @@
           <el-button
             type="text"
             size="mini"
-            @click="showDialog(data.authName)">
+            @click="showDialog(data)">
             Modify Auth Name
           </el-button>
         </span>
       </span>
     </el-tree>
-    <el-dialog
-      title="Modify Auth Name"
-      :visible.sync="dialogVisible"
-      width="30%"
-      :before-close="handleClose">
-      <span>
-        <el-input placeholder="Auth Name" v-model="authName">
-          <template slot="prepend">Auth Name</template>
-        </el-input>
-      </span>
-      <span slot="footer" class="dialog-footer">
-          <el-button @click="dialogVisible = false">取 消</el-button>
-          <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
-      </span>
-    </el-dialog>
+    <dia-log :input-value="dialogInfo" :dialog-visible="dialogInfo.show"></dia-log>
   </div>
 </template>
 
 <script>
   import {selectAuthTree} from '@/request/api';
+  import diaLog from './Dialog'
 
-  export default {
-    name: "Auth",
-    data() {
-      return {
-        dialogVisible: false,
-        data: [],
-        authName: '',
-        defaultProps: {
-          children: 'authList',
-          label: 'classGroup',
-          labels: 'classGroup'
+  export default
+    {
+      name: "Auth",
+      components:
+        {
+          diaLog
         },
-        centerDialogVisible: false
-      };
-    },
-    created: function () {
-      this.getAuthTree();
-    },
-    methods: {
-      handleCheckChange(data, checked, indeterminate) {
-        data.defaultCheck = checked;
+      data() {
+        return {
+          data: [],
+          dialogInfo: {},
+          authName: '',
+          defaultProps: {
+            children: 'authList',
+            label: 'classGroup'
+          }
+        };
       },
-      async getAuthTree() {
-        this.data = await selectAuthTree();
+      created: function () {
+        this.getAuthTree();
       },
-      showDialog(data) {
-        this.authName = data;
-        this.dialogVisible = true;
-        data = 123123;
-      },
-      handleClose(done) {
-        this.$confirm('确认关闭？')
-          .then(_ => {
-            done();
-          })
-          .catch(_ => {
-          });
+      methods: {
+        handleCheckChange(data, checked, indeterminate) {
+          data.defaultCheck = checked;
+        },
+        async getAuthTree() {
+          this.data = await selectAuthTree();
+        },
+        showDialog(data) {
+          this.dialogInfo = data;
+          this.dialogInfo.show = true;
+        }
       }
-    }
-  };
+    };
+
 </script>
 
 <style>
