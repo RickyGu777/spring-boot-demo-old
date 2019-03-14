@@ -39,12 +39,12 @@
     </update>
 
     <resultMap id="AuthDtoResult" type="AuthDto" extends="AuthResult">
-        <collection property="authList" column="{classGroup=CLASS_GROUP}"
+        <collection property="authList" column="{classGroup=AUTH_NAME}"
                     ofType="AuthDto" select="com.example.servicehi.dao.AuthDao.selectByGroup"/>
     </resultMap>
 
     <select id="selectAuthTree" parameterType="AuthDto" resultMap="AuthDtoResult">
-        select CLASS_GROUP from AUTH a
+        select CLASS_GROUP as AUTH_NAME from AUTH
         where 1 = 1
         <if test="authType!=null and authType!=''">
             and AUTH_TYPE = #{authType}
@@ -52,7 +52,7 @@
         <if test="classGroup!=null and classGroup!=''">
             and CLASS_GROUP = #{classGroup}
         </if>
-        group by a.CLASS_GROUP
+        group by CLASS_GROUP
     </select>
 
     <select id="selectByGroup" resultMap="AuthResult" parameterType="Auth">
