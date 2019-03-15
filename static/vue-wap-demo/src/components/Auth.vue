@@ -21,7 +21,7 @@
         </span>
       </span>
     </el-tree>
-    <dia-log :input-value="dialogInfo" :dialog-visible="dialogInfo.show"></dia-log>
+    <dia-log :input-value="dialogInfo" @introduce="introduceSelf"></dia-log>
   </div>
 </template>
 
@@ -59,7 +59,6 @@
         },
         showDialog(data) {
           this.dialogInfo = data;
-          this.dialogInfo.show = true;
         }
       }
     };

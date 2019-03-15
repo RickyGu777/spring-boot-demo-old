@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-dialog
-      title="123123"
+      title="提示"
       :visible.sync="dialogVisibleValue"
       width="30%"
       :before-close="handleClose">
@@ -19,12 +19,12 @@
 <script>
   export default {
     name: "Dialog",
-    // data() {
-    //   return {
-    //     dialogVisible: true
-    //   }
-    // },
-    props: {'inputValue': Object, 'dialogVisibleValue': Object},
+    data() {
+      return {
+        dialogVisible: true
+      }
+    },
+    props: {'inputValue': {type: Object, required: false}},
     methods: {
       handleClose(done) {
         this.$confirm('确认关闭？')
@@ -33,6 +33,12 @@
           })
           .catch(_ => {
           });
+      },
+      noticeGroup(name, age) {
+        dialogVisibleValue = false;
+        this.$emit('introduce', {
+          'inputValue': inputValue
+        })
       }
     }
   }
