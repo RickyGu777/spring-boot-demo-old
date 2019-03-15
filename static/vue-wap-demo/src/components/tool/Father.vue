@@ -24,7 +24,8 @@
         navs: [
           'childVueOne',
           'childVueTwo'
-        ]
+        ],
+        callbackdata: {}
       }
     },
     mounted() {
