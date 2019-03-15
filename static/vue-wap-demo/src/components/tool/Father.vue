@@ -21,12 +21,15 @@
     name: "Father",
     data() {
       return {
-        current: 'Sunyi',
+        current: 'childVueOne',
         navs: [
           'childVueOne',
           'childVueTwo'
         ]
       }
+    },
+    mounted() {
+      this.toggleSwitch(this.current)
     },
     components: {
       childVueOne,
@@ -36,28 +39,25 @@
       toggleSwitch(parameter) {
         const self = this;
         let this_toggle = parameter;
-
         switch (this_toggle) {
-          case 'Sunyi':
-            self.toggleDatainit('pl');
+          case 'childVueOne':
+            self.toggleDatainit('childVueOne');
             break;
-          case 'Caiwu':
-            self.toggleDatainit('bs');
-            break;
-          case 'Jingying':
-            self.toggleDatainit('t1');
+          case 'childVueTwo':
+            self.toggleDatainit('childVueOne');
             break;
         }
       },
       toggleDatainit(talbel_url) {
         const self = this;
-        self.$http.get('getInitTable/init/' + talbel_url).then(res => {
-          if (res.data.status == 2000) {
-            console.log(res.data);
-            self.callbackdata = res;
-          }
-        }).then(error => {
-        });
+        self.callbackdata = talbel_url;
+        // self.$http.get('getInitTable/init/' + talbel_url).then(res => {
+        //   if (res.data.status == 2000) {
+        //     console.log(res.data);
+        //     self.callbackdata = res;
+        //   }
+        // }).then(error => {
+        // });
       },
     },
   }
