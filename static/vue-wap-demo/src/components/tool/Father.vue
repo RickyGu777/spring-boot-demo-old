@@ -2,10 +2,9 @@
   <div class="top">
     <div class='nav'>
       <ul class='navHader'>
-        <li @click="current='Sunyi'" :class="{active:current=='Sunyi'}">childVueOne</li>
-        <li @click="current='Caiwu'" :class="{active:current=='Caiwu'}">childVueTwo</li>
+        <li @click="current='childVueOne'" :class="{active:current=='childVueOne'}">childVueOne</li>
+        <li @click="current='childVueTwo'" :class="{active:current=='childVueTwo'}">childVueTwo</li>
       </ul>
-      <Menus></Menus>
     </div>
     <keep-alive>
       <component :is="current" :callbackdata="callbackdata"></component>
