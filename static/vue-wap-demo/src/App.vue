@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <el-container>
-      <el-aside width="200px">
+      <el-aside width="70px">
         <head-top></head-top>
       </el-aside>
       <el-main>
