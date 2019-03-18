@@ -21,4 +21,8 @@
     <select id="selectDiaryList" parameterType="Diary" resultMap="DiaryResult">
         select * from DIARY order by CREATE_DATE desc
     </select>
+
+    <select id="selectByUUID" parameterType="Diary" resultMap="DiaryResult">
+        select * from DIARY where UUID = #{uuid};
+    </select>
 </mapper>

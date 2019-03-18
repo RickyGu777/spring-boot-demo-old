@@ -10,4 +10,6 @@ public interface DiaryDao<T extends Diary> {
     void insert(T t);
 
     List<T> selectDiaryList(T t);
+
+    T selectByUUID(T t);
 }

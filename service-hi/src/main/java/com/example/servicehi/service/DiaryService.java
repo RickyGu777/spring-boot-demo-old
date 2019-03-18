@@ -9,4 +9,6 @@ public interface DiaryService<T extends Diary> {
     void insert(T t);
 
     PageInfo selectDiaryList(T t);
+
+    T selectByUUID(T t);
 }

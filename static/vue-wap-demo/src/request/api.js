@@ -13,4 +13,6 @@ export const selectAuthTree = data => post('/Auth/selectAuthTree', data);
 
 export const selectDiaryList = data => post('/Diary/selectDiaryList', data);
 
+export const selectByUUID = data => post('/Diary/selectByUUID', data);
+
 export const addDiary = data => post('/Diary/addDiary', data);

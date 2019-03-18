@@ -29,4 +29,9 @@ public class DiaryServiceImpl<T extends Diary> implements DiaryService<T> {
         PageHelper.offsetPage(t.getPage(), t.getSize());
         return new PageInfo<>(diaryDao.selectDiaryList(t));
     }
+
+    @Override
+    public T selectByUUID(T t) {
+        return diaryDao.selectByUUID(t);
+    }
 }

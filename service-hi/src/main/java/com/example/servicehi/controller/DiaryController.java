@@ -28,4 +28,9 @@ public class DiaryController {
     public ResponseUtil selectDiaryList(@RequestBody Diary diary){
         return new ResponseUtil<>(diaryService.selectDiaryList(diary));
     }
+
+    @PostMapping(value = "/selectByUUID")
+    public ResponseUtil selectByUUID(@RequestBody Diary diary){
+        return new ResponseUtil<>(diaryService.selectByUUID(diary));
+    }
 }

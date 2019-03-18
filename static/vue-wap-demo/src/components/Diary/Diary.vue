@@ -46,7 +46,6 @@
               // 例如服务器返回{code: 200; data:{ url: 'baidu.com'}}
               // 则 return res.data.url
               response: (res) => {
-                // console.log(res.img);
                 if (res.code == 0) {
                   return res.img;
                 } else {
