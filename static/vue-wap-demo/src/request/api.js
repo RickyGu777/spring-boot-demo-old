@@ -10,3 +10,7 @@ export const selectJokeList = data => post('/Joke/selectJokeList', data);
 export const getMenuList = data => post('/Menu/getMenuList', data);
 
 export const selectAuthTree = data => post('/Auth/selectAuthTree', data);
+
+export const selectDiaryList = data => post('/Diary/selectDiaryList', data);
+
+export const addDiary = data => post('/Diary/addDiary', data);

@@ -50,7 +50,6 @@
         console.log(key, keyPath);
       },
       handleSidebar(path) {
-        console.log(path);
         if (path) {
           this.$router.push({path: path});
         } else {

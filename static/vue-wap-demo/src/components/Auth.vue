@@ -64,7 +64,6 @@
         this.data = await selectAuthTree();
       },
       showDialog(data) {
-        console.log(123);
         this.dialogVisible = true;
         this.diaLogInfo = data.authName;
       },

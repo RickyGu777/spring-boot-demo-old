@@ -3,8 +3,8 @@
     <el-header>
       <el-row :gutter="20">
         <el-col :span="12" :offset="6">
-          <el-input placeholder="请输入内容" v-model="joke.title">
-            <template slot="prepend">Titles</template>
+          <el-input placeholder="Input Joke Title" v-model="joke.title">
+            <template slot="prepend">Title</template>
           </el-input>
         </el-col>
       </el-row>
@@ -32,11 +32,10 @@
   import {Quill, quillEditor} from 'vue-quill-editor'
   import {container, ImageExtend, QuillWatch} from 'quill-image-extend-module'
   import {uploadJoke} from '@/request/api';// 导入我们的api接口
-  import headTop from './header/head'
 
   Quill.register('modules/ImageExtend', ImageExtend)
   export default {
-    components: {quillEditor, headTop},
+    components: {quillEditor},
     data() {
       return {
         joke: {
@@ -96,11 +95,6 @@
 </script>
 
 <style>
-  .el-header {
-    text-align: center;
-    line-height: 60px;
-  }
-
   .quill-wrap {
     width: 100%;
   }
