@@ -16,13 +16,13 @@
           <span slot="title">{{menu.menuName}}</span>
           <el-menu-item v-for="(nextMenu,nextIndex) in menu.nextMenuList"
                         :key="nextIndex"
-                        :index="nextMenu.index">
+                        :index="nextMenu.index" @click="handleSidebar(nextMenu.menuPath)">
             {{nextMenu.menuName}}
           </el-menu-item>
         </el-menu-item-group>
       </el-submenu>
       <el-menu-item v-if="!menu.nextMenuList"
-                    :index="menu.index">
+                    :index="menu.index" @click="handleSidebar(menu.menuPath)">
         {{menu.menuName}}
         <span slot="title">{{menu.menuName}}</span>
       </el-menu-item>
@@ -50,8 +50,9 @@
         console.log(key, keyPath);
       },
       handleSidebar(path) {
+        console.log(path);
         if (path) {
-          this.$router.push({path: '/' + path});
+          this.$router.push({path: path});
         } else {
           this.$router.push({path: '/'});
         }
