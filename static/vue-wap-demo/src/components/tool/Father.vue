@@ -4,17 +4,17 @@
       <ul class='navHader'>
         <li @click="current='childVueOne'" :class="{active:current=='childVueOne'}">childVueOne</li>
         <li @click="current='childVueTwo'" :class="{active:current=='childVueTwo'}">childVueTwo</li>
+        <li @click="current='diaLog'" :class="{active:current=='diaLog'}">diaLog</li>
       </ul>
     </div>
-    <keep-alive>
-      <component :is="current" :callbackdata="callbackdata"></component>
-    </keep-alive>
+    <component :is="current"></component>
   </div>
 </template>
 
 <script>
   import childVueOne from './childvueone'
   import childVueTwo from './childvuetwo'
+  import diaLog from '../Dialog'
 
   export default {
     name: "Father",
@@ -23,9 +23,9 @@
         current: 'childVueOne',
         navs: [
           'childVueOne',
-          'childVueTwo'
-        ],
-        callbackdata: {}
+          'childVueTwo',
+          'diaLog'
+        ]
       }
     },
     mounted() {
@@ -33,7 +33,8 @@
     },
     components: {
       childVueOne,
-      childVueTwo
+      childVueTwo,
+      diaLog
     },
     methods: {
       toggleSwitch(parameter) {
@@ -46,11 +47,13 @@
           case 'childVueTwo':
             self.toggleDatainit('childVueOne');
             break;
+          case 'diaLog':
+            self.toggleDatainit('diaLog');
+            break;
         }
       },
       toggleDatainit(talbel_url) {
         const self = this;
-        self.callbackdata = talbel_url;
         // self.$http.get('getInitTable/init/' + talbel_url).then(res => {
         //   if (res.data.status == 2000) {
         //     console.log(res.data);
