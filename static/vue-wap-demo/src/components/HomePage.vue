@@ -1,10 +1,9 @@
 <template>
   <div class="homePage">
     <el-timeline>
-      <el-timeline-item @click="routerTo(data.uuid)" v-for="data in diaryList" :key="data.uuid"
-                        :timestamp="data.createDate" placement="top">
+      <el-timeline-item v-for="data in diaryList" :key="data.uuid" :timestamp="data.createDate" placement="top">
         <el-card>
-          <h4 @click="routerTo(data.uuid)">{{ data.title }} 123123</h4>
+          <h4 @click="routerTo(data.uuid)">{{ data.title }}</h4>
           <p @click="routerTo(data.uuid)">{{ data.createDate }}</p>
         </el-card>
       </el-timeline-item>

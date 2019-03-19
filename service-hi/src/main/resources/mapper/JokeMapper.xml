@@ -15,17 +15,21 @@
         <result column="MODI_DATE" property="modiDate"/>
     </resultMap>
 
-    <insert id="insert" parameterType="Joker">
+    <insert id="insert" parameterType="Joke">
         insert into JOKE (UUID, TITLE, JOKE, `FROM`, REMARK, IS_DEL, STATUS, CREATE_USER_UUID, CREATE_DATE, MODI_USER_UUID, MODI_DATE)
         values
         (#{uuid},#{title},#{joke},#{from},#{remark},#{isDel},#{status},#{createUserUUID},#{createDate},#{modiUserUUID},#{modiDate})
     </insert>
 
-    <select id="selectByTitle" parameterType="Joker" resultMap="JokeResult">
+    <select id="selectByTitle" parameterType="Joke" resultMap="JokeResult">
         select * from JOKE where TITLE = #{title}
     </select>
 
-    <select id="selectJokeList" parameterType="Joker" resultMap="JokeResult">
+    <select id="selectJokeList" parameterType="Joke" resultMap="JokeResult">
         select * from JOKE order by CREATE_DATE desc
+    </select>
+
+    <select id="selectByUUID" parameterType="Joke" resultMap="JokeResult">
+        select * from JOKE where UUID = #{uuid}
     </select>
 </mapper>

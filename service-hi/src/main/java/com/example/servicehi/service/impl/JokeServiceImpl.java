@@ -33,4 +33,9 @@ public class JokeServiceImpl<T extends Joke> implements JokeService<T> {
         PageHelper.startPage(t.getPage(), t.getSize());
         return new PageInfo<>(jokeDao.selectJokeList(t));
     }
+
+    @Override
+    public T selectByUUID(T t) {
+        return jokeDao.selectByUUID(t);
+    }
 }

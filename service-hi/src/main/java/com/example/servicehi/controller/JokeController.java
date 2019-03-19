@@ -37,4 +37,11 @@ public class JokeController {
     public ResponseUtil selectJokeList(@RequestBody Joke joke) {
         return new ResponseUtil(jokeJokeService.selectJokeList(joke));
     }
+
+    @PostMapping(value = "/selectByUUID")
+    public ResponseUtil selectByUUID(@RequestBody Joke joke) {
+        return new ResponseUtil(jokeJokeService.selectByUUID(joke));
+    }
+
+
 }

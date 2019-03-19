@@ -13,4 +13,6 @@ public interface JokeDao <T extends Joke>{
     T selectByTitle(T t);
 
     List<T> selectJokeList(T t);
+
+    T selectByUUID(T t);
 }

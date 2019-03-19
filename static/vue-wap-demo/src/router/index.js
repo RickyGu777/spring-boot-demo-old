@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import UploadJoke from '@/components/Joke/UploadJoke'
 import JokeList from '@/components/Joke/JokeList'
+import JokeDetail from '@/components/Joke/JokeDetail'
 import Auth from '@/components/Auth/Auth'
 import Diary from '@/components/Diary/Diary'
 import DiaryDetail from '@/components/Diary/DiaryDetail'
@@ -36,6 +37,10 @@ export default new Router({
       path: '/DiaryDetail',
       name: 'DiaryDetail',
       component: DiaryDetail
+    }, {
+      path: '/JokeDetail',
+      name: 'JokeDetail',
+      component: JokeDetail
     }
   ]
 });

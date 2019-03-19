@@ -5,7 +5,7 @@ import lombok.Setter;
 import lombok.ToString;
 import org.apache.ibatis.type.Alias;
 
-@Alias("Joker")
+@Alias("Joke")
 @Getter
 @Setter
 @ToString

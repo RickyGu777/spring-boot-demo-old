@@ -10,4 +10,6 @@ public interface JokeService<T extends Joke> {
     T selectByTitle(T t);
 
     PageInfo selectJokeList(T t);
+
+    T selectByUUID(T t);
 }

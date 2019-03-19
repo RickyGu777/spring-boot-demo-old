@@ -4,7 +4,7 @@
 </template>
 
 <script>
-  import {selectByUUID} from '@/request/api';// 导入我们的api接口
+  import {selectDiaryByUUID} from '@/request/api';// 导入我们的api接口
 
   export default {
     name: "DiaryDetail",
@@ -19,7 +19,7 @@
     methods: {
       async getRouterData() {
         this.diary.uuid = this.$route.params.data;
-        let newVar = await selectByUUID(this.diary);
+        let newVar = await selectDiaryByUUID(this.diary);
         this.diary = newVar.data;
       }
     }
