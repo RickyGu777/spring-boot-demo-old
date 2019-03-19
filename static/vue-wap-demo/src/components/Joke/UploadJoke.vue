@@ -32,6 +32,7 @@
   import {Quill, quillEditor} from 'vue-quill-editor'
   import {container, ImageExtend, QuillWatch} from 'quill-image-extend-module'
   import {uploadJoke} from '@/request/api';// 导入我们的api接口
+  import {formatDate} from '@/util/date';
 
   Quill.register('modules/ImageExtend', ImageExtend)
   export default {
@@ -40,7 +41,7 @@
       return {
         joke: {
           title: '',
-          joke: ''
+          joke: '<p><br></p></p><p class="ql-align-right">创建于 ' + formatDate(new Date(), 'yyyy-MM-dd hh:mm') + '</p>'
         },
         // joke: '',
         // title: '',
