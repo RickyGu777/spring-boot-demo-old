@@ -23,7 +23,7 @@
 <script>
   import {Quill, quillEditor} from 'vue-quill-editor'
   import {container, ImageExtend, QuillWatch} from 'quill-image-extend-module'
-  import {addDiary} from '@/request/api';// 导入我们的api接口
+  import {addDiary,selectDiaryByUUID} from '@/request/api';// 导入我们的api接口
   import {formatDate} from '@/util/date';
 
   export default {
@@ -32,7 +32,7 @@
       return {
         diary: {
           title: '',
-          text: '<p><br></p></p><p class="ql-align-right">创建于 ' + formatDate(new Date(), 'yyyy-MM-dd hh:mm') + '</p>'
+          text: ''
         },
         // 富文本框参数设置
         editorOption: {
@@ -75,9 +75,21 @@
         }
       }
     },
+    created: function () {
+      this.isModifyDiary();
+    },
     methods: {
       async addDiary() {
         let newVar = await addDiary(this.diary);
+      },
+      async isModifyDiary() {
+        if (this.$route.params.data) {
+          this.diary.uuid = this.$route.params.data;
+          let newVar = await selectDiaryByUUID(this.diary);
+          this.diary = newVar.data;
+        } else {
+          this.diary.text = '<p><br></p></p><p class="ql-align-right">创建于 ' + formatDate(new Date(), 'yyyy-MM-dd hh:mm') + '</p>';
+        }
       }
     }
   }

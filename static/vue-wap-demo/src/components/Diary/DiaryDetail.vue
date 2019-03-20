@@ -1,5 +1,8 @@
 <template>
-  <div v-html="diary.text">
+  <div>
+    <el-button @click="routerTo(diary.uuid)">Modify Diary</el-button>
+    <div v-html="diary.text">
+    </div>
   </div>
 </template>
 
@@ -21,6 +24,14 @@
         this.diary.uuid = this.$route.params.data;
         let newVar = await selectDiaryByUUID(this.diary);
         this.diary = newVar.data;
+      },
+      routerTo(data) {
+        this.$router.push({
+          name: `Diary`,
+          params: {
+            data: data
+          }
+        });
       }
     }
   }
