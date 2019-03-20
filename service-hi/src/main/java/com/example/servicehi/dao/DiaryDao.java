@@ -12,4 +12,6 @@ public interface DiaryDao<T extends Diary> {
     List<T> selectDiaryList(T t);
 
     T selectByUUID(T t);
+
+    void updateDiaryByUUID(T t);
 }

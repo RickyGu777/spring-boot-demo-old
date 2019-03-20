@@ -15,22 +15,28 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @AllArgsConstructor
 @Slf4j
-public class DiaryController {
+public class DiaryController<T extends Diary> {
     private final DiaryService diaryService;
 
     @PostMapping(value = "/addDiary")
-    public ResponseUtil addDiary(@RequestBody Diary diary){
-        diaryService.insert(diary);
+    public ResponseUtil addDiary(@RequestBody T t){
+        diaryService.insert(t);
         return new ResponseUtil();
     }
 
     @PostMapping(value = "/selectDiaryList")
-    public ResponseUtil selectDiaryList(@RequestBody Diary diary){
-        return new ResponseUtil<>(diaryService.selectDiaryList(diary));
+    public ResponseUtil selectDiaryList(@RequestBody T t){
+        return new ResponseUtil<>(diaryService.selectDiaryList(t));
     }
 
     @PostMapping(value = "/selectByUUID")
-    public ResponseUtil selectByUUID(@RequestBody Diary diary){
-        return new ResponseUtil<>(diaryService.selectByUUID(diary));
+    public ResponseUtil selectByUUID(@RequestBody T t){
+        return new ResponseUtil<>(diaryService.selectByUUID(t));
+    }
+
+    @PostMapping(value = "/updateDiaryByUUID")
+    public ResponseUtil updateDiaryByUUID(@RequestBody T t) {
+        diaryService.updateDiaryByUUID(t);
+        return new ResponseUtil<>();
     }
 }

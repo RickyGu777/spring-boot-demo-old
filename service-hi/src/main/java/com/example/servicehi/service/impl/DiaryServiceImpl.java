@@ -34,4 +34,9 @@ public class DiaryServiceImpl<T extends Diary> implements DiaryService<T> {
     public T selectByUUID(T t) {
         return diaryDao.selectByUUID(t);
     }
+
+    @Override
+    public void updateDiaryByUUID(T t) {
+        diaryDao.updateDiaryByUUID(t);
+    }
 }

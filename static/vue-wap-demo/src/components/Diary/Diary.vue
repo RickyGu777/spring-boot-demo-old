@@ -15,7 +15,8 @@
         ref="myQuillEditor"
         :options="editorOption">
       </quill-editor>
-      <el-button @click="addDiary">上传</el-button>
+      <el-button @click="addDiary" v-if="!buttonShow">上传</el-button>
+      <el-button @click="updateDiaryByUUID" v-if="buttonShow">更新</el-button>
     </el-main>
   </div>
 </template>
@@ -23,7 +24,7 @@
 <script>
   import {Quill, quillEditor} from 'vue-quill-editor'
   import {container, ImageExtend, QuillWatch} from 'quill-image-extend-module'
-  import {addDiary,selectDiaryByUUID} from '@/request/api';// 导入我们的api接口
+  import {addDiary,selectDiaryByUUID,updateDiaryByUUID} from '@/request/api';// 导入我们的api接口
   import {formatDate} from '@/util/date';
 
   export default {
@@ -34,6 +35,7 @@
           title: '',
           text: ''
         },
+        buttonShow: this.$route.params.data,
         // 富文本框参数设置
         editorOption: {
           modules: {
@@ -81,6 +83,9 @@
     methods: {
       async addDiary() {
         let newVar = await addDiary(this.diary);
+      },
+      async updateDiaryByUUID() {
+        let newVar = await updateDiaryByUUID(this.diary);
       },
       async isModifyDiary() {
         if (this.$route.params.data) {

@@ -25,4 +25,12 @@
     <select id="selectByUUID" parameterType="Diary" resultMap="DiaryResult">
         select * from DIARY where UUID = #{uuid};
     </select>
+
+    <update id="updateDiaryByUUID" parameterType="Diary">
+        update DIARY set
+        TITLE = #{title},
+        TEXT = #{text},
+        MODI_DATE = #{modiDate}
+        where UUID = #{uuid}
+    </update>
 </mapper>
