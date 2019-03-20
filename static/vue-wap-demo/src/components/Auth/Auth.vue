@@ -25,7 +25,8 @@
       title="提示"
       :visible.sync="dialogVisible"
       width="30%"
-      :before-close="handleClose">
+      :before-close="handleClose"
+      ref="tree">
       <!--<span>这是一段信息</span>-->
       <el-input v-model="diaLogInfo" placeholder="请输入内容"></el-input>
       <span slot="footer" class="dialog-footer">
@@ -58,6 +59,7 @@
     },
     methods: {
       handleCheckChange(data, checked, indeterminate) {
+        console.log(data);
         data.defaultCheck = checked;
       },
       async getAuthTree() {
