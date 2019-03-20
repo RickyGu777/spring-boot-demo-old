@@ -86,6 +86,9 @@
       },
       async updateDiaryByUUID() {
         let newVar = await updateDiaryByUUID(this.diary);
+        if (newVar.code == 0) {
+          this.$router.push({path: '/'});
+        }
       },
       async isModifyDiary() {
         if (this.$route.params.data) {
