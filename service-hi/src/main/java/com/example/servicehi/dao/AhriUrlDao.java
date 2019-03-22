@@ -1,12 +1,13 @@
 package com.example.servicehi.dao;
 
+import com.example.servicehi.entity.AhriUrl;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface AhriUrlDao<T> {
+public interface AhriUrlDao<T extends AhriUrl> {
     /**
      * 根据UUID逻辑删除
      *

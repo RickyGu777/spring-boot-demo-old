@@ -7,7 +7,7 @@ import JokeDetail from '@/components/Joke/JokeDetail'
 import Auth from '@/components/Auth/Auth'
 import Diary from '@/components/Diary/Diary'
 import DiaryDetail from '@/components/Diary/DiaryDetail'
-import Word from '@/components/Baidu/Word'
+import OCR from '@/components/Baidu/OCR'
 
 Vue.use(Router)
 
@@ -43,9 +43,9 @@ export default new Router({
       name: 'JokeDetail',
       component: JokeDetail
     }, {
-      path: '/Word',
-      name: 'Word',
-      component: Word
+      path: '/OCR',
+      name: 'OCR',
+      component: OCR
     }
   ]
 });

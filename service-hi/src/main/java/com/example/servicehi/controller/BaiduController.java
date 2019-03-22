@@ -1,5 +1,10 @@
 package com.example.servicehi.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
+import com.example.servicehi.entity.BaiduOCR;
+import com.example.servicehi.entity.dto.BaiduOCRDto;
+import com.example.servicehi.service.BaiduOCRService;
 import com.example.servicehi.util.Baidu.BaiduTool;
 import com.example.servicehi.util.HttpRequest;
 import com.example.servicehi.util.ResponseUtil;
@@ -21,6 +26,8 @@ import java.util.HashMap;
 @AllArgsConstructor
 @Slf4j
 public class BaiduController {
+    private final BaiduOCRService<BaiduOCR> baiduOCRService;
+
     @PostMapping(value = "/getAccessToke")
     public ResponseUtil<String> getAccessToke() {
         return new ResponseUtil<>(BaiduTool.getAuth());
@@ -33,6 +40,9 @@ public class BaiduController {
         imgData = URLEncoder.encode(imgData,"UTF-8");
         String url = "https://aip.baidubce.com/rest/2.0/ocr/v1/general_basic";
         String param = "?language_type=CHN_ENG&access_token=" + BaiduTool.getAuth() + "&image=" + imgData;
-        return new ResponseUtil(HttpRequest.baiduOCRPost(url, param));
+        String s = HttpRequest.baiduOCRPost(url, param);
+        BaiduOCRDto baiduOCRDto = JSON.parseObject(s, new TypeReference<BaiduOCRDto>() {
+        });
+        return new ResponseUtil(s);
     }
 }

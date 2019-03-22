@@ -27,7 +27,7 @@
       };
     },
     created: function () {
-      this.getBaiduAccessToke();
+      // this.getBaiduAccessToke();
     },
     methods: {
       async getBaiduAccessToke() {

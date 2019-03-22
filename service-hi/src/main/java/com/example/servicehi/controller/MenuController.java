@@ -3,6 +3,7 @@ package com.example.servicehi.controller;
 import com.example.servicehi.entity.Menu;
 import com.example.servicehi.service.MenuService;
 import com.example.servicehi.util.ResponseUtil;
+import com.example.servicehi.util.UUIDUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,5 +23,10 @@ public class MenuController {
     @PostMapping(value = "/getMenuList")
     private ResponseUtil<List<Menu>> getMenuList(@RequestBody(required = false) Menu menu) {
         return new ResponseUtil(menuService.selectMenu(menu));
+    }
+
+    @PostMapping(value = "/createUUID")
+    private ResponseUtil createUUID(){
+        return new ResponseUtil(UUIDUtil.createUUID());
     }
 }

@@ -1,5 +1,7 @@
 package com.example.servicehi.util;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -7,6 +9,7 @@ import java.io.PrintWriter;
 import java.net.URL;
 import java.net.URLConnection;
 
+@Slf4j
 public class HttpRequest {
 
     /**
@@ -45,7 +48,7 @@ public class HttpRequest {
                 result += line;
             }
         } catch (Exception e) {
-            System.out.println("发送 POST 请求出现异常！"+e);
+            log.error("发送 POST 请求出现异常！"+e);
             e.printStackTrace();
         }
         //使用finally块来关闭输出流、输入流
@@ -62,7 +65,7 @@ public class HttpRequest {
                 ex.printStackTrace();
             }
         }
-        System.out.println("post推送结果："+result);
+        log.info("post推送结果："+result);
         return result;
     }
 
@@ -104,7 +107,7 @@ public class HttpRequest {
                 result += line;
             }
         } catch (Exception e) {
-            System.out.println("发送 POST 请求出现异常！"+e);
+            log.error("发送 POST 请求出现异常！"+e);
             e.printStackTrace();
         }
         //使用finally块来关闭输出流、输入流
@@ -121,7 +124,7 @@ public class HttpRequest {
                 ex.printStackTrace();
             }
         }
-        System.out.println("post推送结果："+result);
+        log.info("post推送结果："+result);
         return result;
     }
 }

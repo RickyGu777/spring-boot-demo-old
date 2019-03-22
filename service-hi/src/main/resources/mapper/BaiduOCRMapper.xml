@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.servicehi.dao.BaiduOCRDao">
+    <resultMap id="BaiduOCRResult" type="com.example.servicehi.entity.BaiduOCR">
+        <result column="UUID" property="uuid"/>
+        <result column="BAIDU_ID" property="baiduId"/>
+        <result column="UPLOAD_IMG_UUID" property="uploadImgUUID"/>
+        <result column="WORDS_RESULT_NUM" property="wordsResultNum"/>
+        <result column="IS_DEL" property="isDel"/>
+        <result column="STATUS" property="status"/>
+        <result column="CREATE_USER_UUID" property="createUserUUID"/>
+        <result column="CREATE_DATE" property="createDate"/>
+        <result column="MODI_USER_UUID" property="modiUserUUID"/>
+        <result column="MODI_DATE" property="modiDate"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="BaiduOCR">
+        insert into BAIDU_OCR (UUID, BAIDU_ID, UPLOAD_IMG_UUID, WORDS_RESULT_NUM, IS_DEL, STATUS, CREATE_USER_UUID, CREATE_DATE, MODI_USER_UUID, MODI_DATE)
+        values (#{uuid},#{baiduId},#{uploadImgUUID},#{wordsResultNum},#{isDel},#{status},#{createUserUUID},#{createDate},#{modiUserUUID},#{modiDate})
+    </insert>
+
+    <resultMap id="BaiduOCRList" extends="BaiduOCRResult" type="BaiduOCRDto">
+        <collection property="wordsResult" column="baiduOCRUUID=UUID"
+                    ofType="BaiduOCRWords"
+                    select="com.example.servicehi.dao.BaiduOCRWordsDao.selectByBaiduOCRUUID"/>
+    </resultMap>
+
+    <select id="selectByUUID" parameterType="BaiduOCR" resultMap="BaiduOCRResult">
+        select * from BAIDU_OCR where UUID = #{uuid}
+    </select>
+</mapper>
