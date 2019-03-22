@@ -20,3 +20,5 @@ export const selectDiaryByUUID = data => post('/Diary/selectByUUID', data);
 export const updateDiaryByUUID = data => post('/Diary/updateDiaryByUUID', data);
 
 export const addDiary = data => post('/Diary/addDiary', data);
+
+export const getBaiduAccessToke = data => post('/Baidu/getAccessToke', data);

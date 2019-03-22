@@ -1,12 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import HomePage from '@/components/HomePage'
 import UploadJoke from '@/components/Joke/UploadJoke'
 import JokeList from '@/components/Joke/JokeList'
 import JokeDetail from '@/components/Joke/JokeDetail'
 import Auth from '@/components/Auth/Auth'
 import Diary from '@/components/Diary/Diary'
 import DiaryDetail from '@/components/Diary/DiaryDetail'
-import HomePage from '@/components/HomePage'
+import Word from '@/components/Baidu/Word'
 
 Vue.use(Router)
 
@@ -41,6 +42,10 @@ export default new Router({
       path: '/JokeDetail',
       name: 'JokeDetail',
       component: JokeDetail
+    }, {
+      path: '/Word',
+      name: 'Word',
+      component: Word
     }
   ]
 });
