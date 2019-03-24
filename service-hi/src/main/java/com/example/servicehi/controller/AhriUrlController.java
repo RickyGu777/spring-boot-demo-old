@@ -3,6 +3,7 @@ package com.example.servicehi.controller;
 import com.example.servicehi.entity.AhriUrl;
 import com.example.servicehi.service.AhriUrlService;
 import com.example.servicehi.util.JsoupTest;
+import com.example.servicehi.util.ResponseUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,28 +27,26 @@ public class AhriUrlController {
     }
 
     @PostMapping(value = "/insert")
-    public String insert(@RequestBody Map url) {
-        AhriUrl ahriUrl = new AhriUrl();
-        ahriUrl.setUrl(url.get("url").toString());
+    public ResponseUtil insert(@RequestBody AhriUrl ahriUrl) {
         List<AhriUrl> ahriUrls = ahriUrlService.selectURL(ahriUrl);
 
         if (ahriUrls.isEmpty()) {
             ahriUrlService.insert(ahriUrl);
             log.info("新增成功");
-            return "新增成功";
+            return new ResponseUtil();
         } else {
             log.error("有重复URL");
-            return "有重复URL";
+            return ResponseUtil.buildERROR("有重复URL");
         }
     }
 
-    @PostMapping(value = "/test")
-    public String test() {
+    @PostMapping(value = "/download")
+    public ResponseUtil download() {
         List<AhriUrl> ahriUrls = ahriUrlService.selectTodayURL();
         JsoupTest.addUrl(ahriUrls);
         JsoupTest instance = JsoupTest.getInstance();
         instance.Download();
         ahriUrls.forEach(t -> ahriUrlService.delete(t));
-        return "over";
+        return new ResponseUtil();
     }
 }

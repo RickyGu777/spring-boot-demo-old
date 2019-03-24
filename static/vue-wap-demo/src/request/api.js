@@ -22,3 +22,9 @@ export const updateDiaryByUUID = data => post('/Diary/updateDiaryByUUID', data);
 export const addDiary = data => post('/Diary/addDiary', data);
 
 export const getBaiduAccessToke = data => post('/Baidu/getAccessToke', data);
+
+export const insertAhri = data => post('/AhriUrl/insert', data);
+
+export const downloadAhri = data => post('/AhriUrl/download', data);
+
+export const selectAllAhri = data => post('/AhriUrl/selectAll', data);

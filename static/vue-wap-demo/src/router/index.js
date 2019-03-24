@@ -7,6 +7,7 @@ import JokeDetail from '@/components/Joke/JokeDetail'
 import Auth from '@/components/Auth/Auth'
 import Diary from '@/components/Diary/Diary'
 import DiaryDetail from '@/components/Diary/DiaryDetail'
+import Ahri from '@/components/Ahri/Ahri'
 import OCR from '@/components/Baidu/OCR'
 
 Vue.use(Router)
@@ -46,6 +47,10 @@ export default new Router({
       path: '/OCR',
       name: 'OCR',
       component: OCR
+    }, {
+      path: '/Ahri',
+      name: 'Ahri',
+      component: Ahri
     }
   ]
 });

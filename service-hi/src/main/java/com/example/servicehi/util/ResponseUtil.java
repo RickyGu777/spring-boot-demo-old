@@ -18,8 +18,8 @@ public class ResponseUtil<T> {
         return new ResponseUtil();
     }
 
-    public static ResponseUtil buildERROR() {
-        return new ResponseUtil(ResponseUtil.ERROR, 1);
+    public static ResponseUtil buildERROR(String msg) {
+        return new ResponseUtil(msg, 1);
     }
 
     public ResponseUtil(T data) {

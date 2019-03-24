@@ -28,7 +28,7 @@ public class JokeController {
             jokeJokeService.insert(joke);
             return new ResponseUtil();
         } else {
-            return ResponseUtil.buildERROR();
+            return ResponseUtil.buildERROR("有重复标题");
         }
 
     }
