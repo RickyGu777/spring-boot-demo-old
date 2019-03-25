@@ -16,6 +16,6 @@ import java.util.List;
 @Setter
 @ToString
 public class BaiduOCRDto extends BaiduOCR {
-    List<BaiduOCRWords> wordsResult;
-    UploadImg uploadImg;
+    private List<BaiduOCRWords> wordsResult;
+    private UploadImg uploadImg;
 }

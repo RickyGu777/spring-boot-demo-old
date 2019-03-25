@@ -15,4 +15,6 @@ public class BaiduOCR extends BaseEntity {
     private String logId;
     private String uploadImgUUID;
     private Integer wordsResultNum;
+    private String errorCode;
+    private String errorMsg;
 }

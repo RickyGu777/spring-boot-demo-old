@@ -1,6 +1,6 @@
 <template>
   <div>
-    {{ uuid }}
+    {{ uuid }} <el-button @click="createUUID">Refresh UUID</el-button>
   </div>
 </template>
 

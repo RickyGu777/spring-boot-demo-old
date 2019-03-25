@@ -86,12 +86,14 @@ public class BaiduController {
         BaiduOCRDto baiduOCRDto = JSON.parseObject(s, new TypeReference<BaiduOCRDto>() {
         });
         baiduOCRDto.setUploadImgUUID(uploadImg.getUuid());
-        baiduOCRDto.getWordsResult().stream().filter(words -> words.getBaiduOCRUUID() == null).forEach(student -> {
-            student.setBaiduOCRUUID(baiduOCRDto.getUuid());
-            student.setIsDel("0");
-        });
         baiduOCRService.insert(baiduOCRDto);
-        baiduOCRWordsService.insertList(baiduOCRDto.getWordsResult());
+        if (baiduOCRDto.getErrorCode() == null) {
+            baiduOCRDto.getWordsResult().stream().filter(words -> words.getBaiduOCRUUID() == null).forEach(student -> {
+                student.setBaiduOCRUUID(baiduOCRDto.getUuid());
+                student.setIsDel("0");
+            });
+            baiduOCRWordsService.insertList(baiduOCRDto.getWordsResult());
+        }
         return new ResponseUtil(baiduOCRDto);
     }
 
