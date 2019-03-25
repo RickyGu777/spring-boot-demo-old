@@ -24,4 +24,10 @@ public class UploadImgServiceImpl<T extends UploadImg> implements UploadImgServi
     public T selectImageInfoByOriginalName(T t) {
         return uploadImgDao.selectImageInfoByOriginalName(t);
     }
+
+    @Override
+    public void updateTitle(T t) {
+        t.setModiDate(new Date());
+        uploadImgDao.updateTitle(t);
+    }
 }

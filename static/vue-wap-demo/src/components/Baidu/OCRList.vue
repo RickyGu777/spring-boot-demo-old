@@ -6,8 +6,8 @@
         <el-row :gutter="20">
           <el-col :span="8">
             <el-input :disabled="modi" placeholder="请输入内容" v-model="item.uploadImg.title">
-              <el-button slot="append" @click="changeModi()">Modify TiTle</el-button>
-              <el-button slot="append" @click="changeModi()">Upload</el-button>
+              <el-button slot="append" @click="changeModi()" v-if="modi">Modify TiTle</el-button>
+              <el-button slot="append" @click="changeModi(item.uploadImg)" v-if="!modi">Upload</el-button>
             </el-input>
           </el-col>
         </el-row>
@@ -21,7 +21,7 @@
 </template>
 
 <script>
-  import {getOCRList} from '@/request/api';
+  import {getOCRList,updateImageTitle} from '@/request/api';
 
   export default {
     name: "OCRList",
@@ -44,11 +44,12 @@
         let newVar = await getOCRList(this.data);
         this.data.info = newVar.data;
       },
-      changeModi() {
+      changeModi(data) {
         this.modi = !this.modi;
         if (this.modi) {
           console.log(this.modi);
           // 准备修改Title属性
+          updateImageTitle(data);
         }
       },
       handleChange() {

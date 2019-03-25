@@ -30,3 +30,5 @@ export const insertAhri = data => post('/AhriUrl/insert', data);
 export const downloadAhri = data => post('/AhriUrl/download', data);
 
 export const selectAllAhri = data => post('/AhriUrl/selectAll', data);
+
+export const updateImageTitle = data => post('/UploadImage/updateTitle', data);

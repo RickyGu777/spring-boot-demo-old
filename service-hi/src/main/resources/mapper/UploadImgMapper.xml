@@ -16,7 +16,7 @@
     </resultMap>
 
     <insert id="insert" parameterType="UploadImg">
-        insert into UPLOAD_IMG (UUID, ORIGINAL_NAME, RANDOM_NAME, RESPONSE_URL, `TITLE`, IS_DEL, STATUS, CREATE_USER_UUID, CREATE_DATE, MODI_USER_UUID, MODI_DATE)
+        insert into UPLOAD_IMG (UUID, ORIGINAL_NAME, RANDOM_NAME, RESPONSE_URL, TITLE, IS_DEL, STATUS, CREATE_USER_UUID, CREATE_DATE, MODI_USER_UUID, MODI_DATE)
         values (#{uuid},#{originalName},#{randomName},#{responseUrl},#{title},#{isDel},#{status},#{createUserUUID},#{createDate},#{modiUserUUID},#{modiDate})
     </insert>
 
@@ -27,4 +27,8 @@
     <select id="selectByUUID" parameterType="UploadImg" resultMap="UploadImgResult">
         select * from UPLOAD_IMG where UUID = #{uuid}
     </select>
+
+    <update id="updateTitle" parameterType="UploadImg">
+        update UPLOAD_IMG set TITLE = #{title} where UUID = #{uuid}
+    </update>
 </mapper>

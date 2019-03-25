@@ -5,6 +5,7 @@ import com.alibaba.fastjson.TypeReference;
 import com.example.servicehi.common.Config;
 import com.example.servicehi.entity.UploadImg;
 import com.example.servicehi.service.UploadImgService;
+import com.example.servicehi.util.ResponseUtil;
 import com.example.servicehi.util.SaveAndPostImg;
 import com.example.servicehi.util.UUIDUtil;
 import lombok.AllArgsConstructor;
@@ -51,5 +52,11 @@ public class UploadImage {
         uploadImg.setTitle(uploadImg.getRandomName());
         uploadImgService.insert(uploadImg);
         return hashMap;
+    }
+
+    @PostMapping(value = "/updateTitle")
+    public ResponseUtil updateTitle(@RequestBody UploadImg uploadImg){
+        uploadImgService.updateTitle(uploadImg);
+        return new ResponseUtil();
     }
 }

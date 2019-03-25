@@ -11,4 +11,6 @@ public interface UploadImgDao<T extends UploadImg> {
     T selectImageInfoByOriginalName(T t);
 
     T selectByUUID(T t);
+
+    void updateTitle(T t);
 }

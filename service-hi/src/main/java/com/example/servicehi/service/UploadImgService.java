@@ -6,4 +6,6 @@ public interface UploadImgService<T extends UploadImg> {
     void insert(T t);
 
     T selectImageInfoByOriginalName(T t);
+
+    void updateTitle(T t);
 }
