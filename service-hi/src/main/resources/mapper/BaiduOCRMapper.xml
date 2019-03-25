@@ -3,7 +3,7 @@
 <mapper namespace="com.example.servicehi.dao.BaiduOCRDao">
     <resultMap id="BaiduOCRResult" type="com.example.servicehi.entity.BaiduOCR">
         <result column="UUID" property="uuid"/>
-        <result column="BAIDU_ID" property="baiduId"/>
+        <result column="LOG_ID" property="logId"/>
         <result column="UPLOAD_IMG_UUID" property="uploadImgUUID"/>
         <result column="WORDS_RESULT_NUM" property="wordsResultNum"/>
         <result column="IS_DEL" property="isDel"/>
@@ -15,8 +15,8 @@
     </resultMap>
 
     <insert id="insert" parameterType="BaiduOCR">
-        insert into BAIDU_OCR (UUID, BAIDU_ID, UPLOAD_IMG_UUID, WORDS_RESULT_NUM, IS_DEL, STATUS, CREATE_USER_UUID, CREATE_DATE, MODI_USER_UUID, MODI_DATE)
-        values (#{uuid},#{baiduId},#{uploadImgUUID},#{wordsResultNum},#{isDel},#{status},#{createUserUUID},#{createDate},#{modiUserUUID},#{modiDate})
+        insert into BAIDU_OCR (UUID, LOG_ID, UPLOAD_IMG_UUID, WORDS_RESULT_NUM, IS_DEL, STATUS, CREATE_USER_UUID, CREATE_DATE, MODI_USER_UUID, MODI_DATE)
+        values (#{uuid},#{logId},#{uploadImgUUID},#{wordsResultNum},#{isDel},#{status},#{createUserUUID},#{createDate},#{modiUserUUID},#{modiDate})
     </insert>
 
     <resultMap id="BaiduOCRList" extends="BaiduOCRResult" type="BaiduOCRDto">

@@ -12,7 +12,7 @@ import java.util.Objects;
 @Getter
 @Setter
 public class BaiduOCR extends BaseEntity {
-    private String baiduId;
+    private String logId;
     private String uploadImgUUID;
     private Integer wordsResultNum;
 }

@@ -11,6 +11,13 @@ import org.springframework.stereotype.Service;
 public class BaiduOCRServiceImpl<T extends BaiduOCR> implements BaiduOCRService<T> {
     @Autowired
     private BaiduOCRDao<T> baiduOCRDao;
+
+    @Override
+    public void insert(T t) {
+        t.setIsDel("0");
+        baiduOCRDao.insert(t);
+    }
+
     @Override
     public T selectByUUID(T t) {
         return baiduOCRDao.selectByUUID(t);
