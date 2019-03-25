@@ -11,6 +11,8 @@ export const selectJokeByUUID = data => post('/Joke/selectByUUID', data);
 
 export const getMenuList = data => post('/Menu/getMenuList', data);
 
+export const createUUID = data => post('/Menu/createUUID', data);
+
 export const selectAuthTree = data => post('/Auth/selectAuthTree', data);
 
 export const selectDiaryList = data => post('/Diary/selectDiaryList', data);

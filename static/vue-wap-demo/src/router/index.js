@@ -10,6 +10,7 @@ import DiaryDetail from '@/components/Diary/DiaryDetail'
 import Ahri from '@/components/Ahri/Ahri'
 import OCR from '@/components/Baidu/OCR'
 import OCRList from '@/components/Baidu/OCRList'
+import GetUUID from '@/components/Menu/GetUUID'
 
 Vue.use(Router)
 
@@ -56,6 +57,10 @@ export default new Router({
       path: '/OCRList',
       name: 'OCRList',
       component: OCRList
+    }, {
+      path: '/GetUUID',
+      name: 'GetUUID',
+      component: GetUUID
     }
   ]
 });
