@@ -9,4 +9,6 @@ public interface UploadImgDao<T extends UploadImg> {
     void insert(T t);
 
     T selectImageInfoByOriginalName(T t);
+
+    T selectByUUID(T t);
 }

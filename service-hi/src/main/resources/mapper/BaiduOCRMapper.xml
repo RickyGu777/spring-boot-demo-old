@@ -23,9 +23,16 @@
         <collection property="wordsResult" column="baiduOCRUUID=UUID"
                     ofType="BaiduOCRWords"
                     select="com.example.servicehi.dao.BaiduOCRWordsDao.selectByBaiduOCRUUID"/>
+        <collection property="uploadImg" column="uuid=UPLOAD_IMG_UUID"
+                    ofType="UploadImg"
+                    select="com.example.servicehi.dao.UploadImgDao.selectByUUID"/>
     </resultMap>
 
     <select id="selectByUUID" parameterType="BaiduOCR" resultMap="BaiduOCRResult">
         select * from BAIDU_OCR where UUID = #{uuid}
+    </select>
+
+    <select id="selectOCRList" parameterType="BaiduOCR" resultMap="BaiduOCRList">
+        select * from	BAIDU_OCR
     </select>
 </mapper>

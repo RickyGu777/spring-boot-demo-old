@@ -19,10 +19,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.SystemUtils;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import sun.misc.BASE64Encoder;
 
@@ -87,7 +84,7 @@ public class BaiduController {
         String s = HttpRequest.baiduOCRPost(url, param);
         BaiduOCRDto baiduOCRDto = JSON.parseObject(s, new TypeReference<BaiduOCRDto>() {
         });
-        baiduOCRDto.setUploadImgUUID(baiduOCRDto.getUuid());
+        baiduOCRDto.setUploadImgUUID(uploadImg.getUuid());
         baiduOCRDto.getWordsResult().stream().filter(words -> words.getBaiduOCRUUID() == null).forEach(student -> {
             student.setBaiduOCRUUID(baiduOCRDto.getUuid());
             student.setIsDel("0");
@@ -95,5 +92,10 @@ public class BaiduController {
         baiduOCRService.insert(baiduOCRDto);
         baiduOCRWordsService.insertList(baiduOCRDto.getWordsResult());
         return new ResponseUtil(baiduOCRDto);
+    }
+
+    @PostMapping(value = "/getOCRList")
+    public ResponseUtil getOCRList(@RequestBody BaiduOCR baiduOCR) {
+        return new ResponseUtil(baiduOCRService.selectOCRList(baiduOCR));
     }
 }

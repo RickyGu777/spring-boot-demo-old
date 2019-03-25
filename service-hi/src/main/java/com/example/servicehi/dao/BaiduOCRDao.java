@@ -11,4 +11,6 @@ public interface BaiduOCRDao<T extends BaiduOCR> {
     void insert(T t);
 
     T selectByUUID(T t);
+
+    List<T> selectOCRList(T t);
 }
