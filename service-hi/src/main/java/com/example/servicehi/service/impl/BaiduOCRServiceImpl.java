@@ -3,12 +3,12 @@ package com.example.servicehi.service.impl;
 import com.example.servicehi.dao.BaiduOCRDao;
 import com.example.servicehi.entity.BaiduOCR;
 import com.example.servicehi.service.BaiduOCRService;
-import com.netflix.discovery.converters.Auto;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.List;
 
 @Service
 public class BaiduOCRServiceImpl<T extends BaiduOCR> implements BaiduOCRService<T> {
@@ -29,7 +29,8 @@ public class BaiduOCRServiceImpl<T extends BaiduOCR> implements BaiduOCRService<
     }
 
     @Override
-    public List<T> selectOCRList(T t) {
-        return baiduOCRDao.selectOCRList(t);
+    public PageInfo selectOCRList(T t) {
+        PageHelper.offsetPage(t.getPage(), t.getSize());
+        return new PageInfo<>(baiduOCRDao.selectOCRList(t));
     }
 }

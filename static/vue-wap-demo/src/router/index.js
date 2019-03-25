@@ -9,6 +9,7 @@ import Diary from '@/components/Diary/Diary'
 import DiaryDetail from '@/components/Diary/DiaryDetail'
 import Ahri from '@/components/Ahri/Ahri'
 import OCR from '@/components/Baidu/OCR'
+import OCRList from '@/components/Baidu/OCRList'
 
 Vue.use(Router)
 
@@ -51,6 +52,10 @@ export default new Router({
       path: '/Ahri',
       name: 'Ahri',
       component: Ahri
+    }, {
+      path: '/OCRList',
+      name: 'OCRList',
+      component: OCRList
     }
   ]
 });

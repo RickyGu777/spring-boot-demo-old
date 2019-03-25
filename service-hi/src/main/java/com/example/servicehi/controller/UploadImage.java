@@ -48,6 +48,7 @@ public class UploadImage {
             hashMap.put("msg", map.get("msg"));
             hashMap.put("code", 1);
         }
+        uploadImg.setTitle(uploadImg.getRandomName());
         uploadImgService.insert(uploadImg);
         return hashMap;
     }

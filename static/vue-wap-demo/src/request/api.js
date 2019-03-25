@@ -23,6 +23,8 @@ export const addDiary = data => post('/Diary/addDiary', data);
 
 export const getBaiduAccessToke = data => post('/Baidu/getAccessToke', data);
 
+export const getOCRList = data => post('/Baidu/getOCRList', data);
+
 export const insertAhri = data => post('/AhriUrl/insert', data);
 
 export const downloadAhri = data => post('/AhriUrl/download', data);

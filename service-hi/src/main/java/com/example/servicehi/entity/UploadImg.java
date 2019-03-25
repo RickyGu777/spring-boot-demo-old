@@ -14,4 +14,5 @@ public class UploadImg extends BaseEntity{
     private String originalName;
     private String randomName;
     private String responseUrl;
+    private String title;
 }

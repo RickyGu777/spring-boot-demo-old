@@ -29,26 +29,26 @@
     </insert>
 
     <select id="selectByUUID" resultMap="AhriUrlResult" parameterType="com.example.servicehi.entity.AhriUrl">
-        select * from AHRI_URL where UUID = #{uuid};
+        select * from AHRI_URL where UUID = #{uuid}
     </select>
 
     <select id="selectByUUIDNotDel" resultMap="AhriUrlResult" parameterType="com.example.servicehi.entity.AhriUrl">
-        select * from AHRI_URL where IS_DEL = '0' and UUID = #{uuid};
+        select * from AHRI_URL where IS_DEL = '0' and UUID = #{uuid}
     </select>
 
     <select id="selectAll" resultMap="AhriUrlResult" parameterType="com.example.servicehi.entity.AhriUrl">
-        select * from AHRI_URL;
+        select * from AHRI_URL
     </select>
 
     <select id="selectAllNotDel" resultMap="AhriUrlResult" parameterType="com.example.servicehi.entity.AhriUrl">
-        select * from AHRI_URL where IS_DEL = '0';
+        select * from AHRI_URL where IS_DEL = '0'
     </select>
 
     <select id="selectURL" resultMap="AhriUrlResult" parameterType="com.example.servicehi.entity.AhriUrl">
-        select * from AHRI_URL where URL LIKE CONCAT ('%',#{url},'%');
+        select * from AHRI_URL where URL LIKE CONCAT ('%',#{url},'%')
     </select>
 
     <select id="selectTodayURL" resultMap="AhriUrlResult">
-        select * from AHRI_URL where DATE_FORMAT(CREATE_DATE,'%Y-%m-%d') >= DATE_FORMAT(NOW(),'%Y-%m-%d') and IS_DEL = '0' limit 0,9;
+        select * from AHRI_URL where DATE_FORMAT(CREATE_DATE,'%Y-%m-%d') >= DATE_FORMAT(NOW(),'%Y-%m-%d') and IS_DEL = '0' limit 0,9
     </select>
 </mapper>

@@ -75,6 +75,7 @@ public class BaiduController {
             hashMap.put("code", 1);
         }
         uploadImg.setStatus("1");
+        uploadImg.setTitle(uploadImg.getRandomName());
         uploadImgService.insert(uploadImg);
 
         // 上传至百度

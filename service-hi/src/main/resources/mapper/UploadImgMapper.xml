@@ -6,6 +6,7 @@
         <result column="ORIGINAL_NAME" property="originalName"/>
         <result column="RANDOM_NAME" property="randomName"/>
         <result column="RESPONSE_URL" property="responseUrl"/>
+        <result column="TITLE" property="title"/>
         <result column="IS_DEL" property="isDel"/>
         <result column="STATUS" property="status"/>
         <result column="CREATE_USER_UUID" property="createUserUUID"/>
@@ -15,15 +16,15 @@
     </resultMap>
 
     <insert id="insert" parameterType="UploadImg">
-        insert into UPLOAD_IMG (UUID, ORIGINAL_NAME, RANDOM_NAME, RESPONSE_URL, IS_DEL, STATUS, CREATE_USER_UUID, CREATE_DATE, MODI_USER_UUID, MODI_DATE)
-        values (#{uuid},#{originalName},#{randomName},#{responseUrl},#{isDel},#{status},#{createUserUUID},#{createDate},#{modiUserUUID},#{modiDate})
+        insert into UPLOAD_IMG (UUID, ORIGINAL_NAME, RANDOM_NAME, RESPONSE_URL, `TITLE`, IS_DEL, STATUS, CREATE_USER_UUID, CREATE_DATE, MODI_USER_UUID, MODI_DATE)
+        values (#{uuid},#{originalName},#{randomName},#{responseUrl},#{title},#{isDel},#{status},#{createUserUUID},#{createDate},#{modiUserUUID},#{modiDate})
     </insert>
 
     <select id="selectImageInfoByOriginalName" parameterType="UploadImg" resultMap="UploadImgResult">
-        select * from UPLOAD_IMG where ORIGINAL_NAME = #{originalName};
+        select * from UPLOAD_IMG where ORIGINAL_NAME = #{originalName}
     </select>
 
     <select id="selectByUUID" parameterType="UploadImg" resultMap="UploadImgResult">
-        select * from UPLOAD_IMG where UUID = #{uuid};
+        select * from UPLOAD_IMG where UUID = #{uuid}
     </select>
 </mapper>

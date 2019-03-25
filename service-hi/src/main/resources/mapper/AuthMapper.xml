@@ -35,7 +35,7 @@
     </delete>
 
     <update id="updateAuthName" parameterType="Auth">
-        update AUTH set AUTH_NAME = #{authName}  where URL = #{url};
+        update AUTH set AUTH_NAME = #{authName}  where URL = #{url}
     </update>
 
     <resultMap id="AuthDtoResult" type="AuthDto" extends="AuthResult">
@@ -56,6 +56,6 @@
     </select>
 
     <select id="selectByGroup" resultMap="AuthResult" parameterType="Auth">
-        select * from AUTH where CLASS_GROUP = #{classGroup};
+        select * from AUTH where CLASS_GROUP = #{classGroup}
     </select>
 </mapper>

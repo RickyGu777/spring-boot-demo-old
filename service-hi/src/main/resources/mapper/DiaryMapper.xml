@@ -23,7 +23,7 @@
     </select>
 
     <select id="selectByUUID" parameterType="Diary" resultMap="DiaryResult">
-        select * from DIARY where UUID = #{uuid};
+        select * from DIARY where UUID = #{uuid}
     </select>
 
     <update id="updateDiaryByUUID" parameterType="Diary">

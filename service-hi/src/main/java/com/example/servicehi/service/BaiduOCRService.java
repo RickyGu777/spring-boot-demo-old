@@ -2,6 +2,7 @@ package com.example.servicehi.service;
 
 import com.example.servicehi.entity.Auth;
 import com.example.servicehi.entity.BaiduOCR;
+import com.github.pagehelper.PageInfo;
 
 import java.util.List;
 
@@ -10,5 +11,5 @@ public interface BaiduOCRService<T extends BaiduOCR> {
 
     T selectByUUID(T t);
 
-    List<T> selectOCRList(T t);
+    PageInfo selectOCRList(T t);
 }

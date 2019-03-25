@@ -33,6 +33,6 @@
     </select>
 
     <select id="selectOCRList" parameterType="BaiduOCR" resultMap="BaiduOCRList">
-        select * from	BAIDU_OCR
+        select * from BAIDU_OCR order by CREATE_DATE desc
     </select>
 </mapper>
