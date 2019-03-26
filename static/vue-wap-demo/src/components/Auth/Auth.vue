@@ -30,9 +30,9 @@
       <!--<span>这是一段信息</span>-->
       <el-input v-model="diaLogInfo" placeholder="请输入内容"></el-input>
       <span slot="footer" class="dialog-footer">
-              <el-button @click="dialogVisible = false">取 消</el-button>
-              <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
-            </span>
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="closeDialog()">确 定</el-button>
+      </span>
     </el-dialog>
   </div>
 </template>
@@ -48,10 +48,11 @@
         authName: '',
         defaultProps: {
           children: 'authList',
-          label: 'classGroup'
+          label: 'authName'
         },
         dialogVisible: false,
-        diaLogInfo: ''
+        diaLogInfo: '',
+        diaLogUUID: ''
       };
     },
     created: function () {
@@ -68,6 +69,7 @@
       showDialog(data) {
         this.dialogVisible = true;
         this.diaLogInfo = data.authName;
+        this.diaLogUUID = data.uuid;
       },
       handleClose(done) {
         this.$confirm('确认关闭？')
@@ -77,6 +79,9 @@
           })
           .catch(_ => {
           });
+      },
+      closeDialog() {
+        this.dialogVisible = false;
       }
     }
   };

@@ -12,4 +12,6 @@ public interface BaiduOCRService<T extends BaiduOCR> {
     T selectByUUID(T t);
 
     PageInfo selectOCRList(T t);
+
+    void delete(T t);
 }

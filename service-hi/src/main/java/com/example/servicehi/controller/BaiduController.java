@@ -101,4 +101,10 @@ public class BaiduController {
     public ResponseUtil getOCRList(@RequestBody BaiduOCR baiduOCR) {
         return new ResponseUtil(baiduOCRService.selectOCRList(baiduOCR));
     }
+
+    @PostMapping(value = "/delete")
+    public ResponseUtil delete(@RequestBody BaiduOCR baiduOCR) {
+        baiduOCRService.delete(baiduOCR);
+        return new ResponseUtil();
+    }
 }

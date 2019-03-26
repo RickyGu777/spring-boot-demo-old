@@ -29,10 +29,14 @@
     </resultMap>
 
     <select id="selectByUUID" parameterType="BaiduOCR" resultMap="BaiduOCRResult">
-        select * from BAIDU_OCR where UUID = #{uuid}
+        select * from BAIDU_OCR where UUID = #{uuid} and IS_DEL = '0'
     </select>
 
     <select id="selectOCRList" parameterType="BaiduOCR" resultMap="BaiduOCRList">
-        select * from BAIDU_OCR order by CREATE_DATE desc
+        select * from BAIDU_OCR where IS_DEL = '0' order by CREATE_DATE desc
     </select>
+
+    <update id="delete" parameterType="BaiduOCR">
+        update BAIDU_OCR set IS_DEL = '1' where UUID = #{uuid}
+    </update>
 </mapper>

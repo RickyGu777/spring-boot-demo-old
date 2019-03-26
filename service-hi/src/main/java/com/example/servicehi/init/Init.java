@@ -21,10 +21,7 @@ import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Component
 @Slf4j
@@ -86,6 +83,7 @@ public class Init implements InitializingBean {
                 auth.setType(requestMethod.toString());
             }
             auth.setClassGroup(method.getBean().toString());
+            auth.setAuthType("1");
             auths.add(auth);
         }
 

@@ -57,5 +57,8 @@
 
     <select id="selectByGroup" resultMap="AuthResult" parameterType="Auth">
         select * from AUTH where CLASS_GROUP = #{classGroup}
+        <if test="authType!=null and authType!=''">
+            and AUTH_TYPE = #{authType}
+        </if>
     </select>
 </mapper>

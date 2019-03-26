@@ -10,6 +10,9 @@
               <el-button slot="append" @click="changeModi(item.uploadImg)" v-if="!modi">Upload</el-button>
             </el-input>
           </el-col>
+          <el-col :span="6" :offset="6">
+            <el-button @click="deleteBaiduOCR(item)">Delete This Image</el-button>
+          </el-col>
         </el-row>
         <div v-for="(words,wordsIndex) in item.wordsResult" :key="wordsIndex">
           {{ words.words }}
@@ -21,7 +24,7 @@
 </template>
 
 <script>
-  import {getOCRList,updateImageTitle} from '@/request/api';
+  import {getOCRList, updateImageTitle, deleteBaiduOCR} from '@/request/api';
 
   export default {
     name: "OCRList",
@@ -44,16 +47,33 @@
         let newVar = await getOCRList(this.data);
         this.data.info = newVar.data;
       },
-      changeModi(data) {
+      async changeModi(data) {
         this.modi = !this.modi;
         if (this.modi) {
-          console.log(this.modi);
-          // 准备修改Title属性
-          updateImageTitle(data);
+          let newVar = await updateImageTitle(data);
+          if (newVar.code == 0) {
+            this.$message({
+              message: 'Modify Title Success!',
+              type: 'success'
+            });
+          } else {
+            this.$message.error('Modify Title Error:' + newVar.msg);
+          }
         }
       },
       handleChange() {
         this.modi = true;
+      },
+      async deleteBaiduOCR(data) {
+        let newVar = await deleteBaiduOCR(data);
+        if (newVar.code == 0) {
+          this.$message({
+            message: 'Delete Image Success!',
+            type: 'success'
+          });
+        } else {
+          this.$message.error('Delete Image Error:' + newVar.msg);
+        }
       }
     }
   }

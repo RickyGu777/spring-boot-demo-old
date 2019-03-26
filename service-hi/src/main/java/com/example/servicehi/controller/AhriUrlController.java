@@ -21,7 +21,7 @@ import java.util.Map;
 public class AhriUrlController {
     private final AhriUrlService<AhriUrl> ahriUrlService;
 
-    @RequestMapping(value = "/selectAll")
+    @PostMapping(value = "/selectAll")
     public Object selectAll() {
         return ahriUrlService.selectAll();
     }

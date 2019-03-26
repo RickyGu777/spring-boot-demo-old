@@ -33,4 +33,9 @@ public class BaiduOCRServiceImpl<T extends BaiduOCR> implements BaiduOCRService<
         PageHelper.offsetPage(t.getPage(), t.getSize());
         return new PageInfo<>(baiduOCRDao.selectOCRList(t));
     }
+
+    @Override
+    public void delete(T t) {
+        baiduOCRDao.delete(t);
+    }
 }
