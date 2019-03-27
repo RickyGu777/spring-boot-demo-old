@@ -5,12 +5,12 @@ import lombok.Setter;
 import lombok.ToString;
 import org.apache.ibatis.type.Alias;
 
-@Alias("TipsRelation")
+@Alias("ShareTicketUrl")
 @Getter
 @Setter
 @ToString
-public class TipsRelation extends BaseEntity{
-    private String tipsUUID;
-    private String tipsName;
-    private String otherUUID;
+public class ShareTicketUrl extends BaseEntity{
+    private String url;
+    private String title;
+    private String remark;
 }

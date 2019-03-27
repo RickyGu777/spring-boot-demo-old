@@ -11,5 +11,4 @@ import org.apache.ibatis.type.Alias;
 @ToString
 public class Tips extends BaseEntity {
     private String name;
-    private Integer times;
 }
