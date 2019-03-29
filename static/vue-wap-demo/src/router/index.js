@@ -11,6 +11,7 @@ import Ahri from '@/components/Ahri/Ahri'
 import OCR from '@/components/Baidu/OCR'
 import OCRList from '@/components/Baidu/OCRList'
 import GetUUID from '@/components/Menu/GetUUID'
+import AddShareUrl from '@/components/ShareUrl/AddShareUrl'
 
 Vue.use(Router)
 
@@ -61,6 +62,10 @@ export default new Router({
       path: '/GetUUID',
       name: 'GetUUID',
       component: GetUUID
+    }, {
+      path: '/AddShareUrl',
+      name: 'AddShareUrl',
+      component: AddShareUrl
     }
   ]
 });

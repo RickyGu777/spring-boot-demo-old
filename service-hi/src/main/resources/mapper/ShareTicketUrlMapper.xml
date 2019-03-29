@@ -25,18 +25,26 @@
                     ofType="TipsRelation" select="com.example.servicehi.dao.TipsRelationDao.selectByNameAndOtherUUID"/>
     </resultMap>
     
-    <select id="selectTitleAndTipsName" parameterType="ShareTicketUrlDto" resultMap="ShareTicketUrlResult">
+    <select id="selectTitleAndTipsName" parameterType="ShareTicketUrlDto" resultMap="ShareTicketUrlDtoResult">
         SELECT
             a.UUID as UUID,
             a.TITLE as TITLE,
+            a.URL as URL,
             (SELECT #{tipsName}) as TIPS_NAME
         FROM
             SHARE_TICKET_URL a
         INNER JOIN TIPS_RELATION b ON a.UUID = b.OTHER_UUID
         WHERE a.IS_DEL = '0'
-        and b.IS_DEL = '0'
-        and b.TIPS_NAME = #{tipsName}
+        AND b.IS_DEL = '0'
+        AND b.TIPS_NAME = #{tipsName}
+        <if test="title!=null and title!=''">
+            AND TITLE = #{title}
+        </if>
         GROUP BY
             a.URL
+    </select>
+
+    <select id="selectRepeatUrl" parameterType="ShareTicketUrl" resultMap="ShareTicketUrlResult">
+        select * from SHARE_TICKET_URL where URL = #{url}
     </select>
 </mapper>

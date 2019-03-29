@@ -36,3 +36,7 @@ export const downloadAhri = data => post('/AhriUrl/download', data);
 export const selectAllAhri = data => post('/AhriUrl/selectAll', data);
 
 export const updateImageTitle = data => post('/UploadImage/updateTitle', data);
+
+export const ShareTicketUrlInsert = data => post('/ShareTicketUrl/insert', data);
+
+export const ShareTicketUrlSelectTitleAndTipsName = data => post('/ShareTicketUrl/selectTitleAndTipsName', data);
