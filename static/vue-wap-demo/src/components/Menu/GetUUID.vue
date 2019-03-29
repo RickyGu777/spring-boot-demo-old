@@ -18,7 +18,6 @@
     },
     methods: {
       async createUUID() {
-        console.log(123123);
         let newVar = await createUUID();
         this.uuid = newVar.data;
       }

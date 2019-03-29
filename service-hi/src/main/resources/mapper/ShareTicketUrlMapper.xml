@@ -15,11 +15,28 @@
     </resultMap>
 
     <insert id="insert" parameterType="ShareTicketUrl">
-        insert into SHARE_TICKET_URL (UUID, URL, TITLE, REMARK, CREATE_USER_UUID, CREATE_DATE, MODI_USER_UUID, MODI_DATE)
+        insert into SHARE_TICKET_URL (UUID, URL, TITLE, REMARK, IS_DEL, STATUS, CREATE_USER_UUID, CREATE_DATE, MODI_USER_UUID, MODI_DATE)
         values (#{uuid},#{url},#{title},#{remark},#{isDel},#{status},#{createUserUUID},#{createDate},#{modiUserUUID},#{modiDate})
     </insert>
 
-    <select id="selectTitleAndTipsName" parameterType="ShareTicketUrl" resultMap="ShareTicketUrlResult">
-        select * from SHARE_TICKET_URL where TITLE like CONCAT('%',#{title},'%')
+    <resultMap id="ShareTicketUrlDtoResult" type="ShareTicketUrlDto" extends="ShareTicketUrlResult">
+        <result column="TIPS_NAME" property="tipsName"/>
+        <collection property="tipsRelations" column="{tipsName=TIPS_NAME,otherUUID=UUID}"
+                    ofType="TipsRelation" select="com.example.servicehi.dao.TipsRelationDao.selectByNameAndOtherUUID"/>
+    </resultMap>
+    
+    <select id="selectTitleAndTipsName" parameterType="ShareTicketUrlDto" resultMap="ShareTicketUrlResult">
+        SELECT
+            a.UUID as UUID,
+            a.TITLE as TITLE,
+            (SELECT #{tipsName}) as TIPS_NAME
+        FROM
+            SHARE_TICKET_URL a
+        INNER JOIN TIPS_RELATION b ON a.UUID = b.OTHER_UUID
+        WHERE a.IS_DEL = '0'
+        and b.IS_DEL = '0'
+        and b.TIPS_NAME = #{tipsName}
+        GROUP BY
+            a.URL
     </select>
 </mapper>
