@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.servicehi.dao.ShareTicketUrlDao">
     <resultMap id="ShareTicketUrlResult" type="com.example.servicehi.entity.ShareTicketUrl">
+        <result column="ID" property="id"/>
         <result column="UUID" property="uuid"/>
         <result column="URL" property="url"/>
         <result column="TITLE" property="title"/>
@@ -17,6 +18,16 @@
     <insert id="insert" parameterType="ShareTicketUrl">
         insert into SHARE_TICKET_URL (UUID, URL, TITLE, REMARK, IS_DEL, STATUS, CREATE_USER_UUID, CREATE_DATE, MODI_USER_UUID, MODI_DATE)
         values (#{uuid},#{url},#{title},#{remark},#{isDel},#{status},#{createUserUUID},#{createDate},#{modiUserUUID},#{modiDate})
+    </insert>
+
+    <insert id="insertList" parameterType="ShareTicketUrl">
+        insert into SHARE_TICKET_URL (UUID, URL, TITLE, REMARK, IS_DEL, STATUS, CREATE_USER_UUID, CREATE_DATE, MODI_USER_UUID, MODI_DATE)
+        values
+        <foreach collection="list" item="item" index= "index" separator ="," open="(" close=")">
+            #{item.uuid},#{item.url},#{item.title},#{item.remark},#{item.isDel},#{item.status},#{item.createUserUUID},
+            #{item.createDate},#{item.modiUserUUID},#{item.modiDate}
+        </foreach>
+
     </insert>
 
     <resultMap id="ShareTicketUrlDtoResult" type="ShareTicketUrlDto" extends="ShareTicketUrlResult">
@@ -46,5 +57,12 @@
 
     <select id="selectRepeatUrl" parameterType="ShareTicketUrl" resultMap="ShareTicketUrlResult">
         select * from SHARE_TICKET_URL where URL = #{url}
+    </select>
+
+    <select id="selectRepeatUrlList" parameterType="java.util.List" resultMap="ShareTicketUrlResult">
+        select * from SHARE_TICKET_URL where URL in
+        <foreach collection="list" item="item" index= "index" separator ="," open="(" close=")">
+            #{item.url}
+        </foreach>
     </select>
 </mapper>

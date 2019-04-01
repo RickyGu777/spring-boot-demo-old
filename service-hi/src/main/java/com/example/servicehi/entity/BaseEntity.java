@@ -15,6 +15,7 @@ import java.util.Date;
 @ToString
 @Slf4j
 public class BaseEntity implements Serializable {
+    private Integer id;
     private String uuid;
     private String createUserUUID;
     private Date createDate;

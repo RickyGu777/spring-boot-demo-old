@@ -13,6 +13,7 @@ import OCRList from '@/components/Baidu/OCRList'
 import GetUUID from '@/components/Menu/GetUUID'
 import AddShareUrl from '@/components/ShareUrl/AddShareUrl'
 import Test from '@/components/Test/Test'
+import Random from '@/components/Tool/Random'
 
 Vue.use(Router)
 
@@ -71,6 +72,10 @@ export default new Router({
       path: '/Test',
       name: 'Test',
       component: Test
+    }, {
+      path: '/Random',
+      name: 'Random',
+      component: Random
     }
   ]
 });

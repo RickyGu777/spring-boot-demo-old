@@ -7,11 +7,16 @@ import com.example.servicehi.service.ShareTicketUrlService;
 import com.example.servicehi.util.ResponseUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.Validate;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.SocketUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RequestMapping(value = "/ShareTicketUrl")
 @RestController
@@ -20,6 +25,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class ShareTicketUrlController {
     private final ShareTicketUrlService<ShareTicketUrl> shareTicketUrlService;
 
+    /**
+     * 新增优惠券链接
+     *
+     * @param shareTicketUrl
+     * @return
+     */
     @PostMapping(value = "/insert")
     public ResponseUtil insert(@RequestBody ShareTicketUrl shareTicketUrl) {
         if (CollectionUtils.isEmpty(shareTicketUrlService.selectRepeatUrl(shareTicketUrl))) {
@@ -28,6 +39,30 @@ public class ShareTicketUrlController {
         } else {
             return ResponseUtil.buildERROR("已有有重复URL");
         }
+    }
+
+    /**
+     * 批量新增优惠券链接
+     *
+     * @param shareTicketUrls
+     * @return
+     */
+    @PostMapping(value = "/insertList")
+    public ResponseUtil insertList(@RequestBody List<ShareTicketUrl> shareTicketUrls) {
+        shareTicketUrls.forEach(item -> Validate.notEmpty(item.getUrl()));
+        List<ShareTicketUrl> repeatUrlList = shareTicketUrlService.selectRepeatUrlList(shareTicketUrls);
+        ArrayList<ShareTicketUrl> collect = shareTicketUrls.stream().collect(
+                Collectors.collectingAndThen(
+                        Collectors.toCollection(
+                                () -> new TreeSet<>(Comparator.comparing(ShareTicketUrl::getUrl))), ArrayList::new));
+        collect.forEach(item -> {
+            item.setCreateDate(new Date());
+            item.setModiDate(new Date());
+            item.setIsDel("0");
+            log.info(item.toString());
+        });
+        shareTicketUrlService.insertList(collect);
+        return new ResponseUtil();
     }
 
     /**

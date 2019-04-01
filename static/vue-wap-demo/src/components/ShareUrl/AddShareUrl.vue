@@ -19,11 +19,12 @@
         </el-row>
       </el-header>
     </el-container>
+    <el-button @click="ShareTicketUrlInsertList()">Up Url</el-button>
   </div>
 </template>
 
 <script>
-  import {ShareTicketUrlInsert} from '@/request/api';
+  import {ShareTicketUrlInsertList} from '@/request/api';
   import {getShareTicketUrl} from '@/util/ShareTicketUrlUtil';
 
   export default {
@@ -41,8 +42,8 @@
       }
     },
     methods: {
-      async ShareTicketUrlInsert() {
-        let newVar = await ShareTicketUrlInsert(this.ShareTicketUrl);
+      async ShareTicketUrlInsertList() {
+        let newVar = await ShareTicketUrlInsertList(this.ShareTicketUrlList);
         if (newVar.code == 0) {
           this.$message({
             message: '添加优惠券成功!',
@@ -59,9 +60,7 @@
             url: ""
           }
         }
-        console.log(str);
         this.ShareTicketUrlList.push(str);
-        console.log(this.ShareTicketUrlList);
       },
       listReduce(index) {
         this.ShareTicketUrlList.splice(index, 1);

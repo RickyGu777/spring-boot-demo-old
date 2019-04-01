@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.servicehi.dao.IpAddressDao">
     <resultMap id="IpAddressResult" type="com.example.servicehi.entity.IpAddress">
+        <result column="ID" property="id"/>
         <result column="UUID" property="uuid"/>
         <result column="IP" property="ip"/>
         <result column="MAC" property="mac"/>

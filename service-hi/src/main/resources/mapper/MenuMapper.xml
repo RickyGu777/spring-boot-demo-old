@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.servicehi.dao.MenuDao">
     <resultMap id="MenuResult" type="com.example.servicehi.entity.Menu">
+        <result column="ID" property="id"/>
         <result column="UUID" property="uuid"/>
         <result column="MENU_NAME" property="menuName"/>
         <result column="MENU_PATH" property="menuPath"/>

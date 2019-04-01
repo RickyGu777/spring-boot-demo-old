@@ -19,6 +19,11 @@ public class ShareTicketUrlServiceImpl<T extends ShareTicketUrl> implements Shar
     }
 
     @Override
+    public void insertList(List<T> t) {
+        shareTicketUrlDao.insertList(t);
+    }
+
+    @Override
     public List<T> selectTitleAndTipsName(T t) {
         return shareTicketUrlDao.selectTitleAndTipsName(t);
     }
@@ -26,5 +31,10 @@ public class ShareTicketUrlServiceImpl<T extends ShareTicketUrl> implements Shar
     @Override
     public List<T> selectRepeatUrl(T t) {
         return shareTicketUrlDao.selectRepeatUrl(t);
+    }
+
+    @Override
+    public List<T> selectRepeatUrlList(List<T> t) {
+        return shareTicketUrlDao.selectRepeatUrlList(t);
     }
 }
