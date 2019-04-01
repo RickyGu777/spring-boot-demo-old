@@ -14,7 +14,7 @@
           </el-col>
           <el-col :span="1" :offset="1">
             <el-button v-if="index==0" @click="listADD()">Add Item</el-button>
-            <el-button v-else @click="listADD()">Reduce This Item</el-button>
+            <el-button v-else @click="listReduce(index)">Reduce This Item</el-button>
           </el-col>
         </el-row>
       </el-header>
@@ -25,6 +25,7 @@
 <script>
   import {ShareTicketUrlInsert} from '@/request/api';
   import {getShareTicketUrl} from '@/util/ShareTicketUrlUtil';
+
   export default {
     name: "AddShareUrl",
     data() {
@@ -33,16 +34,10 @@
           {
             ShareTicketUrl: {
               title: "",
-              url: "",
-              index: 0
+              url: ""
             }
           }
-        ],
-        item: {
-          title: "",
-          url: "",
-          index: 0
-        }
+        ]
       }
     },
     methods: {
@@ -58,10 +53,18 @@
         }
       },
       listADD() {
-        let shareTicketUrl = getShareTicketUrl(this.ShareTicketUrlList.length);
-        console.log(shareTicketUrl);
-        this.ShareTicketUrlList.push(shareTicketUrl);
+        var str = {
+          ShareTicketUrl: {
+            title: "",
+            url: ""
+          }
+        }
+        console.log(str);
+        this.ShareTicketUrlList.push(str);
         console.log(this.ShareTicketUrlList);
+      },
+      listReduce(index) {
+        this.ShareTicketUrlList.splice(index, 1);
       }
     }
   }

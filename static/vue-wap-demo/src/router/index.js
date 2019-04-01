@@ -12,6 +12,7 @@ import OCR from '@/components/Baidu/OCR'
 import OCRList from '@/components/Baidu/OCRList'
 import GetUUID from '@/components/Menu/GetUUID'
 import AddShareUrl from '@/components/ShareUrl/AddShareUrl'
+import Test from '@/components/Test/Test'
 
 Vue.use(Router)
 
@@ -66,6 +67,10 @@ export default new Router({
       path: '/AddShareUrl',
       name: 'AddShareUrl',
       component: AddShareUrl
+    }, {
+      path: '/Test',
+      name: 'Test',
+      component: Test
     }
   ]
 });
