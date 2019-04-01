@@ -11,6 +11,7 @@ import Ahri from '@/components/Ahri/Ahri'
 import OCR from '@/components/Baidu/OCR'
 import OCRList from '@/components/Baidu/OCRList'
 import GetUUID from '@/components/Menu/GetUUID'
+import Menu from '@/components/Menu/Menu'
 import AddShareUrl from '@/components/ShareUrl/AddShareUrl'
 import Test from '@/components/Test/Test'
 import Random from '@/components/Tool/Random'
@@ -76,6 +77,10 @@ export default new Router({
       path: '/Random',
       name: 'Random',
       component: Random
+    }, {
+      path: '/Menu',
+      name: 'Menu',
+      component: Menu
     }
   ]
 });
