@@ -60,7 +60,7 @@ public class UploadImage {
     }
 
     @PostMapping(value = "/updateTitle")
-    public ResponseUtil updateTitle(@RequestBody UploadImg uploadImg){
+    public ResponseUtil updateTitle(@RequestBody UploadImg uploadImg) {
         uploadImgService.updateTitle(uploadImg);
         return new ResponseUtil();
     }
@@ -90,7 +90,7 @@ public class UploadImage {
         uploadImg.setTitle(uploadImg.getRandomName());
         uploadImgService.insert(uploadImg);
         String filePath = SystemUtils.IS_OS_LINUX ? config.getLinux() : config.getWindows() + "/" + fileName;
-        String qrCode = ZixingCodeUtil.decodeQRCodeImage(filePath, null);
+        String qrCode = ZixingCodeUtil.decodeQRCodeImage(filePath, null).replace("\uD83D\uDCF1", "");
         ShareTicketImg shareTicketImg = new ShareTicketImg();
         shareTicketImg.setUploadImgUUID(uploadImg.getUuid());
         shareTicketImg.setQRCode(qrCode);
