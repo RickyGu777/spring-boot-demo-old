@@ -13,6 +13,7 @@ import OCRList from '@/components/Baidu/OCRList'
 import GetUUID from '@/components/Menu/GetUUID'
 import Menu from '@/components/Menu/Menu'
 import AddShareUrl from '@/components/ShareUrl/AddShareUrl'
+import UploadTicketImage from '@/components/ShareUrl/UploadTicketImage'
 import Test from '@/components/Test/Test'
 import Random from '@/components/Tool/Random'
 
@@ -81,6 +82,10 @@ export default new Router({
       path: '/Menu',
       name: 'Menu',
       component: Menu
+    }, {
+      path: '/UploadTicketImage',
+      name: 'UploadTicketImage',
+      component: UploadTicketImage
     }
   ]
 });
