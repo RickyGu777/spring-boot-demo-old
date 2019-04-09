@@ -3,7 +3,9 @@ package com.example.servicehi.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.example.servicehi.common.Config;
+import com.example.servicehi.entity.ShareTicketImg;
 import com.example.servicehi.entity.UploadImg;
+import com.example.servicehi.service.ShareTicketImgService;
 import com.example.servicehi.service.UploadImgService;
 import com.example.servicehi.util.ResponseUtil;
 import com.example.servicehi.util.SaveAndPostImg;
@@ -25,6 +27,8 @@ import java.util.Map;
 @Slf4j
 public class UploadImage {
     private final UploadImgService<UploadImg> uploadImgService;
+
+    private final ShareTicketImgService<ShareTicketImg> shareTicketImgService;
 
     private final Config config;
 
@@ -86,7 +90,11 @@ public class UploadImage {
         uploadImg.setTitle(uploadImg.getRandomName());
         uploadImgService.insert(uploadImg);
         String filePath = SystemUtils.IS_OS_LINUX ? config.getLinux() : config.getWindows() + "/" + fileName;
-        String text = ZixingCodeUtil.decodeQRCodeImage(filePath, null);
-        return new ResponseUtil(text);
+        String qrCode = ZixingCodeUtil.decodeQRCodeImage(filePath, null);
+        ShareTicketImg shareTicketImg = new ShareTicketImg();
+        shareTicketImg.setUploadImgUUID(uploadImg.getUuid());
+        shareTicketImg.setQRCode(qrCode);
+        shareTicketImgService.insert(shareTicketImg);
+        return new ResponseUtil(qrCode);
     }
 }
