@@ -16,4 +16,6 @@ public interface ShareTicketUrlDao<T extends ShareTicketUrl> {
     List<T> selectRepeatUrl(T t);
 
     List<T> selectRepeatUrlList(List<T> t);
+
+    void updateListStatus(List<T> t);
 }

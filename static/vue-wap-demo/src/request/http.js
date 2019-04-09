@@ -3,7 +3,7 @@ import QS from 'qs';
 // import {Toast} from 'vant';
 
 axios.defaults.baseURL = '/api';
-axios.defaults.timeout = 3000;
+axios.defaults.timeout = 4000;
 axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8';
 
 export function get(url, params) {

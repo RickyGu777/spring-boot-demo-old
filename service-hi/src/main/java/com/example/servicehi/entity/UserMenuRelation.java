@@ -7,14 +7,15 @@ import org.apache.ibatis.type.Alias;
 
 import java.util.List;
 
-@Alias("Menu")
+@Alias("UserMenuRelation")
 @Getter
 @Setter
 @ToString
-public class Menu extends BaseEntity{
+public class UserMenuRelation extends BaseEntity {
+    private String menuUUID;
     private String menuName;
     private String menuPath;
     private String parentMenuUUID;
     private String index;
-    private List<Menu> nextMenuList;
+    private String userUUID;
 }

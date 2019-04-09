@@ -37,4 +37,9 @@ public class ShareTicketUrlServiceImpl<T extends ShareTicketUrl> implements Shar
     public List<T> selectRepeatUrlList(List<T> t) {
         return shareTicketUrlDao.selectRepeatUrlList(t);
     }
+
+    @Override
+    public void updateListStatus(List<T> t) {
+        shareTicketUrlDao.updateListStatus(t);
+    }
 }

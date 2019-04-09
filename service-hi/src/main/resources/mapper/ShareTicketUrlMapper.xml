@@ -65,4 +65,10 @@
             #{item.url}
         </foreach>
     </select>
+
+    <update id="updateListStatus" parameterType="java.util.List">
+        <foreach collection="list" item="item" index= "index" separator ="," open="(" close=")">
+            update SHARE_TICKET_URL set STATUS = #{item.status} where ID = #{id} and UUID = #{uuid}
+        </foreach>
+    </update>
 </mapper>
