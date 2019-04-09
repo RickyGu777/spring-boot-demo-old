@@ -15,9 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-
-import static java.util.stream.Collectors.toList;
 
 @RequestMapping(value = "/ShareTicketUrl")
 @RestController
@@ -38,7 +35,7 @@ public class ShareTicketUrlController {
             shareTicketUrlService.insert(shareTicketUrl);
             return new ResponseUtil();
         } else {
-            return ResponseUtil.buildERROR("已有有重复URL");
+            return ResponseUtil.buildERROR("已有有重复链接");
         }
     }
 
@@ -62,8 +59,9 @@ public class ShareTicketUrlController {
                 newList.add(item);
             }
         });
-        shareTicketUrlService.insertList(newList);
-
+        if (!CollectionUtils.isEmpty(newList)) {
+            shareTicketUrlService.insertList(newList);
+        }
         return new ResponseUtil(oldList);
     }
 

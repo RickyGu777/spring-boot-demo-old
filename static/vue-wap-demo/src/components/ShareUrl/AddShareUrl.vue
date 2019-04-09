@@ -11,6 +11,7 @@
             <el-input placeholder="请输入链接" v-model="item.url">
               <el-button slot="append" @click="commit()">Commit</el-button>
             </el-input>
+            {{item.msg}}
           </el-col>
           <el-col :span="1" :offset="1">
             <el-button v-if="index==0" @click="listADD()">Add Item</el-button>
@@ -33,10 +34,9 @@
       return {
         ShareTicketUrlList: [
           {
-            ShareTicketUrl: {
-              title: "",
-              url: ""
-            }
+            title: "",
+            url: "",
+            msg: ""
           }
         ]
       }
@@ -52,6 +52,24 @@
         } else {
           this.$message.error('添加优惠券失败:' + newVar.msg);
         }
+        let oldList = newVar.data;
+        if (oldList) {
+          for (var i = 0; i < this.ShareTicketUrlList.length; i++) {
+            console.log("this.ShareTicketUrlList");
+            console.log(this.ShareTicketUrlList[i].url);
+            console.log("this.ShareTicketUrlList");
+            for (var j = 0; j < oldList.length; j++) {
+              console.log("oldList");
+              console.log(oldList[j].url);
+              console.log(oldList[j].url == this.ShareTicketUrlList[i].url);
+              console.log("oldList");
+              if (oldList[j].url == this.ShareTicketUrlList[i].url) {
+                this.ShareTicketUrlList[i].msg = "该链接已存在";
+              }
+            }
+          }
+        }
+        console.log(this.ShareTicketUrlList)
       },
       listADD() {
         var str = {
