@@ -55,9 +55,6 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <outputDirectory>/usr/local/app/springboot/service-ribbon/</outputDirectory>
-                </configuration>
             </plugin>
         </plugins>
     </build>

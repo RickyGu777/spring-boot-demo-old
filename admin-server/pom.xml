@@ -39,9 +39,6 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <outputDirectory>/usr/local/app/springboot/admin-server/</outputDirectory>
-                </configuration>
             </plugin>
         </plugins>
     </build>
