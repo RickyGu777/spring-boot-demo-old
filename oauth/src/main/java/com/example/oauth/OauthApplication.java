@@ -1,19 +1,15 @@
-package com.example.servicehi;
+package com.example.oauth;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication
-@MapperScan("com.example.servicehi.dao")
+@MapperScan("com.example.oauth.dao")
 @EnableEurekaClient
-@EnableTransactionManagement
-public class ServiceHiApplication {
-
+public class OauthApplication {
     public static void main(String[] args) {
-        SpringApplication.run(ServiceHiApplication.class, args);
+        SpringApplication.run(OauthApplication.class, args);
     }
-
 }

@@ -1,0 +1,22 @@
+server:
+  port: 8862
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  datasource:
+    url: jdbc:mysql://demo:3306/finalfantasyxiv?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    username: fell
+    password: finalfantasyxiv
+
+#  datasource:
+#    url: jdbc:mysql://demo:3306/finalfantasyxiv?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+#      username: fell
+#      password: finalfantasyxiv
+#      dbcp2:
+#        validation-query: SELECT 1
+#        test-on-borrow: true
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.example.oauth.entity
