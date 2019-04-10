@@ -32,6 +32,13 @@ public class UploadImage {
 
     private final Config config;
 
+    /**
+     * 上传图片
+     *
+     * @param multipartFile
+     * @return
+     * @throws IOException
+     */
     @PostMapping(value = "/upload")
     public Map uploadImage(@RequestParam("img") MultipartFile multipartFile) throws IOException {
         String originalFilename = multipartFile.getOriginalFilename();
@@ -59,12 +66,25 @@ public class UploadImage {
         return hashMap;
     }
 
+    /**
+     * 修改上传文件的标题
+     *
+     * @param uploadImg
+     * @return
+     */
     @PostMapping(value = "/updateTitle")
     public ResponseUtil updateTitle(@RequestBody UploadImg uploadImg) {
         uploadImgService.updateTitle(uploadImg);
         return new ResponseUtil();
     }
 
+    /**
+     * 识别微信二维码
+     *
+     * @param multipartFile
+     * @return
+     * @throws IOException
+     */
     @PostMapping(value = "/QRCode")
     public ResponseUtil QRCode(@RequestParam("file") MultipartFile multipartFile) throws IOException {
         String originalFilename = multipartFile.getOriginalFilename();

@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.servicehi.dao.UserMenuRelationDao">
-    <resultMap id="MenuResult" type="com.example.servicehi.entity.UserMenuRelation">
+<mapper namespace="com.example.servicehi.dao.UserAuthRelationDao">
+    <resultMap id="MenuResult" type="com.example.servicehi.entity.UserAuthRelation">
         <result column="ID" property="id"/>
         <result column="UUID" property="uuid"/>
-        <result column="MENU_UUID" property="menuUUID"/>
-        <result column="MENU_NAME" property="menuName"/>
-        <result column="MENU_PATH" property="menuPath"/>
-        <result column="PARENT_MENU_UUID" property="parentMenuUUID"/>
-        <result column="INDEX" property="index"/>
+        <result column="AUTH_UUID" property="authUUID"/>
+        <result column="AUTH_NAME" property="authName"/>
+        <result column="USER_UUID" property="userUUID"/>
         <result column="DEFAULT_CHECK" property="defaultCheck"/>
         <result column="USER_UUID" property="userUUID"/>
         <result column="IS_DEL" property="isDel"/>

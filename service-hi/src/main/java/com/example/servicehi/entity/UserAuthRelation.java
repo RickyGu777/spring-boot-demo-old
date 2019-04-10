@@ -5,16 +5,13 @@ import lombok.Setter;
 import lombok.ToString;
 import org.apache.ibatis.type.Alias;
 
-@Alias("UserMenuRelation")
+@Alias("UserAuthRelation")
 @Getter
 @Setter
 @ToString
-public class UserMenuRelation extends BaseEntity {
-    private String menuUUID;
-    private String menuName;
-    private String menuPath;
-    private String parentMenuUUID;
-    private String index;
+public class UserAuthRelation extends BaseEntity{
+    private String authUUID;
+    private String authName;
     private String userUUID;
     private String defaultCheck;
 }
