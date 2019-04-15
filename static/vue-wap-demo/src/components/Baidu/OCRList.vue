@@ -27,7 +27,6 @@
 
 <script>
   import {getOCRList, updateImageTitle, deleteBaiduOCR} from '@/request/api';
-  import {Loading} from 'element-ui';
 
   export default {
     name: "OCRList",
@@ -69,10 +68,6 @@
         this.modi = true;
       },
       async deleteBaiduOCR(data) {
-        // this.fullscreenLoading = true;
-        // setTimeout(() => {
-        //   this.fullscreenLoading = false;
-        // }, 4000);
 
         this.data.info.list.some((item, i) => {
           if (item.uuid == data.uuid) {
@@ -82,15 +77,15 @@
         })
         this.activeName = null;
 
-        // let newVar = await deleteBaiduOCR(data);
-        // if (newVar.code == 0) {
-        //   this.$message({
-        //     message: 'Delete Image Success!',
-        //     type: 'success'
-        //   });
-        // } else {
-        //   this.$message.error('Delete Image Error:' + newVar.msg);
-        // }
+        let newVar = await deleteBaiduOCR(data);
+        if (newVar.code == 0) {
+          this.$message({
+            message: 'Delete Image Success!',
+            type: 'success'
+          });
+        } else {
+          this.$message.error('Delete Image Error:' + newVar.msg);
+        }
       }
     }
   }

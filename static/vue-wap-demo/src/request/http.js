@@ -16,9 +16,7 @@ axios.interceptors.request.use((req) => {
 /* 请求之后的操作 */
 axios.interceptors.response.use((res) => {
   hideLoading();
-
   return res;
-
   return Promise.reject(res);
 }, (err) => {
   hideLoading();
