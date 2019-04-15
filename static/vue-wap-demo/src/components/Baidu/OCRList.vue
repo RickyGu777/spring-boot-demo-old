@@ -11,7 +11,9 @@
             </el-input>
           </el-col>
           <el-col :span="6" :offset="6">
-            <el-button @click="deleteBaiduOCR(item)">Delete This Image</el-button>
+            <el-button @click="deleteBaiduOCR(item)"
+                       v-loading.fullscreen.lock="fullscreenLoading">Delete This Image
+            </el-button>
           </el-col>
         </el-row>
         <div v-for="(words,wordsIndex) in item.wordsResult" :key="wordsIndex">
@@ -25,6 +27,7 @@
 
 <script>
   import {getOCRList, updateImageTitle, deleteBaiduOCR} from '@/request/api';
+  import {Loading} from 'element-ui';
 
   export default {
     name: "OCRList",
@@ -38,8 +41,9 @@
           size: 10,
           info: {}
         },
-        activeName: '1',
-        modi: true
+        activeName: '0',
+        modi: true,
+        fullscreenLoading: false
       };
     },
     methods: {
@@ -65,15 +69,28 @@
         this.modi = true;
       },
       async deleteBaiduOCR(data) {
-        let newVar = await deleteBaiduOCR(data);
-        if (newVar.code == 0) {
-          this.$message({
-            message: 'Delete Image Success!',
-            type: 'success'
-          });
-        } else {
-          this.$message.error('Delete Image Error:' + newVar.msg);
-        }
+        // this.fullscreenLoading = true;
+        // setTimeout(() => {
+        //   this.fullscreenLoading = false;
+        // }, 4000);
+
+        this.data.info.list.some((item, i) => {
+          if (item.uuid == data.uuid) {
+            this.data.info.list.splice(i, 1)
+            return true;
+          }
+        })
+        this.activeName = null;
+
+        // let newVar = await deleteBaiduOCR(data);
+        // if (newVar.code == 0) {
+        //   this.$message({
+        //     message: 'Delete Image Success!',
+        //     type: 'success'
+        //   });
+        // } else {
+        //   this.$message.error('Delete Image Error:' + newVar.msg);
+        // }
       }
     }
   }
