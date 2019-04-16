@@ -27,4 +27,9 @@ public class TipsServiceImpl<T extends Tips> implements TipsService<T> {
     public T selectByUUID(T t) {
         return tTipsDao.selectByUUID(t);
     }
+
+    @Override
+    public List<T> selectTipsType(T t) {
+        return tTipsDao.selectTipsType(t);
+    }
 }

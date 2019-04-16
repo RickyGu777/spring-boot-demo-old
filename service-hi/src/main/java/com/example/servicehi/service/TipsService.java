@@ -10,4 +10,6 @@ public interface TipsService <T extends Tips> {
     List<T> selectByName(T t);
 
     T selectByUUID(T t);
+
+    List<T> selectTipsType(T t);
 }

@@ -5,6 +5,7 @@
         <result column="ID" property="id"/>
         <result column="UUID" property="uuid"/>
         <result column="NAME" property="name"/>
+        <result column="TYPE" property="type"/>
         <result column="IS_DEL" property="isDel"/>
         <result column="STATUS" property="status"/>
         <result column="CREATE_USER_UUID" property="createUserUUID"/>
@@ -14,8 +15,8 @@
     </resultMap>
 
     <insert id="insert" parameterType="Tips">
-        insert into TIPS (UUID, NAME, IS_DEL, STATUS, CREATE_USER_UUID, CREATE_DATE, MODI_USER_UUID, MODI_DATE)
-        values (#{uuid},#{name},#{isDel},#{status},#{createUserUUID},#{createDate},#{modiUserUUID},#{modiDate});
+        insert into TIPS (UUID, NAME, TYPE, IS_DEL, STATUS, CREATE_USER_UUID, CREATE_DATE, MODI_USER_UUID, MODI_DATE)
+        values (#{uuid},#{name},#{type},#{isDel},#{status},#{createUserUUID},#{createDate},#{modiUserUUID},#{modiDate});
     </insert>
 
     <select id="selectByName" parameterType="Tips" resultMap="TipsResult">
@@ -23,6 +24,10 @@
     </select>
 
     <select id="selectByUUID" parameterType="Tips" resultMap="TipsResult">
-        select * from TIPS where UUID = #{uuid};
+        select * from TIPS where UUID = #{uuid}
+    </select>
+
+    <select id="selectTipsType" parameterType="Tips" resultMap="TipsResult">
+        select * from TIPS where TYPE = #{type}
     </select>
 </mapper>

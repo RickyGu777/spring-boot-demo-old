@@ -42,3 +42,7 @@ export const updateImageTitle = data => post('/UploadImage/updateTitle', data);
 export const ShareTicketUrlInsertList = data => post('/ShareTicketUrl/insertList', data);
 
 export const ShareTicketUrlSelectTitleAndTipsName = data => post('/ShareTicketUrl/selectTitleAndTipsName', data);
+
+export const selectDiaryTips = data => post('/Tips/selectDiaryTips', data);
+
+export const insertTips = data => post('/Tips/insert', data);

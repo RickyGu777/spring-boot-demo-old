@@ -15,6 +15,14 @@
         ref="myQuillEditor"
         :options="editorOption">
       </quill-editor>
+      <el-tag
+        v-for="tag in tips"
+        :key="tag.name"
+        closable
+        :type="tag.type">
+        {{tag.name}}
+      </el-tag>
+      <br>
       <el-button @click="addDiary" v-if="!buttonShow">上传</el-button>
       <el-button @click="updateDiaryByUUID" v-if="buttonShow">更新</el-button>
     </el-main>
@@ -24,7 +32,7 @@
 <script>
   import {Quill, quillEditor} from 'vue-quill-editor'
   import {container, ImageExtend, QuillWatch} from 'quill-image-extend-module'
-  import {addDiary,selectDiaryByUUID,updateDiaryByUUID} from '@/request/api';// 导入我们的api接口
+  import {addDiary, selectDiaryByUUID, updateDiaryByUUID,selectDiaryTips} from '@/request/api';// 导入我们的api接口
   import {formatDate} from '@/util/date';
 
   export default {
@@ -35,6 +43,7 @@
           title: '',
           text: ''
         },
+        tips: [],
         buttonShow: this.$route.params.data,
         // 富文本框参数设置
         editorOption: {
@@ -100,6 +109,10 @@
           this.diary = newVar.data;
         } else {
           this.diary.text = '<p><br></p></p><p class="ql-align-right">创建于 ' + formatDate(new Date(), 'yyyy-MM-dd hh:mm') + '</p>';
+          let newVar = await selectDiaryTips();
+          if (newVar.code == 1) {
+            this.tips = newVar.data;
+          }
         }
       }
     }
