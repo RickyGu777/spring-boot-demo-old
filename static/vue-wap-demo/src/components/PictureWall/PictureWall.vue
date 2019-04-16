@@ -1,6 +1,6 @@
 <template>
   <div>
-    <vue-waterfall-easy :imgsArr="imgsArr" :srcKey="responseUrl" @scrollReachBottom="getData">
+    <vue-waterfall-easy :imgsArr="imgsArr" @scrollReachBottom="getData">
     </vue-waterfall-easy>
   </div>
 </template>
@@ -27,8 +27,16 @@
     methods: {
       async getData(data) {
         let newVar = await getImageWall(data);
-        if (newVar.code == 1) {
-          imgsArr = imgsArr.data.list;
+        if (newVar.code == 0) {
+          newVar.data.list.forEach(item => {
+            console.log(item);
+            item.src = item.responseUrl;
+            item.link = item.responseUrl;
+            item.info = item.responseUrl;
+          });
+          this.imgsArr = newVar.data.list;
+          this.imgsArr.type = Array;
+          this.imgsArr.required = true;
         }
       },
     },
