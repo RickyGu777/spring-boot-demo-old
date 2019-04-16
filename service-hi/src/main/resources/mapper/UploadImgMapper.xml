@@ -32,4 +32,8 @@
     <update id="updateTitle" parameterType="UploadImg">
         update UPLOAD_IMG set TITLE = #{title} where UUID = #{uuid}
     </update>
+
+    <select id="selectPictureWall" parameterType="UploadImg" resultMap="UploadImgResult">
+        select * from UPLOAD_IMG where IS_DEL = '0'
+    </select>
 </mapper>

@@ -16,6 +16,7 @@ import AddShareUrl from '@/components/ShareUrl/AddShareUrl'
 import UploadTicketImage from '@/components/ShareUrl/UploadTicketImage'
 import Test from '@/components/Test/Test'
 import Random from '@/components/Tool/Random'
+import PictureWall from '@/components/PictureWall/PictureWall'
 
 Vue.use(Router)
 
@@ -86,6 +87,10 @@ export default new Router({
       path: '/UploadTicketImage',
       name: 'UploadTicketImage',
       component: UploadTicketImage
+    }, {
+      path: '/PictureWall',
+      name: 'PictureWall',
+      component: PictureWall
     }
   ]
 });

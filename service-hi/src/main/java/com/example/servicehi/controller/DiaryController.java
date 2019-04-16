@@ -3,8 +3,6 @@ package com.example.servicehi.controller;
 import com.example.servicehi.entity.Diary;
 import com.example.servicehi.service.DiaryService;
 import com.example.servicehi.util.ResponseUtil;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;

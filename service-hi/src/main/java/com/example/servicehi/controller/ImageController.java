@@ -21,11 +21,11 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-@RequestMapping(value = "/UploadImage")
+@RequestMapping(value = "/Image")
 @RestController
 @AllArgsConstructor
 @Slf4j
-public class UploadImage {
+public class ImageController {
     private final UploadImgService<UploadImg> uploadImgService;
 
     private final ShareTicketImgService<ShareTicketImg> shareTicketImgService;
@@ -116,5 +116,10 @@ public class UploadImage {
         shareTicketImg.setQRCode(qrCode);
         shareTicketImgService.insert(shareTicketImg);
         return new ResponseUtil(qrCode);
+    }
+
+    @PostMapping(value = "/getImageWall")
+    public ResponseUtil getImageWall(@RequestBody UploadImg uploadImg) {
+        return new ResponseUtil(uploadImgService.selectPictureWall(uploadImg));
     }
 }

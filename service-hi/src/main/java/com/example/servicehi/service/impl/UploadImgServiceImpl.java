@@ -3,10 +3,13 @@ package com.example.servicehi.service.impl;
 import com.example.servicehi.dao.UploadImgDao;
 import com.example.servicehi.entity.UploadImg;
 import com.example.servicehi.service.UploadImgService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class UploadImgServiceImpl<T extends UploadImg> implements UploadImgService<T> {
@@ -29,5 +32,11 @@ public class UploadImgServiceImpl<T extends UploadImg> implements UploadImgServi
     public void updateTitle(T t) {
         t.setModiDate(new Date());
         uploadImgDao.updateTitle(t);
+    }
+
+    @Override
+    public PageInfo selectPictureWall(T t) {
+        PageHelper.startPage(t.getPage(), t.getSize());
+        return new PageInfo(uploadImgDao.selectPictureWall(t));
     }
 }

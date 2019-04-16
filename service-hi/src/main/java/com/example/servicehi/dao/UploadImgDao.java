@@ -1,8 +1,9 @@
 package com.example.servicehi.dao;
 
-import com.example.servicehi.entity.Diary;
 import com.example.servicehi.entity.UploadImg;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public interface UploadImgDao<T extends UploadImg> {
@@ -13,4 +14,6 @@ public interface UploadImgDao<T extends UploadImg> {
     T selectByUUID(T t);
 
     void updateTitle(T t);
+
+    List<T> selectPictureWall(T t);
 }

@@ -2,7 +2,7 @@
   <div>
     {{ QRImage }}
     <el-upload
-      action="/api/UploadImage/QRCode"
+      action="/api/Image/QRCode"
       list-type="picture-card"
       :on-preview="pictureCardPreview"
       :on-remove="removeImage">
