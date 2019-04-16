@@ -20,7 +20,7 @@
     </insert>
 
     <select id="selectDiaryList" parameterType="Diary" resultMap="DiaryResult">
-        select * from DIARY order by CREATE_DATE desc
+        select * from DIARY where IS_DEL = '0' order by CREATE_DATE desc
     </select>
 
     <select id="selectByUUID" parameterType="Diary" resultMap="DiaryResult">
@@ -31,7 +31,16 @@
         update DIARY set
         TITLE = #{title},
         TEXT = #{text},
-        MODI_DATE = #{modiDate}
+        MODI_DATE = #{modiDate},
+        MODI_USER_UUID = #{modiUserUUID}
+        where UUID = #{uuid}
+    </update>
+
+    <update id="deleteDiaryByUUID" parameterType="Diary">
+        update DIARY set
+        IS_DEL = #{isDel},
+        MODI_DATE = #{modiDate},
+        MODI_USER_UUID = #{modiUserUUID}
         where UUID = #{uuid}
     </update>
 </mapper>

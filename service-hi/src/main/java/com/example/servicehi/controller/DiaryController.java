@@ -4,6 +4,7 @@ import com.example.servicehi.entity.Diary;
 import com.example.servicehi.service.DiaryService;
 import com.example.servicehi.util.ResponseUtil;
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,6 +38,12 @@ public class DiaryController<T extends Diary> {
     @PostMapping(value = "/updateDiaryByUUID")
     public ResponseUtil updateDiaryByUUID(@RequestBody T t) {
         diaryService.updateDiaryByUUID(t);
+        return new ResponseUtil<>();
+    }
+
+    @PostMapping(value = "/deleteDiaryByUUID")
+    public ResponseUtil deleteDiaryByUUID(@RequestBody T t) {
+        diaryService.deleteDiaryByUUID(t);
         return new ResponseUtil<>();
     }
 }

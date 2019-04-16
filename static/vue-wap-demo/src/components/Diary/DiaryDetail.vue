@@ -1,13 +1,14 @@
 <template>
   <div>
     <el-button @click="routerTo(diary.uuid)">Modify Diary</el-button>
+    <el-button @click="deleteDiary(diary)" type="danger">Delete Diary</el-button>
     <div v-html="diary.text">
     </div>
   </div>
 </template>
 
 <script>
-  import {selectDiaryByUUID} from '@/request/api';// 导入我们的api接口
+  import {selectDiaryByUUID,deleteDiaryByUUID} from '@/request/api';// 导入我们的api接口
 
   export default {
     name: "DiaryDetail",
@@ -32,6 +33,12 @@
             data: data
           }
         });
+      },
+      async deleteDiary(data) {
+        let newVar = await deleteDiaryByUUID(data);
+        if (newVar.code == 0) {
+          this.$router.push({path: '/'});
+        }
       }
     }
   }

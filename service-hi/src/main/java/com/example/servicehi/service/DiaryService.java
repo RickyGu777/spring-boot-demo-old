@@ -13,4 +13,6 @@ public interface DiaryService<T extends Diary> {
     T selectByUUID(T t);
 
     void updateDiaryByUUID(T t);
+
+    void deleteDiaryByUUID(T t);
 }

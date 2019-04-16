@@ -37,6 +37,14 @@ public class DiaryServiceImpl<T extends Diary> implements DiaryService<T> {
 
     @Override
     public void updateDiaryByUUID(T t) {
+        t.setModiDate(new Date());
         diaryDao.updateDiaryByUUID(t);
+    }
+
+    @Override
+    public void deleteDiaryByUUID(T t) {
+        t.setModiDate(new Date());
+        t.setIsDel("1");
+        diaryDao.deleteDiaryByUUID(t);
     }
 }

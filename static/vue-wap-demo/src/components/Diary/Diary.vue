@@ -83,6 +83,9 @@
     methods: {
       async addDiary() {
         let newVar = await addDiary(this.diary);
+        if (newVar.code == 0) {
+          this.$router.push({path: '/'});
+        }
       },
       async updateDiaryByUUID() {
         let newVar = await updateDiaryByUUID(this.diary);

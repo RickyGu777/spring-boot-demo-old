@@ -5,11 +5,11 @@ spring:
   application:
     name: SERVICE-HI
   jackson:
-    time-zone: GMT-8
+    time-zone: GMT+8
     default-property-inclusion: non_empty
     date-format: yyyy-MM-dd HH:mm:ss
   datasource:
-    url: jdbc:mysql://demo:3306/finalfantasyxiv?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    url: jdbc:mysql://demo:3306/finalfantasyxiv?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Hongkong
     username: fell
     password: finalfantasyxiv
     dbcp2:
