@@ -18,13 +18,13 @@ import java.util.Map;
 public class MenuController {
     private final MenuService<Menu> menuService;
 
-    @PostMapping(value = "/getBackMenuList")
-    private ResponseUtil<List<Menu>> getBackMenuList(@RequestBody(required = false) Menu menu) {
+    @PostMapping(value = "/getMenuList")
+    public ResponseUtil<List<Menu>> getMenuList(@RequestBody(required = false) Menu menu) {
         return new ResponseUtil(menuService.selectMenu(menu));
     }
 
     @PostMapping(value = "/createUUID")
-    private ResponseUtil createUUID(){
+    public ResponseUtil createUUID(){
         return new ResponseUtil(UUIDUtil.createUUID());
     }
 }
