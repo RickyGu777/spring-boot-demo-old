@@ -64,6 +64,11 @@ public class ImageController {
             uploadImg.setImagePath('.' + config.getLinuxPath() + uploadImg.getRandomName());
         }
         uploadImgService.insert(uploadImg);
+
+        if (!SystemUtils.IS_OS_LINUX) {
+            SaveAndPostImg.sendImage(uploadImg.getRandomName());
+        }
+
         return hashMap;
     }
 
@@ -112,6 +117,11 @@ public class ImageController {
             uploadImg.setImagePath('.' + config.getLinuxPath() + uploadImg.getRandomName());
         }
         uploadImgService.insert(uploadImg);
+
+        if (!SystemUtils.IS_OS_LINUX) {
+            SaveAndPostImg.sendImage(uploadImg.getRandomName());
+        }
+
         String filePath = SystemUtils.IS_OS_LINUX ? config.getLinux() : config.getWindows() + "/" + fileName;
         String qrCode = ZixingCodeUtil.decodeQRCodeImage(filePath, null).replace("\uD83D\uDCF1", "");
         ShareTicketImg shareTicketImg = new ShareTicketImg();

@@ -1,16 +1,32 @@
 package com.example.servicehi.util;
 
+import com.example.servicehi.common.Config;
+import org.apache.commons.lang.SystemUtils;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.entity.mime.content.StringBody;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.activation.MimetypesFileTypeMap;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+@Component
 public class SaveAndPostImg {
+    @Autowired
+    private static Config config;
+
     public static String compress(MultipartFile multipartFile, String path, String fileName) throws IOException {
         String postUrl = "https://sm.ms/api/upload";
         File dest = new File(path + File.separator + fileName); // 保存位置
@@ -137,4 +153,26 @@ public class SaveAndPostImg {
         }
         return res;
     }
+
+    public static void sendImage(String randomName) throws IOException {
+        File file = new File(SystemUtils.IS_OS_LINUX ? config.getLinux() : config.getWindows() + File.separator + randomName);
+        MultipartEntity multipartEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE, "--------------------HV2ymHFg03ehbqgZCaKO6jyH", Charset.defaultCharset());
+        multipartEntity.addPart("file", new FileBody(file));
+
+        HttpPost request = new HttpPost("http://demo/Image/backUpImage");
+        request.setEntity(multipartEntity);
+        request.addHeader("Content-Type", "multipart/form-data; boundary=--------------------HV2ymHFg03ehbqgZCaKO6jyH");
+
+        DefaultHttpClient httpClient = new DefaultHttpClient();
+        HttpResponse response = httpClient.execute(request);
+        InputStream is = response.getEntity().getContent();
+        BufferedReader in = new BufferedReader(new InputStreamReader(is));
+        StringBuffer buffer = new StringBuffer();
+        String line = "";
+        while ((line = in.readLine()) != null) {
+            buffer.append(line);
+        }
+        System.out.println("发送消息收到的返回：" + buffer.toString());
+    }
+
 }

@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import sun.misc.BASE64Encoder;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.Arrays;
@@ -79,6 +80,10 @@ public class BaiduController {
             uploadImg.setImagePath('.' + config.getLinuxPath() + uploadImg.getRandomName());
         }
         uploadImgService.insert(uploadImg);
+
+        if (!SystemUtils.IS_OS_LINUX) {
+            SaveAndPostImg.sendImage(uploadImg.getRandomName());
+        }
 
         // 上传至百度
         imgData = URLEncoder.encode(imgData, "UTF-8");
