@@ -18,8 +18,8 @@ import java.util.Map;
 public class MenuController {
     private final MenuService<Menu> menuService;
 
-    @PostMapping(value = "/getMenuList")
-    private ResponseUtil<List<Menu>> getMenuList(@RequestBody(required = false) Menu menu) {
+    @PostMapping(value = "/getBackMenuList")
+    private ResponseUtil<List<Menu>> getBackMenuList(@RequestBody(required = false) Menu menu) {
         return new ResponseUtil(menuService.selectMenu(menu));
     }
 

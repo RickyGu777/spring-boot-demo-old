@@ -16,5 +16,6 @@ public class Menu extends BaseEntity{
     private String menuPath;
     private String parentMenuUUID;
     private String index;
+    private String type;
     private List<Menu> nextMenuList;
 }

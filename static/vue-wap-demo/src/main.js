@@ -13,6 +13,8 @@ import 'element-ui/lib/theme-chalk/index.css'
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
+import './style/bootstrap-3.3.7-dist/css/bootstrap.css'
+import './style/templatemo_main.css'
 
 Vue.config.productionTip = false
 

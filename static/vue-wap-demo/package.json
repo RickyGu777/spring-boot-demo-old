@@ -13,6 +13,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "element-ui": "^2.6.1",
+    "jquery": "^3.4.0",
     "node-sass": "^4.11.0",
     "quill-image-extend-module": "^1.1.2",
     "quill-image-resize-module": "^3.0.0",

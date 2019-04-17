@@ -7,6 +7,7 @@
         <result column="MENU_NAME" property="menuName"/>
         <result column="MENU_PATH" property="menuPath"/>
         <result column="PARENT_MENU_UUID" property="parentMenuUUID"/>
+        <result column="TYPE" property="type"/>
         <result column="INDEX" property="index"/>
         <result column="IS_DEL" property="isDel"/>
         <result column="STATUS" property="status"/>
@@ -37,8 +38,8 @@
 
     <insert id="insert" parameterType="Menu">
         insert into MENU
-        (UUID, MENU_NAME, MENU_PATH, PARENT_MENU_UUID, INDEX, DEFAULT_CHECK, CREATE_USER_UUID, CREATE_DATE, MODI_USER_UUID, MODI_DATE)
+        (UUID, MENU_NAME, MENU_PATH, PARENT_MENU_UUID, INDEX, TYPE, CREATE_DATE, MODI_USER_UUID, MODI_DATE)
         values
-        (#{uuid},#{menuName},#{menuPath},#{parentMenuUUID},#{index},#{isDel},#{status},#{createUserUUID},#{createDate},#{modiUserUUID},#{modiDate})
+        (#{uuid},#{menuName},#{menuPath},#{parentMenuUUID},#{index},#{type},#{isDel},#{status},#{createUserUUID},#{createDate},#{modiUserUUID},#{modiDate})
     </insert>
 </mapper>
