@@ -17,7 +17,7 @@
             <ul>
               <li class="about-menu">
                 <a href="#">About Us</a>
-              </li>1
+              </li>
             </ul>
           </li>
           <li class="services-menu"><a href="#">Our Services</a></li>
