@@ -7,16 +7,15 @@ import com.example.servicehi.entity.ShareTicketImg;
 import com.example.servicehi.entity.UploadImg;
 import com.example.servicehi.service.ShareTicketImgService;
 import com.example.servicehi.service.UploadImgService;
-import com.example.servicehi.util.ResponseUtil;
-import com.example.servicehi.util.SaveAndPostImg;
-import com.example.servicehi.util.UUIDUtil;
-import com.example.servicehi.util.ZixingCodeUtil;
+import com.example.servicehi.util.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.SystemUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -44,8 +43,7 @@ public class ImageController {
         String originalFilename = multipartFile.getOriginalFilename();
         String fileName = UUIDUtil.createUUID() + "." + multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().lastIndexOf(".") + 1);
         String compress = SaveAndPostImg.compress(multipartFile, SystemUtils.IS_OS_LINUX ? config.getLinux() : config.getWindows(), fileName);
-        Map map = JSON.parseObject(compress, new TypeReference<Map>() {
-        });
+        Map map = JSON.parseObject(compress, Map.class);
 
         HashMap<String, Object> hashMap = new HashMap<>();
         UploadImg uploadImg = new UploadImg();
@@ -62,6 +60,9 @@ public class ImageController {
             hashMap.put("code", 1);
         }
         uploadImg.setTitle(uploadImg.getRandomName());
+        if (SystemUtils.IS_OS_LINUX) {
+            uploadImg.setImagePath('.' + config.getLinuxPath() + uploadImg.getRandomName());
+        }
         uploadImgService.insert(uploadImg);
         return hashMap;
     }
@@ -90,8 +91,7 @@ public class ImageController {
         String originalFilename = multipartFile.getOriginalFilename();
         String fileName = UUIDUtil.createUUID() + "." + multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().lastIndexOf(".") + 1);
         String compress = SaveAndPostImg.compress(multipartFile, SystemUtils.IS_OS_LINUX ? config.getLinux() : config.getWindows(), fileName);
-        Map map = JSON.parseObject(compress, new TypeReference<Map>() {
-        });
+        Map map = JSON.parseObject(compress, Map.class);
 
         HashMap<String, Object> hashMap = new HashMap<>();
         UploadImg uploadImg = new UploadImg();
@@ -108,6 +108,9 @@ public class ImageController {
             hashMap.put("code", 1);
         }
         uploadImg.setTitle(uploadImg.getRandomName());
+        if (SystemUtils.IS_OS_LINUX) {
+            uploadImg.setImagePath('.' + config.getLinuxPath() + uploadImg.getRandomName());
+        }
         uploadImgService.insert(uploadImg);
         String filePath = SystemUtils.IS_OS_LINUX ? config.getLinux() : config.getWindows() + "/" + fileName;
         String qrCode = ZixingCodeUtil.decodeQRCodeImage(filePath, null).replace("\uD83D\uDCF1", "");
@@ -121,5 +124,17 @@ public class ImageController {
     @PostMapping(value = "/getImageWall")
     public ResponseUtil getImageWall(@RequestBody UploadImg uploadImg) {
         return new ResponseUtil(uploadImgService.selectPictureWall(uploadImg));
+    }
+
+    @PostMapping(value = "/backUpImage")
+    public ResponseUtil backUpImage(@RequestParam("img") MultipartFile multipartFile) throws IOException {
+        String originalFilename = multipartFile.getOriginalFilename();
+        UploadImg uploadImg = new UploadImg();
+        uploadImg.setOriginalName(originalFilename);
+        uploadImg = uploadImgService.selectImageInfoByOriginalName(uploadImg);
+        String randomName = uploadImg.getRandomName();
+        File dest = new File(config.getLinux() + File.separator + randomName);
+        multipartFile.transferTo(dest);
+        return new ResponseUtil();
     }
 }

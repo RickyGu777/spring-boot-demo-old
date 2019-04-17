@@ -58,8 +58,7 @@ public class BaiduController {
         String originalFilename = multipartFile.getOriginalFilename();
         String fileName = UUIDUtil.createUUID() + "." + multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().lastIndexOf(".") + 1);
         String compress = SaveAndPostImg.compress(multipartFile, SystemUtils.IS_OS_LINUX ? config.getLinux() : config.getWindows(), fileName);
-        Map map = JSON.parseObject(compress, new TypeReference<Map>() {
-        });
+        Map map = JSON.parseObject(compress, Map.class);
         HashMap<String, Object> hashMap = new HashMap<>();
         UploadImg uploadImg = new UploadImg();
         uploadImg.setOriginalName(originalFilename);
@@ -76,6 +75,9 @@ public class BaiduController {
         }
         uploadImg.setStatus("1");
         uploadImg.setTitle(uploadImg.getRandomName());
+        if (SystemUtils.IS_OS_LINUX) {
+            uploadImg.setImagePath('.' + config.getLinuxPath() + uploadImg.getRandomName());
+        }
         uploadImgService.insert(uploadImg);
 
         // 上传至百度
@@ -83,8 +85,7 @@ public class BaiduController {
         String url = "https://aip.baidubce.com/rest/2.0/ocr/v1/general_basic";
         String param = "?language_type=CHN_ENG&access_token=" + BaiduTool.getAuth() + "&image=" + imgData;
         String s = HttpRequest.baiduOCRPost(url, param);
-        BaiduOCRDto baiduOCRDto = JSON.parseObject(s, new TypeReference<BaiduOCRDto>() {
-        });
+        BaiduOCRDto baiduOCRDto = JSON.parseObject(s, BaiduOCRDto.class);
         baiduOCRDto.setUploadImgUUID(uploadImg.getUuid());
         baiduOCRService.insert(baiduOCRDto);
         if (baiduOCRDto.getErrorCode() == null) {

@@ -8,6 +8,7 @@
         <result column="RANDOM_NAME" property="randomName"/>
         <result column="RESPONSE_URL" property="responseUrl"/>
         <result column="TITLE" property="title"/>
+        <result column="IMAGE_PATH" property="imagePath"/>
         <result column="IS_DEL" property="isDel"/>
         <result column="STATUS" property="status"/>
         <result column="CREATE_USER_UUID" property="createUserUUID"/>
@@ -17,8 +18,8 @@
     </resultMap>
 
     <insert id="insert" parameterType="UploadImg">
-        insert into UPLOAD_IMG (UUID, ORIGINAL_NAME, RANDOM_NAME, RESPONSE_URL, TITLE, IS_DEL, STATUS, CREATE_USER_UUID, CREATE_DATE, MODI_USER_UUID, MODI_DATE)
-        values (#{uuid},#{originalName},#{randomName},#{responseUrl},#{title},#{isDel},#{status},#{createUserUUID},#{createDate},#{modiUserUUID},#{modiDate})
+        insert into UPLOAD_IMG (UUID, ORIGINAL_NAME, RANDOM_NAME, RESPONSE_URL, TITLE, IMAGE_PATH, IS_DEL, STATUS, CREATE_USER_UUID, CREATE_DATE, MODI_USER_UUID, MODI_DATE)
+        values (#{uuid},#{originalName},#{randomName},#{responseUrl},#{title},#{imagePath},#{isDel},#{status},#{createUserUUID},#{createDate},#{modiUserUUID},#{modiDate})
     </insert>
 
     <select id="selectImageInfoByOriginalName" parameterType="UploadImg" resultMap="UploadImgResult">

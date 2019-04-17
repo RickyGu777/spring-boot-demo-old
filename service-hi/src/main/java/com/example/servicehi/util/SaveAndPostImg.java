@@ -1,7 +1,5 @@
 package com.example.servicehi.util;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.TypeReference;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.activation.MimetypesFileTypeMap;
@@ -121,7 +119,7 @@ public class SaveAndPostImg {
             StringBuffer strBuf = new StringBuffer();
             BufferedReader reader = new BufferedReader(new InputStreamReader(
                     conn.getInputStream()));
-            String line = null;
+            String line = "";
             while ((line = reader.readLine()) != null) {
                 strBuf.append(line).append("\n");
             }
@@ -137,10 +135,6 @@ public class SaveAndPostImg {
                 conn = null;
             }
         }
-        HashMap<String, Object> hashMap = new HashMap<>();
-        Map map = JSON.parseObject(res, new TypeReference<Map>() {
-        });
-
         return res;
     }
 }

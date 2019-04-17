@@ -46,7 +46,8 @@ management:
 
 uploadImagePath:
   windows: 'D:/images'
-  linux: '/root/uploadImage'
+  linux: '/usr/local/app/static/uploadImage'
+  linuxPath: '/static/uploadImage'
 
 pagehelper:
   helper-dialect: mysql

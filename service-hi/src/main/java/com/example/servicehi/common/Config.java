@@ -13,4 +13,6 @@ public class Config {
     private String windows;
     @Value("${uploadImagePath.linux}")
     private String linux;
+    @Value("${uploadImagePath.linuxPath}")
+    private String linuxPath;
 }

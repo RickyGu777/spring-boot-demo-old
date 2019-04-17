@@ -70,8 +70,7 @@ public class BaiduTool {
              * 返回结果示例
              */
             log.info("result:" + result);
-            Map<String,String> resultMap = JSON.parseObject(result, new TypeReference<Map>() {
-            });
+            Map<String,String> resultMap = JSON.parseObject(result, Map.class);
             String access_token = resultMap.get("access_token");
             return access_token;
         } catch (Exception e) {
