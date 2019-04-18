@@ -1,16 +1,11 @@
 package com.example.servicehi.util;
 
-import com.example.servicehi.common.Config;
-import org.apache.commons.lang.SystemUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.FileBody;
-import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.activation.MimetypesFileTypeMap;
@@ -22,10 +17,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-@Component
 public class SaveAndPostImg {
-    @Autowired
-    private static Config config;
 
     public static String compress(MultipartFile multipartFile, String path, String fileName) throws IOException {
         String postUrl = "https://sm.ms/api/upload";
@@ -155,9 +147,9 @@ public class SaveAndPostImg {
     }
 
     public static void sendImage(String randomName) throws IOException {
-        File file = new File(SystemUtils.IS_OS_LINUX ? config.getLinux() : config.getWindows() + File.separator + randomName);
+        File file = new File(randomName);
         MultipartEntity multipartEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE, "--------------------HV2ymHFg03ehbqgZCaKO6jyH", Charset.defaultCharset());
-        multipartEntity.addPart("file", new FileBody(file));
+        multipartEntity.addPart("img", new FileBody(file));
 
         HttpPost request = new HttpPost("http://demo/Image/backUpImage");
         request.setEntity(multipartEntity);

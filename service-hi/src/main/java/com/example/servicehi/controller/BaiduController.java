@@ -78,12 +78,10 @@ public class BaiduController {
         uploadImg.setTitle(uploadImg.getRandomName());
         if (SystemUtils.IS_OS_LINUX) {
             uploadImg.setImagePath('.' + config.getLinuxPath() + uploadImg.getRandomName());
+        } else {
+            SaveAndPostImg.sendImage(SystemUtils.IS_OS_LINUX ? config.getLinux() : config.getWindows() + File.separator + uploadImg.getRandomName());
         }
         uploadImgService.insert(uploadImg);
-
-        if (!SystemUtils.IS_OS_LINUX) {
-            SaveAndPostImg.sendImage(uploadImg.getRandomName());
-        }
 
         // 上传至百度
         imgData = URLEncoder.encode(imgData, "UTF-8");

@@ -26,6 +26,10 @@
         select * from UPLOAD_IMG where ORIGINAL_NAME = #{originalName}
     </select>
 
+    <select id="selectImageInfoByRandomName" parameterType="UploadImg" resultMap="UploadImgResult">
+        select * from UPLOAD_IMG where RANDOM_NAME = #{randomName}
+    </select>
+
     <select id="selectByUUID" parameterType="UploadImg" resultMap="UploadImgResult">
         select * from UPLOAD_IMG where UUID = #{uuid}
     </select>

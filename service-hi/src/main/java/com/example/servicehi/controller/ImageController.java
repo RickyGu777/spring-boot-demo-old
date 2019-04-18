@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RequestMapping(value = "/Image")
@@ -62,13 +63,10 @@ public class ImageController {
         uploadImg.setTitle(uploadImg.getRandomName());
         if (SystemUtils.IS_OS_LINUX) {
             uploadImg.setImagePath('.' + config.getLinuxPath() + uploadImg.getRandomName());
+        } else {
+            SaveAndPostImg.sendImage(SystemUtils.IS_OS_LINUX ? config.getLinux() : config.getWindows() + File.separator + uploadImg.getRandomName());
         }
         uploadImgService.insert(uploadImg);
-
-        if (!SystemUtils.IS_OS_LINUX) {
-            SaveAndPostImg.sendImage(uploadImg.getRandomName());
-        }
-
         return hashMap;
     }
 
@@ -115,12 +113,10 @@ public class ImageController {
         uploadImg.setTitle(uploadImg.getRandomName());
         if (SystemUtils.IS_OS_LINUX) {
             uploadImg.setImagePath('.' + config.getLinuxPath() + uploadImg.getRandomName());
+        } else {
+            SaveAndPostImg.sendImage(SystemUtils.IS_OS_LINUX ? config.getLinux() : config.getWindows() + File.separator + uploadImg.getRandomName());
         }
         uploadImgService.insert(uploadImg);
-
-        if (!SystemUtils.IS_OS_LINUX) {
-            SaveAndPostImg.sendImage(uploadImg.getRandomName());
-        }
 
         String filePath = SystemUtils.IS_OS_LINUX ? config.getLinux() : config.getWindows() + "/" + fileName;
         String qrCode = ZixingCodeUtil.decodeQRCodeImage(filePath, null).replace("\uD83D\uDCF1", "");
@@ -141,7 +137,7 @@ public class ImageController {
         String originalFilename = multipartFile.getOriginalFilename();
         UploadImg uploadImg = new UploadImg();
         uploadImg.setOriginalName(originalFilename);
-        uploadImg = uploadImgService.selectImageInfoByOriginalName(uploadImg);
+        uploadImg = uploadImgService.selectImageInfoByRandomName(uploadImg);
         String randomName = uploadImg.getRandomName();
         File dest = new File(config.getLinux() + File.separator + randomName);
         multipartFile.transferTo(dest);

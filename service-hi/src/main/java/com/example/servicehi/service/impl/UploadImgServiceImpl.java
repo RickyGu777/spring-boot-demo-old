@@ -24,8 +24,13 @@ public class UploadImgServiceImpl<T extends UploadImg> implements UploadImgServi
     }
 
     @Override
-    public T selectImageInfoByOriginalName(T t) {
+    public List<T> selectImageInfoByOriginalName(T t) {
         return uploadImgDao.selectImageInfoByOriginalName(t);
+    }
+
+    @Override
+    public T selectImageInfoByRandomName(T t) {
+        return uploadImgDao.selectImageInfoByRandomName(t);
     }
 
     @Override

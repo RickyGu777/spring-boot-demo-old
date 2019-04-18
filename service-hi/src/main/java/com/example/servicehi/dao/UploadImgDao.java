@@ -9,7 +9,9 @@ import java.util.List;
 public interface UploadImgDao<T extends UploadImg> {
     void insert(T t);
 
-    T selectImageInfoByOriginalName(T t);
+    List<T> selectImageInfoByOriginalName(T t);
+
+    T selectImageInfoByRandomName(T t);
 
     T selectByUUID(T t);
 
