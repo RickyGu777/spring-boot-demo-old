@@ -63,6 +63,9 @@
         this.$emit("addTips", {data});
       },
       async addTips(data) {
+        if (data == "") {
+          this.$message.error("Tips Can`t Be Null");
+        }
         let temp = {"type": "info", "name": data, "status": "1"};
         let newVar = await insertTips(temp);
         if (newVar.code == 0) {
