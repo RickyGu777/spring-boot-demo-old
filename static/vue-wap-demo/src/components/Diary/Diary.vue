@@ -107,6 +107,9 @@
       addTips(event) {
         console.log(event);
         if (event.data.type == "success") {
+          if (!this.diary.tipsRelations) {
+            this.diary.tipsRelations = [];
+          }
           this.diary.tipsRelations.push(event.data);
         } else {
           this.diary.tipsRelations.forEach((item,index) => {
