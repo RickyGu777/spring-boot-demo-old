@@ -15,8 +15,16 @@
     </resultMap>
 
     <insert id="insert" parameterType="Tips">
-        insert into TIPS (UUID, TIPS_UUID, TIPS_NAME, OTHER_UUID, IS_DEL, STATUS, CREATE_USER_UUID, CREATE_DATE, MODI_USER_UUID, MODI_DATE)
+        insert into TIPS_RELATION (UUID, TIPS_UUID, TIPS_NAME, OTHER_UUID, IS_DEL, STATUS, CREATE_USER_UUID, CREATE_DATE, MODI_USER_UUID, MODI_DATE)
         values (#{uuid},#{tipsUUID},#{tipsName},#{otherUUID},#{isDel},#{status},#{createUserUUID},#{createDate},#{modiUserUUID},#{modiDate});
+    </insert>
+
+    <insert id="insertList" parameterType="java.util.List">
+        insert into TIPS_RELATION (UUID, TIPS_UUID, TIPS_NAME, OTHER_UUID, STATUS, CREATE_USER_UUID, CREATE_DATE, MODI_USER_UUID, MODI_DATE)
+        values
+        <foreach collection="list" item="item" index= "index" separator =",">
+            (#{item.uuid},#{item.tipsUUID},#{item.tipsName},#{item.otherUUID},#{item.status},#{item.createUserUUID},#{item.createDate},#{item.modiUserUUID},#{item.modiDate})
+        </foreach>
     </insert>
 
     <select id="selectByNameAndOtherUUID" parameterType="TipsRelation" resultMap="TipsResult">

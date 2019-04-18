@@ -2,26 +2,38 @@ package com.example.servicehi.service.impl;
 
 import com.example.servicehi.dao.DiaryDao;
 import com.example.servicehi.entity.Diary;
+import com.example.servicehi.entity.Tips;
+import com.example.servicehi.entity.TipsRelation;
+import com.example.servicehi.entity.dto.DiaryDto;
 import com.example.servicehi.service.DiaryService;
+import com.example.servicehi.service.TipsRelationService;
+import com.example.servicehi.service.TipsService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
 
 @Service
-public class DiaryServiceImpl<T extends Diary> implements DiaryService<T> {
+public class DiaryServiceImpl<T extends DiaryDto> implements DiaryService<T> {
     @Autowired
     private DiaryDao<T> diaryDao;
 
+    @Autowired
+    private TipsRelationService<TipsRelation> tipsRelationService;
+
     @Override
+    @Transactional
     public void insert(T t) {
         t.setIsDel("0");
         t.setCreateDate(new Date());
         t.setModiDate(new Date());
         diaryDao.insert(t);
+        t.getTipsRelations().stream().forEach(item -> item.setOtherUUID(t.getUuid()));
+        tipsRelationService.insertList(t.getTipsRelations());
     }
 
     @Override

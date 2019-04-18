@@ -36,7 +36,6 @@
   import {getMenuList} from '@/request/api';// 导入我们的api接口
 
   export default {
-    components: {},
     data() {
       return {
         default_active: "1",

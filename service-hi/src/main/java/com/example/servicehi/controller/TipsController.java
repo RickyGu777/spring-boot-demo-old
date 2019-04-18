@@ -20,7 +20,7 @@ public class TipsController {
     @PostMapping(value = "/selectDiaryTips")
     public ResponseUtil selectDiaryTips() {
         Tips tips = new Tips();
-        tips.setType("1");
+        tips.setStatus("1");
         return new ResponseUtil(tipsService.selectTipsType(tips));
     }
 

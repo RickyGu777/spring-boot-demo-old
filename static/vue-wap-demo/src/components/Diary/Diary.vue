@@ -26,6 +26,7 @@
       <el-button @click="addDiary" v-if="!buttonShow">上传</el-button>
       <el-button @click="updateDiaryByUUID" v-if="buttonShow">更新</el-button>
     </el-main>
+    <diary-tips></diary-tips>
   </div>
 </template>
 
@@ -34,9 +35,11 @@
   import {container, ImageExtend, QuillWatch} from 'quill-image-extend-module'
   import {addDiary, selectDiaryByUUID, updateDiaryByUUID,selectDiaryTips} from '@/request/api';// 导入我们的api接口
   import {formatDate} from '@/util/date';
+  import DiaryTips from '../Tool/DiaryTips'
 
   export default {
     name: "Diary",
+    components:{DiaryTips},
     data() {
       return {
         diary: {

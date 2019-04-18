@@ -28,6 +28,6 @@
     </select>
 
     <select id="selectTipsType" parameterType="Tips" resultMap="TipsResult">
-        select * from TIPS where TYPE = #{type}
+        select * from TIPS where STATUS = #{status}
     </select>
 </mapper>

@@ -9,5 +9,7 @@ import java.util.List;
 public interface TipsRelationDao<T extends TipsRelation> {
     void insert(T t);
 
+    void insertList(List<T> t);
+
     List<T> selectByNameAndOtherUUID(T t);
 }

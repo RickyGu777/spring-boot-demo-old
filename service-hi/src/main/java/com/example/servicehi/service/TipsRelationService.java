@@ -7,5 +7,7 @@ import java.util.List;
 public interface TipsRelationService <T extends TipsRelation> {
     void insert(T t);
 
+    void insertList(List<T> t);
+
     List<T> selectByNameAndOtherUUID(T t);
 }

@@ -1,6 +1,7 @@
 package com.example.servicehi.controller;
 
 import com.example.servicehi.entity.Diary;
+import com.example.servicehi.entity.dto.DiaryDto;
 import com.example.servicehi.service.DiaryService;
 import com.example.servicehi.util.ResponseUtil;
 import lombok.AllArgsConstructor;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @AllArgsConstructor
 @Slf4j
-public class DiaryController<T extends Diary> {
+public class DiaryController<T extends DiaryDto> {
     private final DiaryService diaryService;
 
     @PostMapping(value = "/addDiary")

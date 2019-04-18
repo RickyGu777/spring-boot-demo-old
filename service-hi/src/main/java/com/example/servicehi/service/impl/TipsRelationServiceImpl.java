@@ -18,6 +18,11 @@ public class TipsRelationServiceImpl<T extends TipsRelation> implements TipsRela
     }
 
     @Override
+    public void insertList(List<T> t) {
+        tipsRelationDao.insertList(t);
+    }
+
+    @Override
     public List<T> selectByNameAndOtherUUID(T t) {
         return tipsRelationDao.selectByNameAndOtherUUID(t);
     }

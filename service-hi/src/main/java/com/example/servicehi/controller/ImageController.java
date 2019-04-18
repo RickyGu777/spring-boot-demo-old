@@ -129,7 +129,7 @@ public class ImageController {
 
     @PostMapping(value = "/getImageWall")
     public ResponseUtil getImageWall(@RequestBody UploadImg uploadImg) {
-        return new ResponseUtil(uploadImgService.selectPictureWall(uploadImg));
+        return new ResponseUtil(uploadImgService.selectPictureWall(uploadImg).getList());
     }
 
     @PostMapping(value = "/backUpImage")
