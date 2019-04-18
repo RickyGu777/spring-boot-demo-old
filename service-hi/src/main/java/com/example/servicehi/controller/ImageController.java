@@ -137,7 +137,7 @@ public class ImageController {
         String originalFilename = multipartFile.getOriginalFilename();
         log.info("originalFilename=" + originalFilename);
         UploadImg uploadImg = new UploadImg();
-        uploadImg.setOriginalName(originalFilename);
+        uploadImg.setRandomName(originalFilename);
         uploadImg = uploadImgService.selectImageInfoByRandomName(uploadImg);
         String randomName = uploadImg.getRandomName();
         File dest = new File(config.getLinux() + File.separator + randomName);
