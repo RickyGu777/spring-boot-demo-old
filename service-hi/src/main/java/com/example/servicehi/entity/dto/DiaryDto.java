@@ -1,7 +1,6 @@
 package com.example.servicehi.entity.dto;
 
 import com.example.servicehi.entity.Diary;
-import com.example.servicehi.entity.Tips;
 import com.example.servicehi.entity.TipsRelation;
 import lombok.Getter;
 import lombok.Setter;

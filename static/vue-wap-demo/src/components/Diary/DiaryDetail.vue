@@ -4,6 +4,9 @@
     <el-button @click="deleteDiary(diary)" type="danger">Delete Diary</el-button>
     <div v-html="diary.text">
     </div>
+    <el-tag v-for="(item,index) in diary.tipsRelations" :key="item.uuid">
+      {{item.tipsName}}
+    </el-tag>
   </div>
 </template>
 
@@ -43,3 +46,9 @@
     }
   }
 </script>
+
+<style scoped>
+  .el-tag + .el-tag {
+    margin-left: 10px;
+  }
+</style>

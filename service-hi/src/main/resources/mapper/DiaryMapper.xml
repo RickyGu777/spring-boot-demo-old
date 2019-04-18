@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.servicehi.dao.DiaryDao">
-    <resultMap id="DiaryResult" type="com.example.servicehi.entity.Diary">
+    <resultMap id="DiaryResult" type="com.example.servicehi.entity.dto.DiaryDto">
         <result column="ID" property="id"/>
         <result column="UUID" property="uuid"/>
         <result column="TITLE" property="title"/>
@@ -14,20 +14,26 @@
         <result column="MODI_DATE" property="modiDate"/>
     </resultMap>
 
-    <insert id="insert" parameterType="Diary">
+    <insert id="insert" parameterType="DiaryDto">
         insert into DIARY (UUID, TITLE, TEXT, IS_DEL, STATUS, CREATE_USER_UUID, CREATE_DATE, MODI_USER_UUID, MODI_DATE)
         values (#{uuid},#{title},#{text},#{isDel},#{status},#{createUserUUID},#{createDate},#{modiUserUUID},#{modiDate})
     </insert>
 
-    <select id="selectDiaryList" parameterType="Diary" resultMap="DiaryResult">
+    <select id="selectDiaryList" parameterType="DiaryDto" resultMap="DiaryResult">
         select * from DIARY where IS_DEL = '0' order by CREATE_DATE desc
     </select>
 
-    <select id="selectByUUID" parameterType="Diary" resultMap="DiaryResult">
+    <resultMap id="selectWithTipsInfo" type="com.example.servicehi.entity.dto.DiaryDto" extends="DiaryResult">
+        <collection property="tipsRelations" column="otherUUID=UUID"
+                    ofType="TipsRelation"
+                    select="com.example.servicehi.dao.TipsRelationDao.selectByOtherUUID"/>
+    </resultMap>
+
+    <select id="selectByUUID" parameterType="DiaryDto" resultMap="selectWithTipsInfo">
         select * from DIARY where UUID = #{uuid}
     </select>
 
-    <update id="updateDiaryByUUID" parameterType="Diary">
+    <update id="updateDiaryByUUID" parameterType="DiaryDto">
         update DIARY set
         TITLE = #{title},
         TEXT = #{text},
@@ -36,7 +42,7 @@
         where UUID = #{uuid}
     </update>
 
-    <update id="deleteDiaryByUUID" parameterType="Diary">
+    <update id="deleteDiaryByUUID" parameterType="DiaryDto">
         update DIARY set
         IS_DEL = #{isDel},
         MODI_DATE = #{modiDate},

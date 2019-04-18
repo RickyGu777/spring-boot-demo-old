@@ -32,7 +32,11 @@ public class DiaryServiceImpl<T extends DiaryDto> implements DiaryService<T> {
         t.setCreateDate(new Date());
         t.setModiDate(new Date());
         diaryDao.insert(t);
-        t.getTipsRelations().stream().forEach(item -> item.setOtherUUID(t.getUuid()));
+        t.getTipsRelations().stream().forEach(item -> {
+            item.setOtherUUID(t.getUuid());
+            item.setCreateDate(new Date());
+            item.setModiDate(new Date());
+        });
         tipsRelationService.insertList(t.getTipsRelations());
     }
 

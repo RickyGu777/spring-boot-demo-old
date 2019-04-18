@@ -27,6 +27,10 @@
         </foreach>
     </insert>
 
+    <select id="selectByOtherUUID" parameterType="TipsRelation" resultMap="TipsResult">
+        select * from TIPS_RELATION where OTHER_UUID = #{otherUUID}
+    </select>
+
     <select id="selectByNameAndOtherUUID" parameterType="TipsRelation" resultMap="TipsResult">
         select * from TIPS_RELATION where TIPS_NAME like CONCAT('%',#{tipsName},'%') and OTHER_UUID = #{otherUUID}
     </select>

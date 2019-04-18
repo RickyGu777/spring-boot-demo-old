@@ -11,5 +11,7 @@ public interface TipsRelationDao<T extends TipsRelation> {
 
     void insertList(List<T> t);
 
+    List<T> selectByOtherUUID(T t);
+
     List<T> selectByNameAndOtherUUID(T t);
 }

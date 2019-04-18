@@ -22,6 +22,10 @@
       async getTps() {
         let newVar = await selectDiaryTips();
         if (newVar.code == 0) {
+          newVar.data.forEach(item => {
+            item.tipsUUID = item.uuid;
+            item.tipsName = item.name;
+          });
           this.tips = newVar.data;
         }/* else {
           this.$message.error('Get Diary Tips Error:' + newVar.msg);
@@ -33,6 +37,7 @@
         } else {
           data.type = "info";
         }
+        this.$emit("addTips", {data});
       }
     }
   }
