@@ -1,5 +1,6 @@
 package com.example.servicehi.util;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.mime.HttpMultipartMode;
@@ -17,6 +18,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+@Slf4j
 public class SaveAndPostImg {
 
     public static String compress(MultipartFile multipartFile, String path, String fileName) throws IOException {
@@ -164,7 +166,7 @@ public class SaveAndPostImg {
         while ((line = in.readLine()) != null) {
             buffer.append(line);
         }
-        System.out.println("发送消息收到的返回：" + buffer.toString());
+        log.info("发送消息收到的返回：" + buffer.toString());
     }
 
 }
