@@ -61,15 +61,17 @@ public class DiaryServiceImpl<T extends DiaryDto> implements DiaryService<T> {
         t.setModiDate(new Date());
         diaryDao.updateDiaryByUUID(t);
         List<TipsRelation> newTips = new ArrayList<>();
-        t.getTipsRelations().stream().forEach(item -> {
-            if (item.getUuid().equals(item.getTipsUUID())) {
-                item.setUuid(UUIDUtil.createUUID());
-                item.setOtherUUID(t.getUuid());
-                item.setModiDate(item.getCreateDate());
-                newTips.add(item);
-            }
-        });
-        tipsRelationService.deleteByList(t);
+        if (!CollectionUtils.isEmpty(t.getTipsRelations())) {
+            t.getTipsRelations().stream().forEach(item -> {
+                if (item.getUuid().equals(item.getTipsUUID())) {
+                    item.setUuid(UUIDUtil.createUUID());
+                    item.setOtherUUID(t.getUuid());
+                    item.setModiDate(item.getCreateDate());
+                    newTips.add(item);
+                }
+            });
+            tipsRelationService.deleteByList(t);
+        }
         if (!CollectionUtils.isEmpty(newTips)) {
             tipsRelationService.insertList(newTips);
         }
