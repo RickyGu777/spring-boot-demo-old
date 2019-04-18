@@ -151,7 +151,7 @@ public class SaveAndPostImg {
         MultipartEntity multipartEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE, "--------------------HV2ymHFg03ehbqgZCaKO6jyH", Charset.defaultCharset());
         multipartEntity.addPart("img", new FileBody(file));
 
-        HttpPost request = new HttpPost("http://demo/Image/backUpImage");
+        HttpPost request = new HttpPost("http://demo/api/Image/backUpImage");
         request.setEntity(multipartEntity);
         request.addHeader("Content-Type", "multipart/form-data; boundary=--------------------HV2ymHFg03ehbqgZCaKO6jyH");
 
