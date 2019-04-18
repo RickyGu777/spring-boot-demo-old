@@ -5,6 +5,7 @@ import com.example.servicehi.service.TipsService;
 import com.example.servicehi.util.ResponseUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.Validate;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +27,10 @@ public class TipsController {
 
     @PostMapping(value = "/insert")
     public ResponseUtil insert(@RequestBody Tips tips) {
+        if (tipsService.checkRepeat(tips) != null) {
+            return ResponseUtil.buildERROR("This Tips Is Exist");
+        }
         tipsService.insert(tips);
-        return new ResponseUtil();
+        return new ResponseUtil(tips);
     }
 }

@@ -19,7 +19,7 @@ public class UploadImgServiceImpl<T extends UploadImg> implements UploadImgServi
     @Override
     public void insert(T t) {
         t.setCreateDate(new Date());
-        t.setModiDate(new Date());
+        t.setModiDate(t.getCreateDate());
         uploadImgDao.insert(t);
     }
 

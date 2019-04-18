@@ -25,7 +25,7 @@ public class AhriUrlServiceImpl<T extends AhriUrl> implements AhriUrlService<T> 
     @Override
     public void insert(T t) {
         t.setCreateDate(new Date());
-        t.setModiDate(new Date());
+        t.setModiDate(t.getCreateDate());
         ahriUrlDao.insert(t);
     }
 

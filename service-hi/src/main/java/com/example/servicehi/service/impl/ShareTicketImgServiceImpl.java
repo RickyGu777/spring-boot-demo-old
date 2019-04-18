@@ -16,7 +16,7 @@ public class ShareTicketImgServiceImpl<T extends ShareTicketImg> implements Shar
     @Override
     public void insert(T t) {
         t.setCreateDate(new Date());
-        t.setModiDate(new Date());
+        t.setModiDate(t.getCreateDate());
         shareTicketImgDao.insert(t);
     }
 }

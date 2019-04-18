@@ -15,8 +15,8 @@
     </resultMap>
 
     <insert id="insert" parameterType="Tips">
-        insert into TIPS (UUID, NAME, TYPE, IS_DEL, STATUS, CREATE_USER_UUID, CREATE_DATE, MODI_USER_UUID, MODI_DATE)
-        values (#{uuid},#{name},#{type},#{isDel},#{status},#{createUserUUID},#{createDate},#{modiUserUUID},#{modiDate});
+        insert into TIPS (UUID, NAME, TYPE, STATUS, CREATE_USER_UUID, CREATE_DATE, MODI_USER_UUID, MODI_DATE)
+        values (#{uuid},#{name},#{type},#{status},#{createUserUUID},#{createDate},#{modiUserUUID},#{modiDate});
     </insert>
 
     <select id="selectByName" parameterType="Tips" resultMap="TipsResult">
@@ -29,5 +29,9 @@
 
     <select id="selectTipsType" parameterType="Tips" resultMap="TipsResult">
         select * from TIPS where STATUS = #{status}
+    </select>
+
+    <select id="checkRepeat" parameterType="Tips" resultMap="TipsResult">
+        select * from TIPS where STATUS = #{status} and NAME = #{name}
     </select>
 </mapper>

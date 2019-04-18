@@ -32,7 +32,7 @@
         update TIPS_RELATION set IS_DEL = '1'
         where OTHER_UUID = #{uuid}
         <if test="tipsRelations != null">
-            and TIPS_UUID in (
+            and TIPS_UUID not in (
             <foreach collection="tipsRelations" item="item" index="index" separator=",">
                 #{item.tipsUUID}
             </foreach>

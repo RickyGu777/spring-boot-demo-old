@@ -19,7 +19,7 @@ public class JokeServiceImpl<T extends Joke> implements JokeService<T> {
     public void insert(T t) {
         t.setIsDel("0");
         t.setCreateDate(new Date());
-        t.setModiDate(new Date());
+        t.setModiDate(t.getCreateDate());
         jokeDao.insert(t);
     }
 

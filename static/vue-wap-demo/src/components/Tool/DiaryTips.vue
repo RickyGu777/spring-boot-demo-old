@@ -3,16 +3,27 @@
     <el-tag v-for="(item,index) in tips" :key="index" :type="item.type" @click="changeType(item)">
       {{item.name}}
     </el-tag>
+    <el-row :gutter="20">
+      <el-col :span="6">
+        <el-input
+          placeholder="请输入内容"
+          v-model="input"
+          clearable>
+          <el-button slot="append" @click="addTips(input)">Add Tips</el-button>
+        </el-input>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
 <script>
-  import {selectDiaryTips} from '@/request/api';// 导入我们的api接口
+  import {selectDiaryTips, insertTips} from '@/request/api';// 导入我们的api接口
 
   export default {
     data() {
       return {
-        tips: []
+        tips: [],
+        input: ""
       };
     },
     props: {
@@ -50,6 +61,21 @@
           data.type = "info";
         }
         this.$emit("addTips", {data});
+      },
+      async addTips(data) {
+        let temp = {"type": "info", "name": data, "status": "1"};
+        let newVar = await insertTips(temp);
+        if (newVar.code == 0) {
+          this.input = "";
+          newVar.data.tipsName = newVar.data.name;
+          newVar.data.tipsUUID = newVar.data.uuid;
+          if (!this.tips) {
+            this.tips = [];
+          }
+          this.tips.push(newVar.data);
+        } else {
+          this.$message.error(newVar.msg);
+        }
       }
     }
   }

@@ -6,6 +6,7 @@ import com.example.servicehi.service.TipsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -15,6 +16,8 @@ public class TipsServiceImpl<T extends Tips> implements TipsService<T> {
 
     @Override
     public void insert(T t) {
+        t.setCreateDate(new Date());
+        t.setModiDate(t.getCreateDate());
         tTipsDao.insert(t);
     }
 
@@ -31,5 +34,10 @@ public class TipsServiceImpl<T extends Tips> implements TipsService<T> {
     @Override
     public List<T> selectTipsType(T t) {
         return tTipsDao.selectTipsType(t);
+    }
+
+    @Override
+    public T checkRepeat(T t) {
+        return tTipsDao.checkRepeat(t);
     }
 }

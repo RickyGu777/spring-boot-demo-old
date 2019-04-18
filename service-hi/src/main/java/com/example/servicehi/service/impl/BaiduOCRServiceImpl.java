@@ -19,7 +19,7 @@ public class BaiduOCRServiceImpl<T extends BaiduOCR> implements BaiduOCRService<
     public void insert(T t) {
         t.setIsDel("0");
         t.setCreateDate(new Date());
-        t.setModiDate(new Date());
+        t.setModiDate(t.getCreateDate());
         baiduOCRDao.insert(t);
     }
 

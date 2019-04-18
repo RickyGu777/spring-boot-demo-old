@@ -14,4 +14,6 @@ public interface TipsDao<T extends Tips> {
     T selectByUUID(T t);
 
     List<T> selectTipsType(T t);
+
+    T checkRepeat(T t);
 }
