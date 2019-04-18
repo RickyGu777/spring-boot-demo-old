@@ -14,6 +14,7 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Date;
 import java.util.List;
@@ -33,13 +34,15 @@ public class DiaryServiceImpl<T extends DiaryDto> implements DiaryService<T> {
         t.setCreateDate(new Date());
         t.setModiDate(new Date());
         diaryDao.insert(t);
-        t.getTipsRelations().stream().forEach(item -> {
-            item.setUuid(UUIDUtil.createUUID());
-            item.setOtherUUID(t.getUuid());
-            item.setCreateDate(new Date());
-            item.setModiDate(new Date());
-        });
-        tipsRelationService.insertList(t.getTipsRelations());
+        if (!CollectionUtils.isEmpty(t.getTipsRelations())) {
+            t.getTipsRelations().stream().forEach(item -> {
+                item.setUuid(UUIDUtil.createUUID());
+                item.setOtherUUID(t.getUuid());
+                item.setCreateDate(new Date());
+                item.setModiDate(new Date());
+            });
+            tipsRelationService.insertList(t.getTipsRelations());
+        }
     }
 
     @Override
