@@ -18,7 +18,7 @@
       <el-button @click="addDiary" v-if="!buttonShow">上传</el-button>
       <el-button @click="updateDiaryByUUID" v-if="buttonShow">更新</el-button>
     </el-main>
-    <diary-tips @addTips="addTips"></diary-tips>
+    <diary-tips v-bind:tipsRelations="diary.tipsRelations" @addTips="addTips"></diary-tips>
   </div>
 </template>
 
@@ -99,24 +99,23 @@
       },
       async isModifyDiary() {
         if (this.$route.params.data) {
-          this.diary.uuid = this.$route.params.data;
-          let newVar = await selectDiaryByUUID(this.diary);
-          this.diary = newVar.data;
+          this.diary = this.$route.params.data;
         } else {
           this.diary.text = '<p><br></p></p><p class="ql-align-right">创建于 ' + formatDate(new Date(), 'yyyy-MM-dd hh:mm') + '</p>';
         }
       },
       addTips(event) {
+        console.log(event);
         if (event.data.type == "success") {
           this.diary.tipsRelations.push(event.data);
         } else {
           this.diary.tipsRelations.forEach((item,index) => {
-            if (item.uuid == event.data.uuid) {
+            if (item.tipsUUID == event.data.tipsUUID) {
               this.diary.tipsRelations.splice(index, 1);
             }
           });
         }
-        console.log(this.diary.tipsRelations);
+        console.log(this.diary);
       }
     }
   }

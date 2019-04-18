@@ -15,6 +15,11 @@
         tips: []
       };
     },
+    props: {
+      tipsRelations: {
+        type: Array
+      }
+    },
     created: function () {
       this.getTps();
     },
@@ -22,16 +27,23 @@
       async getTps() {
         let newVar = await selectDiaryTips();
         if (newVar.code == 0) {
-          newVar.data.forEach(item => {
-            item.tipsUUID = item.uuid;
-            item.tipsName = item.name;
-          });
+          for (let dataKey in newVar.data) {
+            newVar.data[dataKey].tipsUUID = newVar.data[dataKey].uuid;
+            newVar.data[dataKey].tipsName = newVar.data[dataKey].name;
+            if (this.tipsRelations) {
+              for (let tipsRelationsKey in this.tipsRelations) {
+                if (this.tipsRelations[tipsRelationsKey].tipsUUID == newVar.data[dataKey].tipsUUID) {
+                  newVar.data[dataKey].type = "success";
+                }
+              }
+            }
+          }
           this.tips = newVar.data;
         }/* else {
           this.$message.error('Get Diary Tips Error:' + newVar.msg);
         }*/
       },
-      changeType(data){
+      changeType(data) {
         if (data.type != "success") {
           data.type = "success";
         } else {

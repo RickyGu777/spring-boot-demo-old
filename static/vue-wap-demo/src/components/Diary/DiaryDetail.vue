@@ -1,10 +1,10 @@
 <template>
   <div>
-    <el-button @click="routerTo(diary.uuid)">Modify Diary</el-button>
+    <el-button @click="routerTo(diary)">Modify Diary</el-button>
     <el-button @click="deleteDiary(diary)" type="danger">Delete Diary</el-button>
     <div v-html="diary.text">
     </div>
-    <el-tag v-for="(item,index) in diary.tipsRelations" :key="item.uuid">
+    <el-tag v-for="(item,index) in diary.tipsRelations" :key="index">
       {{item.tipsName}}
     </el-tag>
   </div>

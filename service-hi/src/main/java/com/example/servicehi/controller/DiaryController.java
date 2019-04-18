@@ -1,6 +1,5 @@
 package com.example.servicehi.controller;
 
-import com.example.servicehi.entity.Diary;
 import com.example.servicehi.entity.dto.DiaryDto;
 import com.example.servicehi.service.DiaryService;
 import com.example.servicehi.util.ResponseUtil;

@@ -8,6 +8,7 @@ import com.example.servicehi.entity.dto.DiaryDto;
 import com.example.servicehi.service.DiaryService;
 import com.example.servicehi.service.TipsRelationService;
 import com.example.servicehi.service.TipsService;
+import com.example.servicehi.util.UUIDUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,7 @@ public class DiaryServiceImpl<T extends DiaryDto> implements DiaryService<T> {
         t.setModiDate(new Date());
         diaryDao.insert(t);
         t.getTipsRelations().stream().forEach(item -> {
+            item.setUuid(UUIDUtil.createUUID());
             item.setOtherUUID(t.getUuid());
             item.setCreateDate(new Date());
             item.setModiDate(new Date());
@@ -55,6 +57,7 @@ public class DiaryServiceImpl<T extends DiaryDto> implements DiaryService<T> {
     public void updateDiaryByUUID(T t) {
         t.setModiDate(new Date());
         diaryDao.updateDiaryByUUID(t);
+        tipsRelationService.deleteByList(t);
     }
 
     @Override
@@ -62,5 +65,7 @@ public class DiaryServiceImpl<T extends DiaryDto> implements DiaryService<T> {
         t.setModiDate(new Date());
         t.setIsDel("1");
         diaryDao.deleteDiaryByUUID(t);
+        t.setTipsRelations(null);
+        tipsRelationService.deleteByList(t);
     }
 }

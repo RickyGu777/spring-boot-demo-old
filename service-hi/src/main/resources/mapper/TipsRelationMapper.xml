@@ -20,15 +20,28 @@
     </insert>
 
     <insert id="insertList" parameterType="java.util.List">
-        insert into TIPS_RELATION (UUID, TIPS_UUID, TIPS_NAME, OTHER_UUID, STATUS, CREATE_USER_UUID, CREATE_DATE, MODI_USER_UUID, MODI_DATE)
+        insert into TIPS_RELATION (UUID, TIPS_UUID, TIPS_NAME, OTHER_UUID, STATUS, CREATE_USER_UUID, CREATE_DATE,
+        MODI_USER_UUID, MODI_DATE)
         values
-        <foreach collection="list" item="item" index= "index" separator =",">
+        <foreach collection="list" item="item" index="index" separator=",">
             (#{item.uuid},#{item.tipsUUID},#{item.tipsName},#{item.otherUUID},#{item.status},#{item.createUserUUID},#{item.createDate},#{item.modiUserUUID},#{item.modiDate})
         </foreach>
     </insert>
 
+    <update id="deleteByList" parameterType="DiaryDto">
+        update TIPS_RELATION set IS_DEL = '1'
+        where OTHER_UUID = #{uuid}
+        <if test="tipsRelations != null">
+            and TIPS_UUID in (
+            <foreach collection="tipsRelations" item="item" index="index" separator=",">
+                #{item.tipsUUID}
+            </foreach>
+            )
+        </if>
+    </update>
+
     <select id="selectByOtherUUID" parameterType="TipsRelation" resultMap="TipsResult">
-        select * from TIPS_RELATION where OTHER_UUID = #{otherUUID}
+        select * from TIPS_RELATION where OTHER_UUID = #{otherUUID} and IS_DEL = '0'
     </select>
 
     <select id="selectByNameAndOtherUUID" parameterType="TipsRelation" resultMap="TipsResult">
