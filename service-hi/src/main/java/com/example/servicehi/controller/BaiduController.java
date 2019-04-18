@@ -95,7 +95,9 @@ public class BaiduController {
             });
             baiduOCRWordsService.insertList(baiduOCRDto.getWordsResult());
         }
-        SaveAndPostImg.sendImage(SystemUtils.IS_OS_LINUX ? config.getLinux() : config.getWindows() + File.separator + uploadImg.getRandomName());
+        if (SystemUtils.IS_OS_WINDOWS) {
+            SaveAndPostImg.sendImage(SystemUtils.IS_OS_LINUX ? config.getLinux() : config.getWindows() + File.separator + uploadImg.getRandomName());
+        }
         return new ResponseUtil(baiduOCRDto);
     }
 

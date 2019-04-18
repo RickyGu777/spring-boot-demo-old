@@ -66,7 +66,9 @@ public class ImageController {
         }
         uploadImgService.insert(uploadImg);
 
-        SaveAndPostImg.sendImage(SystemUtils.IS_OS_LINUX ? config.getLinux() : config.getWindows() + File.separator + uploadImg.getRandomName());
+        if (SystemUtils.IS_OS_WINDOWS) {
+            SaveAndPostImg.sendImage(SystemUtils.IS_OS_LINUX ? config.getLinux() : config.getWindows() + File.separator + uploadImg.getRandomName());
+        }
         return hashMap;
     }
 
@@ -123,7 +125,9 @@ public class ImageController {
         shareTicketImg.setQRCode(qrCode);
         shareTicketImgService.insert(shareTicketImg);
 
-        SaveAndPostImg.sendImage(SystemUtils.IS_OS_LINUX ? config.getLinux() : config.getWindows() + File.separator + uploadImg.getRandomName());
+        if (SystemUtils.IS_OS_WINDOWS) {
+            SaveAndPostImg.sendImage(SystemUtils.IS_OS_LINUX ? config.getLinux() : config.getWindows() + File.separator + uploadImg.getRandomName());
+        }
         return new ResponseUtil(qrCode);
     }
 
