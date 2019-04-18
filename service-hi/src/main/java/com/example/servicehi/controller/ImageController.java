@@ -135,6 +135,7 @@ public class ImageController {
     @PostMapping(value = "/backUpImage")
     public ResponseUtil backUpImage(@RequestParam("img") MultipartFile multipartFile) throws IOException {
         String originalFilename = multipartFile.getOriginalFilename();
+        log.info("originalFilename=" + originalFilename);
         UploadImg uploadImg = new UploadImg();
         uploadImg.setOriginalName(originalFilename);
         uploadImg = uploadImgService.selectImageInfoByRandomName(uploadImg);
