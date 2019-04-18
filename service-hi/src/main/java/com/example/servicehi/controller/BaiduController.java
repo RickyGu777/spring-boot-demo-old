@@ -50,7 +50,6 @@ public class BaiduController {
         return new ResponseUtil<>(BaiduTool.getAuth());
     }
 
-    @Transactional
     @PostMapping(value = "/OCR")
     public ResponseUtil ocr(@RequestParam("file") MultipartFile multipartFile) throws IOException {
         BASE64Encoder encoder = new BASE64Encoder();
@@ -78,8 +77,6 @@ public class BaiduController {
         uploadImg.setTitle(uploadImg.getRandomName());
         if (SystemUtils.IS_OS_LINUX) {
             uploadImg.setImagePath('.' + config.getLinuxPath() + uploadImg.getRandomName());
-        } else {
-            SaveAndPostImg.sendImage(SystemUtils.IS_OS_LINUX ? config.getLinux() : config.getWindows() + File.separator + uploadImg.getRandomName());
         }
         uploadImgService.insert(uploadImg);
 
@@ -98,6 +95,7 @@ public class BaiduController {
             });
             baiduOCRWordsService.insertList(baiduOCRDto.getWordsResult());
         }
+        SaveAndPostImg.sendImage(SystemUtils.IS_OS_LINUX ? config.getLinux() : config.getWindows() + File.separator + uploadImg.getRandomName());
         return new ResponseUtil(baiduOCRDto);
     }
 

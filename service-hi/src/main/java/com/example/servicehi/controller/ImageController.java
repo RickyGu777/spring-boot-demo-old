@@ -63,10 +63,10 @@ public class ImageController {
         uploadImg.setTitle(uploadImg.getRandomName());
         if (SystemUtils.IS_OS_LINUX) {
             uploadImg.setImagePath('.' + config.getLinuxPath() + uploadImg.getRandomName());
-        } else {
-            SaveAndPostImg.sendImage(SystemUtils.IS_OS_LINUX ? config.getLinux() : config.getWindows() + File.separator + uploadImg.getRandomName());
         }
         uploadImgService.insert(uploadImg);
+
+        SaveAndPostImg.sendImage(SystemUtils.IS_OS_LINUX ? config.getLinux() : config.getWindows() + File.separator + uploadImg.getRandomName());
         return hashMap;
     }
 
@@ -113,8 +113,6 @@ public class ImageController {
         uploadImg.setTitle(uploadImg.getRandomName());
         if (SystemUtils.IS_OS_LINUX) {
             uploadImg.setImagePath('.' + config.getLinuxPath() + uploadImg.getRandomName());
-        } else {
-            SaveAndPostImg.sendImage(SystemUtils.IS_OS_LINUX ? config.getLinux() : config.getWindows() + File.separator + uploadImg.getRandomName());
         }
         uploadImgService.insert(uploadImg);
 
@@ -124,6 +122,8 @@ public class ImageController {
         shareTicketImg.setUploadImgUUID(uploadImg.getUuid());
         shareTicketImg.setQRCode(qrCode);
         shareTicketImgService.insert(shareTicketImg);
+
+        SaveAndPostImg.sendImage(SystemUtils.IS_OS_LINUX ? config.getLinux() : config.getWindows() + File.separator + uploadImg.getRandomName());
         return new ResponseUtil(qrCode);
     }
 
