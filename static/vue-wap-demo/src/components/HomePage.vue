@@ -4,7 +4,7 @@
       <el-timeline-item v-for="data in diaryList" :key="data.uuid" :timestamp="data.createDate" placement="top">
         <el-card>
           <h4 @click="routerTo(data.uuid)">{{ data.title }}</h4>
-          <p @click="routerTo(data.uuid)">最后更新于{{ data.createDate }}</p>
+          <p @click="routerTo(data.uuid)">最后更新于{{ data.modiDate }}</p>
         </el-card>
       </el-timeline-item>
     </el-timeline>
