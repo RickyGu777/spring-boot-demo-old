@@ -23,6 +23,7 @@ public class DiaryController<T extends DiaryDto> {
 
     @PostMapping(value = "/addDiary")
     public ResponseUtil addDiary(@RequestBody T t){
+        log.info(IPAddressUtil.getIpAddr(request));
         diaryService.insert(t);
         return new ResponseUtil();
     }
@@ -35,17 +36,20 @@ public class DiaryController<T extends DiaryDto> {
 
     @PostMapping(value = "/selectByUUID")
     public ResponseUtil selectByUUID(@RequestBody T t){
+        log.info(IPAddressUtil.getIpAddr(request));
         return new ResponseUtil<>(diaryService.selectByUUID(t));
     }
 
     @PostMapping(value = "/updateDiaryByUUID")
     public ResponseUtil updateDiaryByUUID(@RequestBody T t) {
+        log.info(IPAddressUtil.getIpAddr(request));
         diaryService.updateDiaryByUUID(t);
         return new ResponseUtil<>();
     }
 
     @PostMapping(value = "/deleteDiaryByUUID")
     public ResponseUtil deleteDiaryByUUID(@RequestBody T t) {
+        log.info(IPAddressUtil.getIpAddr(request));
         diaryService.deleteDiaryByUUID(t);
         return new ResponseUtil<>();
     }
