@@ -1,10 +1,13 @@
 package com.example.servicehi.service.impl;
 
 import com.example.servicehi.dao.DiaryDao;
+import com.example.servicehi.dao.DiaryHistoryDao;
 import com.example.servicehi.entity.Diary;
+import com.example.servicehi.entity.DiaryHistory;
 import com.example.servicehi.entity.Tips;
 import com.example.servicehi.entity.TipsRelation;
 import com.example.servicehi.entity.dto.DiaryDto;
+import com.example.servicehi.service.DiaryHistoryService;
 import com.example.servicehi.service.DiaryService;
 import com.example.servicehi.service.TipsRelationService;
 import com.example.servicehi.service.TipsService;
@@ -27,6 +30,9 @@ public class DiaryServiceImpl<T extends DiaryDto> implements DiaryService<T> {
 
     @Autowired
     private TipsRelationService<TipsRelation> tipsRelationService;
+
+    @Autowired
+    private DiaryHistoryService<DiaryHistory> diaryHistoryService;
 
     @Override
     @Transactional
@@ -57,8 +63,17 @@ public class DiaryServiceImpl<T extends DiaryDto> implements DiaryService<T> {
     }
 
     @Override
+    @Transactional
     public void updateDiaryByUUID(T t) {
-        t.setModiDate(new Date());
+        DiaryHistory diaryHistory = new DiaryHistory();
+        diaryHistory.setDiaryUUID(t.getUuid());
+        diaryHistory.setTitle(t.getTitle());
+        diaryHistory.setHistoryText(diaryDao.selectByUUID(t).getText());
+        diaryHistory.setModiIndex(diaryHistoryService.selectCount(diaryHistory) + 1);
+        diaryHistory.setCreateDate(new Date());
+        diaryHistory.setModiDate(diaryHistory.getCreateDate());
+        diaryHistoryService.insert(diaryHistory);
+        t.setModiDate(diaryHistory.getCreateDate());
         diaryDao.updateDiaryByUUID(t);
         List<TipsRelation> newTips = new ArrayList<>();
         if (!CollectionUtils.isEmpty(t.getTipsRelations())) {
