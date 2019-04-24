@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.servicehi.dao.WeChatPublicAccountDao">
-    <resultMap id="MenuResult" type="com.example.servicehi.entity.WeChatPublicAccount">
+    <resultMap id="WeChatPublicAccountResult" type="com.example.servicehi.entity.WeChatPublicAccount">
         <result column="ID" property="id"/>
         <result column="UUID" property="uuid"/>
         <result column="USER_UUID" property="userUUID"/>
@@ -23,4 +23,14 @@
         insert into WE_CHAT_PUBLIC_ACCOUNT (UUID, USER_UUID, USER_CODE, USER_NAME, WX_OPENID, USER_SEND_INFO, RESPONSE_INFO_ID, RESPONSE_INFO, MESSAGE_ID, CREATE_USER_UUID, CREATE_DATE, MODI_USER_UUID, MODI_DATE)
         values (#{uuid},#{userUUID},#{userCode},#{userName},#{wxOpenid},#{userSendInfo},#{responseInfoId},#{responseInfo},#{messageId}#{createUserUUID},#{createDate},#{modiUserUUID},#{modiDate})
     </insert>
+
+    <select id="selectMessage" parameterType="WeChatPublicAccount" resultMap="WeChatPublicAccountResult">
+        select * from WE_CHAT_PUBLIC_ACCOUNT where
+        <if test="wxOpenid != null and wxOpenid !=''">
+            WX_OPENID = #{wxOpenid}
+        </if>
+        <if test="userUUID != null and userUUID != ''">
+            USER_UUID = #{userUUID}
+        </if>
+    </select>
 </mapper>

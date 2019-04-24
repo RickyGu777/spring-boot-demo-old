@@ -27,7 +27,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
-@RequestMapping(value = "/wx")
+@RequestMapping(value = "/Wx")
 @RestController
 @AllArgsConstructor
 @Slf4j
@@ -136,7 +136,7 @@ public class WxBindController {
             if (weChatPublicAccountResponseInfo == null) {
                 content = "这里是FFXIV爱好者的微信公众号，" +
                         "如果我的公众号有任何侵犯您版权的信息，" +
-                        "请将发送邮件至544107550@qq.om，" +
+                        "请将发送邮件至544107550@qq.com，" +
                         "并在邮件中留下您的可靠的联系方式，我将尽快联系您。" +
                         "与您核实侵权信息后我将尽快删除。";
             } else {

@@ -29,7 +29,7 @@ public class RandomUtil {
     }
 
     public static String createNumber(int num) {
-        DecimalFormat df = new DecimalFormat("0");
+        DecimalFormat df = new DecimalFormat("0"); // 格式化double数据
         return df.format(Math.random() * (Math.pow(10D, (double) num)));
     }
 }
