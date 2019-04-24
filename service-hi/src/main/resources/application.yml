@@ -61,6 +61,6 @@ logging:
 delete_old_auth: true #删除旧权限
 
 wechat:
-  mp-app-id: wx8c68666d3616bca6
-  mp-app-secret: a68566b59a124bcf91d5c9bd877a173c
-  token: 123test
+  mp-app-id: wx180cb4037e983551
+  mp-app-secret: cf0bf3e4c546ded33dcd54b4290c145c
+  token: FinalFantasyXIV
