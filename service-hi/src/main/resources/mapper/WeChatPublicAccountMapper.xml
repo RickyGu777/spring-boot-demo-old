@@ -21,7 +21,7 @@
 
     <insert id="insert" parameterType="WeChatPublicAccount">
         insert into WE_CHAT_PUBLIC_ACCOUNT (UUID, USER_UUID, USER_CODE, USER_NAME, WX_OPENID, USER_SEND_INFO, RESPONSE_INFO_ID, RESPONSE_INFO, MESSAGE_ID, CREATE_USER_UUID, CREATE_DATE, MODI_USER_UUID, MODI_DATE)
-        values (#{uuid},#{userUUID},#{userCode},#{userName},#{wxOpenid},#{userSendInfo},#{responseInfoId},#{responseInfo},#{messageId}#{createUserUUID},#{createDate},#{modiUserUUID},#{modiDate})
+        values (#{uuid},#{userUUID},#{userCode},#{userName},#{wxOpenid},#{userSendInfo},#{responseInfoId},#{responseInfo},#{messageId},#{createUserUUID},#{createDate},#{modiUserUUID},#{modiDate})
     </insert>
 
     <select id="selectMessage" parameterType="WeChatPublicAccount" resultMap="WeChatPublicAccountResult">
