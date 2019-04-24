@@ -40,21 +40,11 @@ public class WxBindController {
 
     @GetMapping
     public void get(HttpServletRequest request, HttpServletResponse response) {
-        log.info("get方法");
         String signature = request.getParameter("signature");
-
         String timestamp = request.getParameter("timestamp");
-
         String nonce = request.getParameter("nonce");
-
         String echostr = request.getParameter("echostr");
 
-        System.err.println("=====================================");
-        System.err.println("signature------" + signature);
-        System.err.println("timestamp------" + timestamp);
-        System.err.println("nonce------" + nonce);
-        System.err.println("echostr------" + echostr);
-        System.err.println("=====================================");
         PrintWriter writer = null;
         try {
             writer = response.getWriter();
@@ -66,49 +56,6 @@ public class WxBindController {
         } finally {
             writer.close();
         }
-    }
-
-    @PostMapping(value = "/getOpenId")
-    public ResponseUtil getOpenId(@RequestBody Map<String, String> map) throws Exception {
-        Map<String, String> params = new HashMap<>();
-        params.put("appid", config.getWeChatAppId());
-        params.put("secret", config.getWeChatAppSecret());
-        params.put("code", map.get("code"));
-        params.put("grant_type", "authorization_code");
-        String json = HttpUtil.get("https://api.weixin.qq.com/sns/oauth2/access_token", params);
-        Map<String, Object> stringObjectMap = JSON.parseObject(json, new TypeReference<Map<String, Object>>() {
-        });
-        log.info("code=========" + map.get("code"));
-        log.info("appid========" + config.getWeChatAppId());
-        log.info("secret=======" + config.getWeChatAppSecret());
-        return new ResponseUtil(stringObjectMap.get("openid"));
-    }
-
-    /**
-     * getSignature
-     */
-    @RequestMapping(value = "/getSignature")
-    public Object getSignature(HttpServletRequest request) throws Exception {
-        String url = request.getParameter("url");
-        String appid = config.getWeChatAppId();
-        String accessToke = getAccessToke();
-        String ticket = getTicket(accessToke);
-
-        String noncestr = UUID.randomUUID().toString().replaceAll("-", "");
-        String timestamp = Long.toString(new Date().getTime() / 1000);
-        String str = "jsapi_ticket=" + ticket + "&noncestr=" + noncestr + "&timestamp=" + timestamp + "&url=" + url;
-        System.err.println(str);
-        MessageDigest digest = MessageDigest.getInstance("SHA-1");
-        byte[] bytes = digest.digest(str.getBytes());
-        String signature = byteToString(bytes);
-
-        Map<String, String> map = new HashMap<>();
-        map.put("appid", appid);
-        map.put("noncestr", noncestr);
-        map.put("signature", signature);
-        map.put("timestamp", timestamp);
-        map.put("url", url);
-        return map;
     }
 
     @PostMapping
@@ -125,7 +72,6 @@ public class WxBindController {
             String wechatId = root.getElementsByTagName("ToUserName").item(0).getTextContent();
             String openid = root.getElementsByTagName("FromUserName").item(0).getTextContent();
             String msg = root.getElementsByTagName("Content").item(0).getTextContent();//用户发送的内容
-            log.info(msg);//打印用户发送的消息
 
             WeChatPublicAccount weChatPublicAccount = new WeChatPublicAccount();
             WeChatPublicAccountResponseInfo weChatPublicAccountResponseInfo = new WeChatPublicAccountResponseInfo();
@@ -134,7 +80,7 @@ public class WxBindController {
             String content;
 
             if (weChatPublicAccountResponseInfo == null) {
-                content = "这里是FFXIV爱好者的微信公众号，" +
+                content = "这里是FinalFantasyXIV爱好者的微信公众号，" +
                         "如果我的公众号有任何侵犯您版权的信息，" +
                         "请将发送邮件至544107550@qq.com，" +
                         "并在邮件中留下您的可靠的联系方式，我将尽快联系您。" +
@@ -153,9 +99,7 @@ public class WxBindController {
                     + "<MsgType><![CDATA[text]]></MsgType>"//文本类型，text，可以不改
                     + "<Content><![CDATA[" + content + "]]></Content>"//文本内容，
                     + "<MsgId>" + number + "</MsgId> "//消息id，随便填，但位数要够
-                    + " </xml>";
-            log.info(replyMsg);//打印出来
-
+                    + "</xml>";
 
             weChatPublicAccount.setMessageId(number);
             weChatPublicAccount.setWxOpenid(openid);
@@ -167,6 +111,45 @@ public class WxBindController {
         } catch (Exception e) {
             log.error(e.toString());
         }
+    }
+
+    @PostMapping(value = "/getOpenId")
+    public ResponseUtil getOpenId(@RequestBody Map<String, String> map) throws Exception {
+        Map<String, String> params = new HashMap<>();
+        params.put("appid", config.getWeChatAppId());
+        params.put("secret", config.getWeChatAppSecret());
+        params.put("code", map.get("code"));
+        params.put("grant_type", "authorization_code");
+        String json = HttpUtil.get("https://api.weixin.qq.com/sns/oauth2/access_token", params);
+        Map<String, Object> stringObjectMap = JSON.parseObject(json, new TypeReference<Map<String, Object>>() {
+        });
+        return new ResponseUtil(stringObjectMap.get("openid"));
+    }
+
+    /**
+     * getSignature
+     */
+    @RequestMapping(value = "/getSignature")
+    public Object getSignature(HttpServletRequest request) throws Exception {
+        String url = request.getParameter("url");
+        String appid = config.getWeChatAppId();
+        String accessToke = getAccessToke();
+        String ticket = getTicket(accessToke);
+
+        String noncestr = UUID.randomUUID().toString().replaceAll("-", "");
+        String timestamp = Long.toString(new Date().getTime() / 1000);
+        String str = "jsapi_ticket=" + ticket + "&noncestr=" + noncestr + "&timestamp=" + timestamp + "&url=" + url;
+        MessageDigest digest = MessageDigest.getInstance("SHA-1");
+        byte[] bytes = digest.digest(str.getBytes());
+        String signature = byteToString(bytes);
+
+        Map<String, String> map = new HashMap<>();
+        map.put("appid", appid);
+        map.put("noncestr", noncestr);
+        map.put("signature", signature);
+        map.put("timestamp", timestamp);
+        map.put("url", url);
+        return map;
     }
 
     private static String byteToString(byte[] bytes) {
@@ -194,13 +177,8 @@ public class WxBindController {
         params.put("secret", config.getWeChatAppSecret());
         params.put("grant_type", "client_credential");
 
-        log.info("getAccessToke======================");
-        log.info(url);
-        log.info(params.toString());
-        log.info("getAccessToke======================");
         String s = HttpUtil.get(url, params);
         Map map = JSON.parseObject(s, Map.class);
-        log.info(JSON.toJSONString(map));
         if (map.get("access_token") != null) {
             return map.get("access_token").toString();
         } else {
@@ -210,7 +188,6 @@ public class WxBindController {
     }
 
     private String getTicket(String accessToke) throws Exception {
-        log.info("进入getTicket方法");
         if (accessToke == null) {
             accessToke = getAccessToke();
         }
@@ -219,8 +196,6 @@ public class WxBindController {
         hashMap.put("type", "jsapi");
         hashMap.put("access_token", accessToke);
         String s = HttpUtil.get(url, hashMap);
-        log.info(s);
-        log.info("accessToke===========" + accessToke);
         Map map = JSON.parseObject(s, Map.class);
         return map.get("ticket").toString();
     }
@@ -229,8 +204,6 @@ public class WxBindController {
      * 校验签名
      */
     private boolean checkSignature(String signature, String timestamp, String nonce) {
-        System.out.println("signature:" + signature + "timestamp:" + timestamp + "nonc:" + nonce);
-        log.info(config.getWeChatToken());
         String[] arr = new String[]{config.getWeChatToken(), timestamp, nonce};
         // 将token、timestamp、nonce三个参数进行字典序排序
         Arrays.sort(arr);
@@ -251,11 +224,6 @@ public class WxBindController {
         }
 
         // 将sha1加密后的字符串可与signature对比，标识该请求来源于微信
-        System.out.println(tmpStr.equals(signature.toUpperCase()));
-        System.err.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-        System.err.println("tmpStr" + tmpStr);
-        System.err.println("signature" + signature);
-        System.err.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
         return tmpStr != null ? tmpStr.equals(signature.toUpperCase()) : false;
     }
 
