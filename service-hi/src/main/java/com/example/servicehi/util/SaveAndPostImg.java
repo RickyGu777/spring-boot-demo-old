@@ -110,7 +110,7 @@ public class SaveAndPostImg {
                     File file = new File(inputValue);
                     DataInputStream in = new DataInputStream(
                             new FileInputStream(file));
-                    int bytes = 0;
+                    int bytes;
                     byte[] bufferOut = new byte[1024];
                     while ((bytes = in.read(bufferOut)) != -1) {
                         out.write(bufferOut, 0, bytes);
@@ -129,20 +129,18 @@ public class SaveAndPostImg {
             StringBuffer strBuf = new StringBuffer();
             BufferedReader reader = new BufferedReader(new InputStreamReader(
                     conn.getInputStream()));
-            String line = "";
+            String line;
             while ((line = reader.readLine()) != null) {
                 strBuf.append(line).append("\n");
             }
             res = strBuf.toString();
             reader.close();
-            reader = null;
         } catch (Exception e) {
             System.out.println("发送POST请求出错。" + postUrl);
             e.printStackTrace();
         } finally {
             if (conn != null) {
                 conn.disconnect();
-                conn = null;
             }
         }
         return res;

@@ -1,5 +1,6 @@
 <template>
-  <div id="app" class="Fell">
+  <div id="app">
+<!--
     <el-container>
     <el-aside width="70px">
     <head-top></head-top>
@@ -8,6 +9,7 @@
     <router-view/>
     </el-main>
     </el-container>
+-->
   </div>
 </template>
 

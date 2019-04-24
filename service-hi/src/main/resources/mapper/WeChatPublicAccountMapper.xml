@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.servicehi.dao.WeChatPublicAccountDao">
+    <resultMap id="MenuResult" type="com.example.servicehi.entity.WeChatPublicAccount">
+        <result column="ID" property="id"/>
+        <result column="UUID" property="uuid"/>
+        <result column="USER_UUID" property="userUUID"/>
+        <result column="USER_CODE" property="userCode"/>
+        <result column="USER_NAME" property="userName"/>
+        <result column="WX_OPENID" property="wxOpenid"/>
+        <result column="USER_SEND_INFO" property="userSendInfo"/>
+        <result column="RESPONSE_INFO_ID" property="responseInfoId"/>
+        <result column="RESPONSE_INFO" property="responseInfo"/>
+        <result column="MESSAGE_ID" property="messageId"/>
+        <result column="STATUS" property="status"/>
+        <result column="CREATE_USER_UUID" property="createUserUUID"/>
+        <result column="CREATE_DATE" property="createDate"/>
+        <result column="MODI_USER_UUID" property="modiUserUUID"/>
+        <result column="MODI_DATE" property="modiDate"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="WeChatPublicAccount">
+        insert into WE_CHAT_PUBLIC_ACCOUNT (UUID, USER_UUID, USER_CODE, USER_NAME, WX_OPENID, USER_SEND_INFO, RESPONSE_INFO_ID, RESPONSE_INFO, MESSAGE_ID, CREATE_USER_UUID, CREATE_DATE, MODI_USER_UUID, MODI_DATE)
+        values (#{uuid},#{userUUID},#{userCode},#{userName},#{wxOpenid},#{userSendInfo},#{responseInfoId},#{responseInfo},#{messageId}#{createUserUUID},#{createDate},#{modiUserUUID},#{modiDate})
+    </insert>
+</mapper>

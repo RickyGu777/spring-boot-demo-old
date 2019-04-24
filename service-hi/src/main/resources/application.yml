@@ -32,7 +32,7 @@ spring:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://demo:8761/eureka/
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml
@@ -59,3 +59,8 @@ logging:
     com.example.servicehi.dao : debug
 
 delete_old_auth: true #删除旧权限
+
+wechat:
+  mp-app-id: wx8c68666d3616bca6
+  mp-app-secret: a68566b59a124bcf91d5c9bd877a173c
+  token: 123test

@@ -11,7 +11,7 @@
         <result column="PHONE" property="phone"/>
         <result column="WX_OPENID" property="wxOpenid"/>
         <result column="QQ_OPENID" property="qqOpenid"/>
-        <result column="STATUS" property="uuid"/>
+        <result column="STATUS" property="status"/>
         <result column="CREATE_USER_UUID" property="createUserUUID"/>
         <result column="CREATE_DATE" property="createDate"/>
         <result column="MODI_USER_UUID" property="modiUserUUID"/>

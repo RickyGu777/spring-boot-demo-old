@@ -1,0 +1,291 @@
+package com.example.servicehi.controller;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
+import com.example.servicehi.common.Config;
+import com.example.servicehi.entity.WeChatPublicAccount;
+import com.example.servicehi.entity.WeChatPublicAccountResponseInfo;
+import com.example.servicehi.service.WeChatPublicAccountResponseInfoService;
+import com.example.servicehi.service.WeChatPublicAccountService;
+import com.example.servicehi.util.HttpUtil;
+import com.example.servicehi.util.RandomUtil;
+import com.example.servicehi.util.ResponseUtil;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.Validate;
+import org.springframework.web.bind.annotation.*;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.*;
+
+@RequestMapping(value = "/wx")
+@RestController
+@AllArgsConstructor
+@Slf4j
+public class WxBindController {
+    private final Config config;
+
+    private final WeChatPublicAccountService<WeChatPublicAccount> weChatPublicAccountService;
+
+    private final WeChatPublicAccountResponseInfoService<WeChatPublicAccountResponseInfo> weChatPublicAccountResponseInfoService;
+
+    @GetMapping
+    public void get(HttpServletRequest request, HttpServletResponse response) {
+        log.info("get方法");
+        String signature = request.getParameter("signature");
+
+        String timestamp = request.getParameter("timestamp");
+
+        String nonce = request.getParameter("nonce");
+
+        String echostr = request.getParameter("echostr");
+
+        System.err.println("=====================================");
+        System.err.println("signature------" + signature);
+        System.err.println("timestamp------" + timestamp);
+        System.err.println("nonce------" + nonce);
+        System.err.println("echostr------" + echostr);
+        System.err.println("=====================================");
+        PrintWriter writer = null;
+        try {
+            writer = response.getWriter();
+            if (checkSignature(signature, timestamp, nonce)) {
+                writer.print(echostr);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            writer.close();
+        }
+    }
+
+    @PostMapping(value = "/getOpenId")
+    public ResponseUtil getOpenId(@RequestBody Map<String, String> map) throws Exception {
+        Map<String, String> params = new HashMap<>();
+        params.put("appid", config.getWeChatAppId());
+        params.put("secret", config.getWeChatAppSecret());
+        params.put("code", map.get("code"));
+        params.put("grant_type", "authorization_code");
+        String json = HttpUtil.get("https://api.weixin.qq.com/sns/oauth2/access_token", params);
+        Map<String, Object> stringObjectMap = JSON.parseObject(json, new TypeReference<Map<String, Object>>() {
+        });
+        log.info("code=========" + map.get("code"));
+        log.info("appid========" + config.getWeChatAppId());
+        log.info("secret=======" + config.getWeChatAppSecret());
+        return new ResponseUtil(stringObjectMap.get("openid"));
+    }
+
+    /**
+     * getSignature
+     */
+    @RequestMapping(value = "/getSignature")
+    public Object getSignature(HttpServletRequest request) throws Exception {
+        String url = request.getParameter("url");
+        String appid = config.getWeChatAppId();
+        String accessToke = getAccessToke();
+        String ticket = getTicket(accessToke);
+
+        String noncestr = UUID.randomUUID().toString().replaceAll("-", "");
+        String timestamp = Long.toString(new Date().getTime() / 1000);
+        String str = "jsapi_ticket=" + ticket + "&noncestr=" + noncestr + "&timestamp=" + timestamp + "&url=" + url;
+        System.err.println(str);
+        MessageDigest digest = MessageDigest.getInstance("SHA-1");
+        byte[] bytes = digest.digest(str.getBytes());
+        String signature = byteToString(bytes);
+
+        Map<String, String> map = new HashMap<>();
+        map.put("appid", appid);
+        map.put("noncestr", noncestr);
+        map.put("signature", signature);
+        map.put("timestamp", timestamp);
+        map.put("url", url);
+        return map;
+    }
+
+    @PostMapping
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
+        try {
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            Document document = db.parse(request.getInputStream());
+            Element root = document.getDocumentElement();
+            String wechatId = root.getElementsByTagName("ToUserName").item(0).getTextContent();
+            String openid = root.getElementsByTagName("FromUserName").item(0).getTextContent();
+            String msg = root.getElementsByTagName("Content").item(0).getTextContent();//用户发送的内容
+            log.info(msg);//打印用户发送的消息
+
+            WeChatPublicAccount weChatPublicAccount = new WeChatPublicAccount();
+            WeChatPublicAccountResponseInfo weChatPublicAccountResponseInfo = new WeChatPublicAccountResponseInfo();
+            weChatPublicAccountResponseInfo.setRequestInfo(msg);
+            weChatPublicAccountResponseInfo = weChatPublicAccountResponseInfoService.selectByRequestInfo(weChatPublicAccountResponseInfo);
+            String content;
+
+            if (weChatPublicAccountResponseInfo == null) {
+                content = "这里是FFXIV爱好者的微信公众号，" +
+                        "如果我的公众号有任何侵犯您版权的信息，" +
+                        "请将发送邮件至544107550@qq.om，" +
+                        "并在邮件中留下您的可靠的联系方式，我将尽快联系您。" +
+                        "与您核实侵权信息后我将尽快删除。";
+            } else {
+                content = weChatPublicAccountResponseInfo.getResponseInfo();
+                weChatPublicAccount.setResponseInfoId(weChatPublicAccountResponseInfo.getId());
+            }
+            // 对用户发送过来的内容选择要回复的内容
+            long time = new Date().getTime();
+            String number = RandomUtil.createNumber(16);
+            String replyMsg = "<xml>"
+                    + "<ToUserName><![CDATA[" + openid + "]]></ToUserName>"//回复用户时，这里是用户的openid；但用户发送过来消息这里是微信公众号的原始id
+                    + "<FromUserName><![CDATA[" + wechatId + "]]></FromUserName>"//这里填写微信公众号 的原始id；用户发送过来时这里是用户的openid
+                    + "<CreateTime>" + time + "</CreateTime>"//这里可以填创建信息的时间，目前测试随便填也可以
+                    + "<MsgType><![CDATA[text]]></MsgType>"//文本类型，text，可以不改
+                    + "<Content><![CDATA[" + content + "]]></Content>"//文本内容，
+                    + "<MsgId>" + number + "</MsgId> "//消息id，随便填，但位数要够
+                    + " </xml>";
+            log.info(replyMsg);//打印出来
+
+
+            weChatPublicAccount.setMessageId(number);
+            weChatPublicAccount.setWxOpenid(openid);
+            weChatPublicAccount.setUserSendInfo(msg);
+            weChatPublicAccount.setResponseInfo(content);
+            weChatPublicAccountService.insert(weChatPublicAccount);
+
+            out.println(replyMsg);//回复
+        } catch (Exception e) {
+            log.error(e.toString());
+        }
+    }
+
+    private static String byteToString(byte[] bytes) {
+        StringBuilder buf = new StringBuilder();
+        for (int i = 0; i < bytes.length; i++) {
+            String tempStr = Integer.toHexString(bytes[i] & 0xff);
+            if (tempStr.length() == 1) {
+                buf.append("0").append(tempStr);
+            } else {
+                buf.append(tempStr);
+            }
+        }
+        return buf.toString().toLowerCase();
+    }
+
+    /**
+     * 获取access_token
+     *
+     * @return
+     */
+    private String getAccessToke() throws Exception {
+        String url = "https://api.weixin.qq.com/cgi-bin/token";
+        HashMap<String, String> params = new HashMap<>();
+        params.put("appid", config.getWeChatAppSecret());
+        params.put("secret", config.getWeChatAppSecret());
+        params.put("grant_type", "client_credential");
+
+        log.info("getAccessToke======================");
+        log.info(url);
+        log.info(params.toString());
+        log.info("getAccessToke======================");
+        String s = HttpUtil.get(url, params);
+        Map map = JSON.parseObject(s, Map.class);
+        log.info(JSON.toJSONString(map));
+        if (map.get("access_token") != null) {
+            return map.get("access_token").toString();
+        } else {
+            Validate.isTrue(true, "获取Token出错");
+            return null;
+        }
+    }
+
+    private String getTicket(String accessToke) throws Exception {
+        log.info("进入getTicket方法");
+        if (accessToke == null) {
+            accessToke = getAccessToke();
+        }
+        String url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket";
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("type", "jsapi");
+        hashMap.put("access_token", accessToke);
+        String s = HttpUtil.get(url, hashMap);
+        log.info(s);
+        log.info("accessToke===========" + accessToke);
+        Map map = JSON.parseObject(s, Map.class);
+        return map.get("ticket").toString();
+    }
+
+    /**
+     * 校验签名
+     */
+    private boolean checkSignature(String signature, String timestamp, String nonce) {
+        System.out.println("signature:" + signature + "timestamp:" + timestamp + "nonc:" + nonce);
+        log.info(config.getWeChatToken());
+        String[] arr = new String[]{config.getWeChatToken(), timestamp, nonce};
+        // 将token、timestamp、nonce三个参数进行字典序排序
+        Arrays.sort(arr);
+        StringBuilder content = new StringBuilder();
+        for (int i = 0; i < arr.length; i++) {
+            content.append(arr[i]);
+        }
+        MessageDigest md;
+        String tmpStr = null;
+
+        try {
+            md = MessageDigest.getInstance("SHA-1");
+            // 将三个参数字符串拼接成一个字符串进行sha1加密
+            byte[] digest = md.digest(content.toString().getBytes());
+            tmpStr = byteToStr(digest);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+
+        // 将sha1加密后的字符串可与signature对比，标识该请求来源于微信
+        System.out.println(tmpStr.equals(signature.toUpperCase()));
+        System.err.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+        System.err.println("tmpStr" + tmpStr);
+        System.err.println("signature" + signature);
+        System.err.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+        return tmpStr != null ? tmpStr.equals(signature.toUpperCase()) : false;
+    }
+
+    /**
+     * 将字节数组转换为十六进制字符串
+     *
+     * @param byteArray
+     * @return
+     */
+    private static String byteToStr(byte[] byteArray) {
+        String strDigest = "";
+        for (int i = 0; i < byteArray.length; i++) {
+            strDigest += byteToHexStr(byteArray[i]);
+        }
+        return strDigest;
+    }
+
+    /**
+     * 将字节转换为十六进制字符串
+     *
+     * @param mByte
+     * @return
+     */
+    private static String byteToHexStr(byte mByte) {
+        char[] Digit = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
+        char[] tempArr = new char[2];
+        tempArr[0] = Digit[(mByte >>> 4) & 0X0F];
+        tempArr[1] = Digit[mByte & 0X0F];
+
+        String s = new String(tempArr);
+        return s;
+    }
+}
