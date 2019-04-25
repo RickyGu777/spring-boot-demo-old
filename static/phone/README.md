@@ -1,4 +1,4 @@
-# phone
+# vux
 
 > A Vue.js project
 
