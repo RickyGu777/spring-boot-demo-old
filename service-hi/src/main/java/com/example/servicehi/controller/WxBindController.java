@@ -153,6 +153,15 @@ public class WxBindController {
         return map;
     }
 
+    @RequestMapping(value = "/getMenu")
+    public ResponseUtil getMenu() throws Exception {
+        String url = "https://api.weixin.qq.com/cgi-bin/menu/get";
+        Map<String, String> params = new HashMap<>();
+        params.put("access_token", getAccessToken());
+        String json = HttpUtil.get("https://api.weixin.qq.com/cgi-bin/menu/get", params);
+        return new ResponseUtil(json);
+    }
+
     private static String byteToString(byte[] bytes) {
         StringBuilder buf = new StringBuilder();
         for (int i = 0; i < bytes.length; i++) {
