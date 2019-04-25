@@ -2,6 +2,7 @@ package com.example.servicehi.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
+import com.example.servicehi.common.AccessToken;
 import com.example.servicehi.common.Config;
 import com.example.servicehi.entity.WeChatPublicAccount;
 import com.example.servicehi.entity.WeChatPublicAccountResponseInfo;
@@ -133,7 +134,7 @@ public class WxBindController {
     public Object getSignature(HttpServletRequest request) throws Exception {
         String url = request.getParameter("url");
         String appid = config.getWeChatAppId();
-        String accessToke = getAccessToke();
+        String accessToke = getAccessToken();
         String ticket = getTicket(accessToke);
 
         String noncestr = UUID.randomUUID().toString().replaceAll("-", "");
@@ -170,26 +171,32 @@ public class WxBindController {
      *
      * @return
      */
-    private String getAccessToke() throws Exception {
-        String url = "https://api.weixin.qq.com/cgi-bin/token";
-        HashMap<String, String> params = new HashMap<>();
-        params.put("appid", config.getWeChatAppSecret());
-        params.put("secret", config.getWeChatAppSecret());
-        params.put("grant_type", "client_credential");
+    private String getAccessToken() throws Exception {
+        AccessToken instance = AccessToken.getInstance();
+        if (instance.getToken() == null || instance.getCreateDate().getTime() - new Date().getTime() > 7000) {
+            instance.setCreateDate(new Date());
+            String url = "https://api.weixin.qq.com/cgi-bin/token";
+            HashMap<String, String> params = new HashMap<>();
+            params.put("appid", config.getWeChatAppSecret());
+            params.put("secret", config.getWeChatAppSecret());
+            params.put("grant_type", "client_credential");
 
-        String s = HttpUtil.get(url, params);
-        Map map = JSON.parseObject(s, Map.class);
-        if (map.get("access_token") != null) {
-            return map.get("access_token").toString();
-        } else {
-            Validate.isTrue(true, "获取Token出错");
-            return null;
+            String s = HttpUtil.get(url, params);
+            Map map = JSON.parseObject(s, Map.class);
+            if (map.get("access_token") != null) {
+                instance.setToken(map.get("access_token").toString());
+                return instance.getToken();
+            } else {
+                Validate.isTrue(true, "获取Token出错");
+                return null;
+            }
         }
+        return instance.getToken();
     }
 
     private String getTicket(String accessToke) throws Exception {
         if (accessToke == null) {
-            accessToke = getAccessToke();
+            accessToke = getAccessToken();
         }
         String url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket";
         HashMap<String, String> hashMap = new HashMap<>();
