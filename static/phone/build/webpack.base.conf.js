@@ -10,7 +10,7 @@ function resolve (dir) {
 }
 
 let webpackConfig = {
-  context: path.resolve(__dirname, '../static'),
+  context: path.resolve(__dirname, '../'),
   entry: {
     app: './src/main.js'
   },
