@@ -183,13 +183,13 @@ public class WxBindController {
     private String getAccessToken() throws Exception {
         AccessToken instance = AccessToken.getInstance();
         System.out.println(instance.getToken() == null);
-        System.out.println(config.getWeChatAppSecret());
+        System.out.println(config.getWeChatAppId());
         System.out.println(config.getWeChatAppSecret());
         if (instance.getToken() == null || instance.getCreateDate().getTime() - new Date().getTime() > 7000) {
             instance.setCreateDate(new Date());
             String url = "https://api.weixin.qq.com/cgi-bin/token";
             HashMap<String, String> params = new HashMap<>();
-            params.put("appid", config.getWeChatAppSecret());
+            params.put("appid", config.getWeChatAppId());
             params.put("secret", config.getWeChatAppSecret());
             params.put("grant_type", "client_credential");
 
