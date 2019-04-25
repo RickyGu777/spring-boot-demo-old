@@ -158,7 +158,7 @@ public class WxBindController {
         String url = "https://api.weixin.qq.com/cgi-bin/menu/get";
         Map<String, String> params = new HashMap<>();
         params.put("access_token", getAccessToken());
-        String json = HttpUtil.get("https://api.weixin.qq.com/cgi-bin/menu/get", params);
+        String json = HttpUtil.get(url, params);
         return new ResponseUtil(json);
     }
 
