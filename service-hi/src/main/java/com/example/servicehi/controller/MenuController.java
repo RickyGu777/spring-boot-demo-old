@@ -1,5 +1,6 @@
 package com.example.servicehi.controller;
 
+import com.example.servicehi.common.AccessToken;
 import com.example.servicehi.entity.Menu;
 import com.example.servicehi.service.MenuService;
 import com.example.servicehi.util.ResponseUtil;
@@ -26,9 +27,11 @@ public class MenuController {
 
     @PostMapping(value = "/createUUID")
     public ResponseUtil createUUID(){
-        ZipFileUtils.init("D://1");
-        ZipFileUtils.writeToZipFile("D://images");
-        ZipFileUtils.close();
+//        ZipFileUtils.init("D://1");
+//        ZipFileUtils.writeToZipFile("D://images");
+//        ZipFileUtils.close();
+        AccessToken instance = AccessToken.getInstance();
+        log.info(instance.getToken());
         return new ResponseUtil(UUIDUtil.createUUID());
     }
 }

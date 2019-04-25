@@ -5,7 +5,7 @@ import java.util.Date;
 public class AccessToken {
     private String token;
     private Date createDate;
-    public static AccessToken accessToken;
+    private static AccessToken accessToken;
 
     private AccessToken() {
     }
