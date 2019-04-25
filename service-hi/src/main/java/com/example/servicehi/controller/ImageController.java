@@ -15,11 +15,15 @@ import org.apache.commons.lang.SystemUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 @RequestMapping(value = "/Image")
 @RestController
@@ -147,5 +151,94 @@ public class ImageController {
         File dest = new File(config.getLinux() + File.separator + randomName);
         multipartFile.transferTo(dest);
         return new ResponseUtil();
+    }
+
+    @ResponseBody
+    @GetMapping("/download")
+    public void downloadFiles(HttpServletRequest request, HttpServletResponse response){
+        /*
+         *  test
+         * */
+        List<String> list = new ArrayList<>();
+        list.add("D:\\images\\1ad2968effc444609ad8a32a36c4e081.jpg");
+        list.add("D:\\images\\6a0153cc5e5b472f92e65a16267202a1.jpg");
+        list.add("D:\\images\\59de506db0344dad90160c4759d97331.jpg");
+        list.add("D:\\images\\418a1f7b1a1d472ab91f41fc99b02d24.jpg");
+        list.add("D:\\images\\806f06a93a9342cfa9f42a85478270a0.jpg");
+        list.add("D:\\images\\83008dc1c5914e8ba323c5fb2c356209.jpg");
+        list.add("D:\\images\\afaf918e3e874b19bdd8735afa38538c.jpg");
+        list.add("D:\\images\\cf12a7e1e46e48989dbcda1dd638d925.jpg");
+        list.add("D:\\images\\e7d792fd213a4063a75b8887d3122438.jpg");
+
+        //响应头的设置
+        response.reset();
+        response.setCharacterEncoding("utf-8");
+        response.setContentType("application/octet-stream;charset=utf-8");// 设置response内容的类型
+
+        //设置压缩包的名字
+        //解决不同浏览器压缩包名字含有中文时乱码的问题
+        String downloadName = "test.zip";
+        String agent = request.getHeader("USER-AGENT");
+        ZipOutputStream zipos = null;
+        //循环将文件写入压缩流
+        DataOutputStream os = null;
+        try {
+            if (agent.contains("MSIE")||agent.contains("Trident")) {
+                downloadName = java.net.URLEncoder.encode(downloadName, "UTF-8");
+            } else {
+                downloadName = new String(downloadName.getBytes("UTF-8"),"ISO-8859-1");
+            }
+            response.setHeader("Content-Disposition", "attachment;fileName=\"" + downloadName + "\"");
+
+            //设置压缩流：直接写入response，实现边压缩边下载
+            zipos = new ZipOutputStream(new BufferedOutputStream(response.getOutputStream()));
+            zipos.setMethod(ZipOutputStream.DEFLATED); //设置压缩方法
+
+            for(int i = 0; i < list.size(); i++ ){
+
+                InputStream is = null;
+                try{
+                    File file = new File(list.get(i));
+                    if(file.exists()){
+                        //添加ZipEntry，并ZipEntry中写入文件流
+                        //这里，加上i是防止要下载的文件有重名的导致下载失败
+                        zipos.putNextEntry(new ZipEntry(i + "_" + file.getName()));
+                        os = new DataOutputStream(zipos);
+                        is = new FileInputStream(file);
+                        byte[] b = new byte[1024];
+                        int length;
+                        while((length = is.read(b))!= -1){
+                            os.write(b, 0, length);
+                        }
+                    }
+                } finally {
+                    if(null != is){
+                        is.close();
+                    }
+                    zipos.closeEntry();
+                }
+
+            }
+            if(null != os){
+                os.flush();
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            //关闭流
+            try {
+                if(null != os){
+                    os.close();
+                }
+                if(null != zipos){
+                    zipos.close();
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

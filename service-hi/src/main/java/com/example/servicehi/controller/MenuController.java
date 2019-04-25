@@ -4,6 +4,7 @@ import com.example.servicehi.entity.Menu;
 import com.example.servicehi.service.MenuService;
 import com.example.servicehi.util.ResponseUtil;
 import com.example.servicehi.util.UUIDUtil;
+import com.example.servicehi.util.ZipFileUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +26,9 @@ public class MenuController {
 
     @PostMapping(value = "/createUUID")
     public ResponseUtil createUUID(){
+        ZipFileUtils.init("D://1");
+        ZipFileUtils.writeToZipFile("D://images");
+        ZipFileUtils.close();
         return new ResponseUtil(UUIDUtil.createUUID());
     }
 }
