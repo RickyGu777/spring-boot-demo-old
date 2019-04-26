@@ -68,6 +68,7 @@ public class WxBindController {
             String toUserName = map.get("ToUserName");
             String fromUserName = map.get("FromUserName");
             String content = map.get("Content");
+            String msgType = map.get("MsgType");
 
             WeChatPublicAccount weChatPublicAccount = new WeChatPublicAccount();
             WeChatPublicAccountResponseInfo weChatPublicAccountResponseInfo = new WeChatPublicAccountResponseInfo();
@@ -96,12 +97,13 @@ public class WxBindController {
                     + "<Content><![CDATA[" + msg + "]]></Content>" //文本内容，
                     + "<MsgId>" + number + "</MsgId> " //消息id，随便填，但位数要够
                     + "</xml>";
-
-            weChatPublicAccount.setMessageId(number);
-            weChatPublicAccount.setWxOpenid(fromUserName);
-            weChatPublicAccount.setUserSendInfo(content);
-            weChatPublicAccount.setResponseInfo(msg);
-            weChatPublicAccountService.insert(weChatPublicAccount);
+            if (WeChatMessageUtil.MESSAGE_TEXT.equals(msgType)) {
+                weChatPublicAccount.setMessageId(number);
+                weChatPublicAccount.setWxOpenid(fromUserName);
+                weChatPublicAccount.setUserSendInfo(content);
+                weChatPublicAccount.setResponseInfo(msg);
+                weChatPublicAccountService.insert(weChatPublicAccount);
+            }
 
             out.println(replyMsg);//回复
         } catch (Exception e) {
