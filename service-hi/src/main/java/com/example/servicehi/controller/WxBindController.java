@@ -93,25 +93,25 @@ public class WxBindController {
             String s = WeChatMessageUtil.textMessageToTxtXml(textMessage);
             log.info(s);
             // 对用户发送过来的内容选择要回复的内容
-//            long time = new Date().getTime();
-//            String number = RandomUtil.createNumber(16);
-//            String replyMsg = "<xml>"
-//                    + "<ToUserName><![CDATA[" + fromUserName + "]]></ToUserName>" //回复用户时，这里是用户的openid；但用户发送过来消息这里是微信公众号的原始id
-//                    + "<FromUserName><![CDATA[" + toUserName + "]]></FromUserName>" //这里填写微信公众号 的原始id；用户发送过来时这里是用户的openid
-//                    + "<CreateTime>" + time + "</CreateTime>" //这里可以填创建信息的时间，目前测试随便填也可以
-//                    + "<MsgType><![CDATA[text]]></MsgType>" //文本类型，text，可以不改
-//                    + "<Content><![CDATA[" + msg + "]]></Content>" //文本内容，
-//                    + "<MsgId>" + number + "</MsgId> " //消息id，随便填，但位数要够
-//                    + "</xml>";
-//            if (WeChatMessageUtil.MESSAGE_TEXT.equals(msgType)) {
-//                weChatPublicAccount.setMessageId(number);
-//                weChatPublicAccount.setWxOpenid(fromUserName);
-//                weChatPublicAccount.setUserSendInfo(content);
-//                weChatPublicAccount.setResponseInfo(msg);
-//                weChatPublicAccountService.insert(weChatPublicAccount);
-//            }
-
-            out.println(s);//回复
+            long time = new Date().getTime();
+            String number = RandomUtil.createNumber(16);
+            String replyMsg = "<xml>"
+                    + "<ToUserName><![CDATA[" + fromUserName + "]]></ToUserName>" //回复用户时，这里是用户的openid；但用户发送过来消息这里是微信公众号的原始id
+                    + "<FromUserName><![CDATA[" + toUserName + "]]></FromUserName>" //这里填写微信公众号 的原始id；用户发送过来时这里是用户的openid
+                    + "<CreateTime>" + time + "</CreateTime>" //这里可以填创建信息的时间，目前测试随便填也可以
+                    + "<MsgType><![CDATA[text]]></MsgType>" //文本类型，text，可以不改
+                    + "<Content><![CDATA[" + msg + "]]></Content>" //文本内容，
+                    + "<MsgId>" + number + "</MsgId> " //消息id，随便填，但位数要够
+                    + "</xml>";
+            if (WeChatMessageUtil.MESSAGE_TEXT.equals(msgType)) {
+                weChatPublicAccount.setMessageId(number);
+                weChatPublicAccount.setWxOpenid(fromUserName);
+                weChatPublicAccount.setUserSendInfo(content);
+                weChatPublicAccount.setResponseInfo(msg);
+                weChatPublicAccountService.insert(weChatPublicAccount);
+            }
+            log.info(replyMsg);
+            out.println(replyMsg);//回复
         } catch (Exception e) {
             e.printStackTrace();
         }
