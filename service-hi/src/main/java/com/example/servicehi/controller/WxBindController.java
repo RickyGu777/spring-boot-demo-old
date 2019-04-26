@@ -11,16 +11,13 @@ import com.example.servicehi.service.WeChatPublicAccountService;
 import com.example.servicehi.util.HttpUtil;
 import com.example.servicehi.util.RandomUtil;
 import com.example.servicehi.util.ResponseUtil;
+import com.example.servicehi.util.WeChatMessageUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.MessageDigest;
@@ -59,54 +56,51 @@ public class WxBindController {
     }
 
     @PostMapping
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) {
         log.info("doPost");
-        request.setCharacterEncoding("UTF-8");
-        response.setCharacterEncoding("UTF-8");
-        response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-
         try {
-            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-            DocumentBuilder db = dbf.newDocumentBuilder();
-            Document document = db.parse(request.getInputStream());
-            Element root = document.getDocumentElement();
-            String wechatId = root.getElementsByTagName("ToUserName").item(0).getTextContent();
-            String openid = root.getElementsByTagName("FromUserName").item(0).getTextContent();
-            String msg = root.getElementsByTagName("Content").item(0).getTextContent();//用户发送的内容
+            request.setCharacterEncoding("UTF-8");
+            response.setCharacterEncoding("UTF-8");
+            response.setContentType("text/html;charset=UTF-8");
+            PrintWriter out = response.getWriter();
+
+            Map<String, String> map = WeChatMessageUtil.xmlToMap(request);
+            String toUserName = map.get("ToUserName");
+            String fromUserName = map.get("FromUserName");
+            String content = map.get("Content");
 
             WeChatPublicAccount weChatPublicAccount = new WeChatPublicAccount();
             WeChatPublicAccountResponseInfo weChatPublicAccountResponseInfo = new WeChatPublicAccountResponseInfo();
-            weChatPublicAccountResponseInfo.setRequestInfo(msg);
+            weChatPublicAccountResponseInfo.setRequestInfo(content);
             weChatPublicAccountResponseInfo = weChatPublicAccountResponseInfoService.selectByRequestInfo(weChatPublicAccountResponseInfo);
-            String content;
+            String msg;
 
             if (weChatPublicAccountResponseInfo == null) {
-                content = "这里是FinalFantasyXIV爱好者的微信公众号，" +
+                msg = "这里是FinalFantasyXIV爱好者的微信公众号，" +
                         "如果我的公众号有任何侵犯您版权的信息，" +
                         "请将发送邮件至544107550@qq.com，" +
                         "并在邮件中留下您的可靠的联系方式，我将尽快联系您。" +
                         "与您核实侵权信息后我将尽快删除。";
             } else {
-                content = weChatPublicAccountResponseInfo.getResponseInfo();
+                msg = weChatPublicAccountResponseInfo.getResponseInfo();
                 weChatPublicAccount.setResponseInfoId(weChatPublicAccountResponseInfo.getId());
             }
             // 对用户发送过来的内容选择要回复的内容
             long time = new Date().getTime();
             String number = RandomUtil.createNumber(16);
             String replyMsg = "<xml>"
-                    + "<ToUserName><![CDATA[" + openid + "]]></ToUserName>"//回复用户时，这里是用户的openid；但用户发送过来消息这里是微信公众号的原始id
-                    + "<FromUserName><![CDATA[" + wechatId + "]]></FromUserName>"//这里填写微信公众号 的原始id；用户发送过来时这里是用户的openid
-                    + "<CreateTime>" + time + "</CreateTime>"//这里可以填创建信息的时间，目前测试随便填也可以
-                    + "<MsgType><![CDATA[text]]></MsgType>"//文本类型，text，可以不改
-                    + "<Content><![CDATA[" + content + "]]></Content>"//文本内容，
-                    + "<MsgId>" + number + "</MsgId> "//消息id，随便填，但位数要够
+                    + "<ToUserName><![CDATA[" + fromUserName + "]]></ToUserName>" //回复用户时，这里是用户的openid；但用户发送过来消息这里是微信公众号的原始id
+                    + "<FromUserName><![CDATA[" + toUserName + "]]></FromUserName>" //这里填写微信公众号 的原始id；用户发送过来时这里是用户的openid
+                    + "<CreateTime>" + time + "</CreateTime>" //这里可以填创建信息的时间，目前测试随便填也可以
+                    + "<MsgType><![CDATA[text]]></MsgType>" //文本类型，text，可以不改
+                    + "<Content><![CDATA[" + msg + "]]></Content>" //文本内容，
+                    + "<MsgId>" + number + "</MsgId> " //消息id，随便填，但位数要够
                     + "</xml>";
 
             weChatPublicAccount.setMessageId(number);
-            weChatPublicAccount.setWxOpenid(openid);
-            weChatPublicAccount.setUserSendInfo(msg);
-            weChatPublicAccount.setResponseInfo(content);
+            weChatPublicAccount.setWxOpenid(fromUserName);
+            weChatPublicAccount.setUserSendInfo(content);
+            weChatPublicAccount.setResponseInfo(msg);
             weChatPublicAccountService.insert(weChatPublicAccount);
 
             out.println(replyMsg);//回复
@@ -184,7 +178,7 @@ public class WxBindController {
     private String getAccessToken() throws Exception {
         AccessToken instance = AccessToken.getInstance();
         System.out.println(instance);
-        if (instance.getToken() == null || new Date().getTime()-instance.getCreateDate().getTime() > 7000) {
+        if (instance.getToken() == null || new Date().getTime() - instance.getCreateDate().getTime() > 7000) {
             instance.setCreateDate(new Date());
             String url = "https://api.weixin.qq.com/cgi-bin/token";
             HashMap<String, String> params = new HashMap<>();
