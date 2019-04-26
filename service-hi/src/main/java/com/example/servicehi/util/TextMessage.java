@@ -11,4 +11,5 @@ public class TextMessage {
     private String msgType;
     private Long createTime;
     private String content;
+    private String msgId;
 }
