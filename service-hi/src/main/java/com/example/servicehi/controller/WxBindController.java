@@ -182,7 +182,7 @@ public class WxBindController {
      */
     private String getAccessToken() throws Exception {
         AccessToken instance = AccessToken.getInstance();
-        if (instance.getToken() == null || instance.getCreateDate().getTime() - new Date().getTime() > 7000) {
+        if (instance.getToken() == null || new Date().getTime()-instance.getCreateDate().getTime() > 7000) {
             instance.setCreateDate(new Date());
             String url = "https://api.weixin.qq.com/cgi-bin/token";
             HashMap<String, String> params = new HashMap<>();
