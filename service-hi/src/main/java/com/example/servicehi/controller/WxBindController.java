@@ -182,9 +182,6 @@ public class WxBindController {
      */
     private String getAccessToken() throws Exception {
         AccessToken instance = AccessToken.getInstance();
-        System.out.println(instance.getToken() == null);
-        System.out.println(config.getWeChatAppId());
-        System.out.println(config.getWeChatAppSecret());
         if (instance.getToken() == null || instance.getCreateDate().getTime() - new Date().getTime() > 7000) {
             instance.setCreateDate(new Date());
             String url = "https://api.weixin.qq.com/cgi-bin/token";
@@ -194,9 +191,6 @@ public class WxBindController {
             params.put("grant_type", "client_credential");
 
             String s = HttpUtil.get(url, params);
-            log.info("=======");
-            log.info(s);
-            log.info("=======");
             Map map = JSON.parseObject(s, Map.class);
             if (map.get("access_token") != null) {
                 instance.setToken(map.get("access_token").toString());
@@ -210,9 +204,6 @@ public class WxBindController {
     }
 
     private String getTicket(String accessToke) throws Exception {
-        if (accessToke == null) {
-            accessToke = getAccessToken();
-        }
         String url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket";
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("type", "jsapi");
