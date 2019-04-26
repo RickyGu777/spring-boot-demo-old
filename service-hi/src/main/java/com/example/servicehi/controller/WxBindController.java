@@ -53,7 +53,8 @@ public class WxBindController {
     }
 
     @PostMapping
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response,@RequestBody String requestBody) {
+        log.info("requestBody[{}]",requestBody);
         log.info("doPost");
         try {
             request.setCharacterEncoding("UTF-8");
