@@ -61,6 +61,7 @@ public class WxBindController {
 
     @PostMapping
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        log.info("doPost");
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
