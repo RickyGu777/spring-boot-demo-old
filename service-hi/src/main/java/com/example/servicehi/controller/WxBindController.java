@@ -90,6 +90,7 @@ public class WxBindController {
             textMessage.setFromUserName(toUserName);
             textMessage.setToUserName(fromUserName);
             String s = WeChatMessageUtil.textMessageToXml(textMessage);
+            log.info(s);
             // 对用户发送过来的内容选择要回复的内容
 //            long time = new Date().getTime();
 //            String number = RandomUtil.createNumber(16);
