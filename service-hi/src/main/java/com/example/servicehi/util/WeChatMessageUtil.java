@@ -1,6 +1,5 @@
 package com.example.servicehi.util;
 
-import com.thoughtworks.xstream.XStream;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
@@ -9,7 +8,6 @@ import org.dom4j.io.SAXReader;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,14 +28,14 @@ public class WeChatMessageUtil {
 
     /**
      * xml转为map
+     *
      * @param request
      * @return
      * @throws DocumentException
      * @throws IOException
      */
-    public static Map<String, String> xmlToMap(HttpServletRequest request ) throws DocumentException, IOException
-    {
-        Map<String,String> map = new HashMap();
+    public static Map<String, String> xmlToMap(HttpServletRequest request) throws DocumentException, IOException {
+        Map<String, String> map = new HashMap();
 
         SAXReader reader = new SAXReader();
 
@@ -53,19 +51,16 @@ public class WeChatMessageUtil {
         return map;
     }
 
-    public static String textMessageToXml(TextMessage textMessage){
-        XStream xstream = new XStream();
-        xstream.alias("xml", textMessage.getClass());
-        return xstream.toXML(textMessage);
+    public static String textMessageToTxtXml(TextMessage textMessage) {
+        String msg = "<xml>"
+                + "<ToUserName><![CDATA[" + textMessage.getFromUserName() + "]]></ToUserName>" //回复用户时，这里是用户的openid；但用户发送过来消息这里是微信公众号的原始id
+                + "<FromUserName><![CDATA[" + textMessage.getToUserName() + "]]></FromUserName>" //这里填写微信公众号 的原始id；用户发送过来时这里是用户的openid
+                + "<CreateTime>" + textMessage.getCreateTime() + "</CreateTime>" //这里可以填创建信息的时间，目前测试随便填也可以
+                + "<MsgType><![CDATA[text]]></MsgType>" //文本类型，text，可以不改
+                + "<Content><![CDATA[" + textMessage.getContent() + "]]></Content>" //文本内容，
+                + "<MsgId>" + textMessage.getMsgId() + "</MsgId> " //消息id，随便填，但位数要够
+                + "</xml>";
+        return msg;
 
-    }
-    public static String initText(String toUserName, String fromUserName, String content){
-        TextMessage text = new TextMessage();
-        text.setFromUserName(toUserName);
-        text.setToUserName(fromUserName);
-        text.setMsgType(MESSAGE_TEXT);
-        text.setCreateTime(new Date().getTime());
-        text.setContent(content);
-        return textMessageToXml(text);
     }
 }
