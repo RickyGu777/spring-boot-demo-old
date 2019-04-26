@@ -13,7 +13,6 @@ import com.example.servicehi.util.RandomUtil;
 import com.example.servicehi.util.ResponseUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.Validate;
 import org.springframework.web.bind.annotation.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -66,6 +65,7 @@ public class WxBindController {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
+
         try {
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
@@ -111,7 +111,7 @@ public class WxBindController {
 
             out.println(replyMsg);//回复
         } catch (Exception e) {
-            log.error(e.toString());
+            e.printStackTrace();
         }
     }
 
@@ -194,13 +194,8 @@ public class WxBindController {
 
             String s = HttpUtil.get(url, params);
             Map map = JSON.parseObject(s, Map.class);
-            if (map.get("access_token") != null) {
-                instance.setToken(map.get("access_token").toString());
-                return instance.getToken();
-            } else {
-                Validate.isTrue(true, "获取Token出错");
-                return null;
-            }
+            instance.setToken(map.get("access_token").toString());
+            return instance.getToken();
         }
         return instance.getToken();
     }
