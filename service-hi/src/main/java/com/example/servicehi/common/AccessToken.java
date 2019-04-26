@@ -1,7 +1,10 @@
 package com.example.servicehi.common;
 
+import lombok.ToString;
+
 import java.util.Date;
 
+@ToString
 public class AccessToken {
     private String token;
     private Date createDate;
