@@ -1,12 +1,12 @@
 package com.example.servicehi.entity;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.apache.ibatis.type.Alias;
 
 @Alias("BaiduOCRWords")
-@ToString
+@ToString(callSuper = true)
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 public class BaiduOCRWords extends BaseEntity {

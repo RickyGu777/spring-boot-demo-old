@@ -12,9 +12,12 @@ spring:
     url: jdbc:mysql://demo:3306/finalfantasyxiv?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Hongkong
     username: fell
     password: finalfantasyxiv
-    dbcp2:
-      validation-query: SELECT 1
-      test-on-borrow: true
+  #    url: jdbc:mysql://demo:3306/finalfantasyxiv?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Hongkong
+  #    username: fell
+  #    password: finalfantasyxiv
+  #    dbcp2:
+  #      validation-query: SELECT 1
+  #      test-on-borrow: true
   boot:
     admin:
       client:
@@ -56,7 +59,7 @@ pagehelper:
 
 logging:
   level:
-    com.example.servicehi.dao : debug
+    com.example.servicehi.dao: debug
 
 delete_old_auth: true #删除旧权限
 
