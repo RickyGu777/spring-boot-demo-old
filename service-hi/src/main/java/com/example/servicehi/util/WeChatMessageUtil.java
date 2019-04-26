@@ -68,18 +68,4 @@ public class WeChatMessageUtil {
         text.setContent(content);
         return textMessageToXml(text);
     }
-
-    public static String menuText(){
-        StringBuffer sb = new StringBuffer();
-        sb.append("      你关注，\n");
-        sb.append("     或者不关注，\n");
-        sb.append("      【你我杂志刊】都在这里!\n");
-        sb.append("     不离，\n");
-        sb.append("      不弃！\n\n");
-        sb.append("该公众号已实现以下功能：\n");
-        sb.append("回复“天气”、“翻译” 将有该功能的介绍与使用，\n");
-        sb.append("如您在使用该公众有任何宝贵意见，欢迎反馈！\n\n");
-        sb.append("反馈邮箱：zhenqicai@sohu.com");
-        return sb.toString();
-    }
 }
