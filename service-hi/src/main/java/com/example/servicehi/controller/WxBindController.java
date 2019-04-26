@@ -63,6 +63,7 @@ public class WxBindController {
                           @RequestParam("openid") String openid,
                           @RequestParam(name = "encrypt_type", required = false) String encType,
                           @RequestParam(name = "msg_signature", required = false) String msgSignature) {
+        log.info("doPost");
         log.info(appid);
         log.info(requestBody);
         log.info(signature);
