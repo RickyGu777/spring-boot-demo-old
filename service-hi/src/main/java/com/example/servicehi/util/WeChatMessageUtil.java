@@ -53,8 +53,8 @@ public class WeChatMessageUtil {
 
     public static String textMessageToTxtXml(TextMessage textMessage) {
         String msg = "<xml>"
-                + "<ToUserName><![CDATA[" + textMessage.getFromUserName() + "]]></ToUserName>" //回复用户时，这里是用户的openid；但用户发送过来消息这里是微信公众号的原始id
-                + "<FromUserName><![CDATA[" + textMessage.getToUserName() + "]]></FromUserName>" //这里填写微信公众号 的原始id；用户发送过来时这里是用户的openid
+                + "<ToUserName><![CDATA[" + textMessage.getToUserName() + "]]></ToUserName>" //回复用户时，这里是用户的openid；但用户发送过来消息这里是微信公众号的原始id
+                + "<FromUserName><![CDATA[" + textMessage.getFromUserName() + "]]></FromUserName>" //这里填写微信公众号 的原始id；用户发送过来时这里是用户的openid
                 + "<CreateTime>" + textMessage.getCreateTime() + "</CreateTime>" //这里可以填创建信息的时间，目前测试随便填也可以
                 + "<MsgType><![CDATA[text]]></MsgType>" //文本类型，text，可以不改
                 + "<Content><![CDATA[" + textMessage.getContent() + "]]></Content>" //文本内容，
