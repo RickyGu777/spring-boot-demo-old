@@ -53,8 +53,24 @@ public class WxBindController {
     }
 
     @PostMapping
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) {
-        log.info("doPost");
+    protected void doPost(HttpServletRequest request,
+                          HttpServletResponse response,
+                          @PathVariable String appid,
+                          @RequestBody String requestBody,
+                          @RequestParam("signature") String signature,
+                          @RequestParam("timestamp") String timestamp,
+                          @RequestParam("nonce") String nonce,
+                          @RequestParam("openid") String openid,
+                          @RequestParam(name = "encrypt_type", required = false) String encType,
+                          @RequestParam(name = "msg_signature", required = false) String msgSignature) {
+        log.info(appid);
+        log.info(requestBody);
+        log.info(signature);
+        log.info(timestamp);
+        log.info(nonce);
+        log.info(openid);
+        log.info(encType);
+        log.info(msgSignature);
         try {
             request.setCharacterEncoding("UTF-8");
             response.setCharacterEncoding("UTF-8");
