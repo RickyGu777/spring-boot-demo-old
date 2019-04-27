@@ -12,7 +12,8 @@
       <x-button @click.native="iconType = ''" type="primary"> set empty</x-button>
     </div>
 -->
-    <x-img src="https://i.loli.net/2019/04/18/5cb86a01ded5d.jpg"></x-img>
+    <!--<x-img src="https://i.loli.net/2019/04/18/5cb86a01ded5d.jpg"></x-img>-->
+    <text class='cuIcon-newsfill'></text>
   </div>
 </template>
 
