@@ -1,14 +1,14 @@
 package com.example.servicehi.entity;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.apache.ibatis.type.Alias;
 
 @Alias("TipsRelation")
 @Getter
 @Setter
-@ToString
+@ToString(callSuper = true)
+@NoArgsConstructor
+@AllArgsConstructor
 public class TipsRelation extends BaseEntity{
     private String tipsUUID;
     private String tipsName;

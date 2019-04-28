@@ -1,8 +1,6 @@
 package com.example.servicehi.entity;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.apache.ibatis.type.Alias;
 
 import java.util.Objects;
@@ -10,7 +8,9 @@ import java.util.Objects;
 @Alias("ShareTicketUrl")
 @Getter
 @Setter
-@ToString
+@ToString(callSuper = true)
+@NoArgsConstructor
+@AllArgsConstructor
 public class ShareTicketUrl extends BaseEntity{
     private String url;
     private String title;

@@ -285,7 +285,7 @@ class DownLoadPicture implements Runnable {
     public void run() {
         System.err.println("文件名" + fileName);
         System.err.println("生成文件路径：" + downPath);
-        System.err.println("下载路径" + fileUrl);
+        System.err.println("下载路径" + fileUrl.split("\r\n")[0].replace("\";","") + fileName.split("_")[1]+"_"+fileName.split("_")[2]);
         File savePath = new File(downPath);
         if (!savePath.exists()) {
             savePath.mkdir();
@@ -299,7 +299,7 @@ class DownLoadPicture implements Runnable {
                 file.createNewFile();
             }
             OutputStream oputstream = new FileOutputStream(file);
-            URL url = new URL(fileUrl);
+            URL url = new URL(fileUrl.split("\r\n")[0].replace("\";","") + fileName.split("_")[1]+"_"+fileName.split("_")[2]);
             URLConnection uc;
             uc = url.openConnection();
             uc.addRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 6.0;WindowsNT 5.0)");
