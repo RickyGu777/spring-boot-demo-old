@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Map;
 
 @RequestMapping(value = "/AhriUrl")
 @RestController
@@ -29,7 +28,6 @@ public class AhriUrlController {
     @PostMapping(value = "/insert")
     public ResponseUtil insert(@RequestBody AhriUrl ahriUrl) {
         List<AhriUrl> ahriUrls = ahriUrlService.selectURL(ahriUrl);
-
         if (ahriUrls.isEmpty()) {
             ahriUrlService.insert(ahriUrl);
             log.info("新增成功");

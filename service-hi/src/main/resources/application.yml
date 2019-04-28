@@ -12,9 +12,7 @@ spring:
     url: jdbc:mysql://demo:3306/finalfantasyxiv?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Hongkong
     username: fell
     password: finalfantasyxiv
-    dbcp2:
-      validation-query: SELECT 1
-      test-on-borrow: true
+
   boot:
     admin:
       client:
@@ -28,6 +26,17 @@ spring:
     multipart:
       max-file-size: 10MB
       max-request-size: 100MB
+  redis:
+    port: 6379
+    host: demo
+    password: finalfantasyxiv
+    jedis:
+      pool:
+        max-active: 8
+        max-wait: -1
+        max-idle: 8
+        min-idle: 0
+    timeout: 300
 
 eureka:
   client:
@@ -56,6 +65,7 @@ pagehelper:
 
 logging:
   level:
+    com.example.servicehi.controller: info
     com.example.servicehi.dao : debug
 
 delete_old_auth: true #删除旧权限

@@ -2,7 +2,6 @@ package com.example.servicehi.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
-import com.example.servicehi.common.AccessToken;
 import com.example.servicehi.common.Config;
 import com.example.servicehi.entity.WeChatPublicAccount;
 import com.example.servicehi.entity.WeChatPublicAccountResponseInfo;
@@ -11,6 +10,8 @@ import com.example.servicehi.service.WeChatPublicAccountService;
 import com.example.servicehi.util.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +21,7 @@ import java.io.PrintWriter;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 @RequestMapping(value = "/Wx")
 @RestController
@@ -31,6 +33,8 @@ public class WxBindController {
     private final WeChatPublicAccountService<WeChatPublicAccount> weChatPublicAccountService;
 
     private final WeChatPublicAccountResponseInfoService<WeChatPublicAccountResponseInfo> weChatPublicAccountResponseInfoService;
+
+    private final RedisTemplate<String, String> redisTemplate;
 
     @GetMapping
     public void get(HttpServletRequest request, HttpServletResponse response) {
@@ -53,8 +57,8 @@ public class WxBindController {
     }
 
     @PostMapping
-    protected void doPost(HttpServletRequest request, HttpServletResponse response,@RequestBody String requestBody) {
-        log.info("requestBody[{}]",requestBody);
+    protected void doPost(HttpServletRequest request, HttpServletResponse response, @RequestBody String requestBody) {
+        log.info("requestBody[{}]", requestBody);
         log.info("doPost");
         try {
             request.setCharacterEncoding("UTF-8");
@@ -155,6 +159,27 @@ public class WxBindController {
         return new ResponseUtil(json);
     }
 
+    @PostMapping(value = "/getAccessToken")
+    public ResponseUtil AccessToken(){
+        return new ResponseUtil<>(redisTemplate.opsForValue().get("accessToken"));
+    }
+
+    @PostMapping(value = "/refreshAccessToken")
+    public ResponseUtil refreshAccessToken() throws Exception {
+        String url = "https://api.weixin.qq.com/cgi-bin/token";
+        HashMap<String, String> params = new HashMap<>();
+        params.put("appid", config.getWeChatAppId());
+        params.put("secret", config.getWeChatAppSecret());
+        params.put("grant_type", "client_credential");
+
+        String s = HttpUtil.get(url, params);
+        Map map = JSON.parseObject(s, Map.class);
+        String access_token = map.get("access_token").toString();
+        redisTemplate.opsForValue().set("accessToken", access_token);
+        redisTemplate.expire("accessToken", 7190, TimeUnit.SECONDS);
+        return new ResponseUtil(access_token);
+    }
+
     private static String byteToString(byte[] bytes) {
         StringBuilder buf = new StringBuilder();
         for (int i = 0; i < bytes.length; i++) {
@@ -174,10 +199,8 @@ public class WxBindController {
      * @return
      */
     private String getAccessToken() throws Exception {
-        AccessToken instance = AccessToken.getInstance();
-        System.out.println(instance);
-        if (instance.getToken() == null || new Date().getTime() - instance.getCreateDate().getTime() > 7000) {
-            instance.setCreateDate(new Date());
+        String accessToken = redisTemplate.opsForValue().get("accessToken");
+        if (StringUtils.isEmpty(accessToken)) {
             String url = "https://api.weixin.qq.com/cgi-bin/token";
             HashMap<String, String> params = new HashMap<>();
             params.put("appid", config.getWeChatAppId());
@@ -186,10 +209,13 @@ public class WxBindController {
 
             String s = HttpUtil.get(url, params);
             Map map = JSON.parseObject(s, Map.class);
-            instance.setToken(map.get("access_token").toString());
-            return instance.getToken();
+            String access_token = map.get("access_token").toString();
+            redisTemplate.opsForValue().set("accessToken", access_token);
+            redisTemplate.expire("accessToken", 7190, TimeUnit.SECONDS);
+            return map.get("access_token").toString();
+        } else {
+            return accessToken;
         }
-        return instance.getToken();
     }
 
     private String getTicket(String accessToke) throws Exception {
