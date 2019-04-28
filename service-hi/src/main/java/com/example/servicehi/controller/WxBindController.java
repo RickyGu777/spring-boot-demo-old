@@ -9,6 +9,7 @@ import com.example.servicehi.service.WeChatPublicAccountResponseInfoService;
 import com.example.servicehi.service.WeChatPublicAccountService;
 import com.example.servicehi.util.*;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -159,8 +160,32 @@ public class WxBindController {
         return new ResponseUtil(json);
     }
 
+    @RequestMapping(value = "/deleteMenu")
+    public ResponseUtil deleteMenu() throws Exception {
+        String url = "https://api.weixin.qq.com/cgi-bin/menu/delete";
+        Map<String, String> params = new HashMap<>();
+        params.put("access_token", getAccessToken());
+        String json = HttpUtil.get(url, params);
+        return new ResponseUtil(json);
+    }
+
+    @RequestMapping(value = "/createMenu")
+    public ResponseUtil createMenu() throws Exception {
+        String url = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=" + getAccessToken();
+        Map<String, Object> params = new HashMap<>();
+        ArrayList<menu> menus = new ArrayList<>();
+        menus.add(new menu("委托方", "view", "https://fc-wechat.wind56.com/app.html?currentRole=20"));
+        menus.add(new menu("承运商", "view", "https://fc-wechat.wind56.com/app.html?currentRole=30"));
+        menus.add(new menu("司机", "view", "https://fc-wechat.wind56.com/app.html?currentRole=50"));
+        params.put("button", menus);
+        String s = JSON.toJSONString(params);
+        log.info(s);
+        String json = HttpUtil.sendPost(url, s);
+        return new ResponseUtil(json);
+    }
+
     @PostMapping(value = "/getAccessToken")
-    public ResponseUtil AccessToken(){
+    public ResponseUtil AccessToken() {
         return new ResponseUtil<>(redisTemplate.opsForValue().get("accessToken"));
     }
 
@@ -285,7 +310,11 @@ public class WxBindController {
         return s;
     }
 
-    public static void main(String[] args) {
-        System.out.println(new Date().getTime());
+    @Data
+    @AllArgsConstructor
+    class menu {
+        private String name;
+        private String type;
+        private String url;
     }
 }
