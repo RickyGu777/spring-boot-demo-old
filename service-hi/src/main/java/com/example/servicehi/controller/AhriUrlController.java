@@ -4,6 +4,7 @@ import com.example.servicehi.entity.AhriUrl;
 import com.example.servicehi.service.AhriUrlService;
 import com.example.servicehi.util.JsoupTest;
 import com.example.servicehi.util.ResponseUtil;
+import com.example.servicehi.util.ZipFileUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,6 +46,14 @@ public class AhriUrlController {
         JsoupTest instance = JsoupTest.getInstance();
         instance.Download();
         ahriUrls.forEach(t -> ahriUrlService.delete(t));
+        return new ResponseUtil();
+    }
+
+    @PostMapping(value = "/createZIP")
+    public ResponseUtil createZIP() {
+        ZipFileUtils.init("D://1");
+        ZipFileUtils.writeToZipFile("D://images");
+        ZipFileUtils.close();
         return new ResponseUtil();
     }
 }
