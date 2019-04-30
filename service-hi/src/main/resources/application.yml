@@ -17,11 +17,11 @@ spring:
     admin:
       client:
         url: http://localhost:8791
-#  mail:
-#    host: smtp.qq.com
-#    username: 544107559@qq.com
-#    password: wbdagumkfakmbbjb
-#    default-encoding: utf-8
+  mail:
+    host: smtp.qq.com
+    username: 544107559@qq.com
+    password: kxxochmhfkaybfhi
+    default-encoding: utf-8
   servlet:
     multipart:
       max-file-size: 10MB
