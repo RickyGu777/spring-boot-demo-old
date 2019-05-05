@@ -51,8 +51,10 @@ public class Init implements InitializingBean {
     }
 
     private void sendIP() throws IOException {
+        log.info("send ip start");
+        log.info("web address :[{}]", searchIPWebSite);
         String v4IP = IPAddressUtil.getInstance(searchIPWebSite).getV4IP();
-        log.info("v4IP:[{}]",v4IP);
+        log.info("v4IP:[{}]", v4IP);
         String localMac = MacAddressUtil.getLocalMac();
         IpAddress ipAddress = new IpAddress();
         ipAddress.setIp(v4IP);
