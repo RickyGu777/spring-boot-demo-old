@@ -23,7 +23,7 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 import java.io.IOException;
 import java.util.*;
 
-//@Component
+@Component
 @Slf4j
 public class Init implements InitializingBean {
     @Autowired
@@ -46,7 +46,9 @@ public class Init implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
+        log.info("send start");
         sendIP();
+        log.info("send end");
         initAuth();
     }
 
