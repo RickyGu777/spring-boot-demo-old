@@ -3,3 +3,8 @@ server:
 spring:
   application:
     name: ADMIN-SERVER
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://demo:8761/eureka/

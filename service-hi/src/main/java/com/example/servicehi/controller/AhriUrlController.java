@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.File;
 import java.util.List;
 
 @RequestMapping(value = "/AhriUrl")
@@ -51,9 +52,17 @@ public class AhriUrlController {
 
     @PostMapping(value = "/createZIP")
     public ResponseUtil createZIP() {
-        ZipFileUtils.init("D://1");
-        ZipFileUtils.writeToZipFile("D://images");
-        ZipFileUtils.close();
+//        ZipFileUtils.init("D://1");
+//        ZipFileUtils.writeToZipFile("D://images");
+//        ZipFileUtils.close();
+        File[] files = ZipFileUtils.zipFileList("D:\\AirDroid");
+        for (File file : files) {
+            if (file.isDirectory()) {
+                ZipFileUtils.init("D://" + file.getName());
+                ZipFileUtils.writeToZipFile("D:\\AirDroid");
+                ZipFileUtils.close();
+            }
+        }
         return new ResponseUtil();
     }
 }
