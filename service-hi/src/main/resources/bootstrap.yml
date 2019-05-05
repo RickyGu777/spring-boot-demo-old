@@ -1,0 +1,76 @@
+server:
+  port: 8762
+
+spring:
+  application:
+    name: SERVICE-HI
+  jackson:
+    time-zone: GMT+8
+    default-property-inclusion: non_empty
+    date-format: yyyy-MM-dd HH:mm:ss
+  datasource:
+    url: jdbc:mysql://demo:3306/finalfantasyxiv?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Hongkong
+    username: fell
+    password: finalfantasyxiv
+  cloud:
+    config:
+      name: ${spring.application.name}
+      profile: dev
+      uri: 'http://localhost:8763'
+  mail:
+    host: smtp.qq.com
+    username: 544107559@qq.com
+    password: kxxochmhfkaybfhi
+    default-encoding: utf-8
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 100MB
+  redis:
+    port: 6379
+    host: demo
+    password: finalfantasyxiv
+    jedis:
+      pool:
+        max-active: 8
+        max-wait: -1
+        max-idle: 8
+        min-idle: 0
+    timeout: 300
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://demo:8761/eureka/
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.example.servicehi.entity
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+uploadImagePath:
+  windows: 'D:/images'
+  linux: '/usr/local/app/static/uploadImage'
+  linuxPath: '/static/uploadImage'
+
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+
+logging:
+  level:
+    com.example.servicehi.controller: info
+    com.example.servicehi.dao: debug
+
+delete_old_auth: true #删除旧权限
+
+wechat:
+  mp-app-id: wx180cb4037e983551
+  mp-app-secret: cf0bf3e4c546ded33dcd54b4290c145c
+  token: FinalFantasyXIV
