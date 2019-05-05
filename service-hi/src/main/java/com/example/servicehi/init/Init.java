@@ -38,7 +38,7 @@ public class Init implements InitializingBean {
     @Autowired
     private AuthService<Auth> authService;
 
-    @Value(("${delete_old_auth}"))
+    @Value("${delete_old_auth}")
     private boolean delete_old_auth;
 
     @Override

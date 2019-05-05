@@ -4,15 +4,15 @@ import com.example.servicehi.entity.AhriUrl;
 import com.example.servicehi.service.AhriUrlService;
 import com.example.servicehi.util.JsoupTest;
 import com.example.servicehi.util.ResponseUtil;
-import com.example.servicehi.util.ZipFileUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.File;
 import java.util.List;
 
 @RequestMapping(value = "/AhriUrl")
@@ -55,14 +55,14 @@ public class AhriUrlController {
 //        ZipFileUtils.init("D://1");
 //        ZipFileUtils.writeToZipFile("D://images");
 //        ZipFileUtils.close();
-        File[] files = ZipFileUtils.zipFileList("D:\\AirDroid");
-        for (File file : files) {
-            if (file.isDirectory()) {
-                ZipFileUtils.init("D://" + file.getName());
-                ZipFileUtils.writeToZipFile("D:\\AirDroid");
-                ZipFileUtils.close();
-            }
-        }
+//        File[] files = ZipFileUtils.zipFileList("D:\\AirDroid");
+//        for (File file : files) {
+//            if (file.isDirectory()) {
+//                ZipFileUtils.init("D://" + file.getName());
+//                ZipFileUtils.writeToZipFile("D:\\AirDroid");
+//                ZipFileUtils.close();
+//            }
+//        }
         return new ResponseUtil();
     }
 }
