@@ -53,3 +53,5 @@ wechat:
   mp-app-id: wx180cb4037e983551
   mp-app-secret: cf0bf3e4c546ded33dcd54b4290c145c
   token: FinalFantasyXIV
+
+searchIPWebSite: 'http://2019.ip138.com/ic.asp'

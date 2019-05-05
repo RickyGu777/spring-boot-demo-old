@@ -41,6 +41,9 @@ public class Init implements InitializingBean {
     @Value("${delete_old_auth}")
     private boolean delete_old_auth;
 
+    @Value("${searchIPWebSite}")
+    private String searchIPWebSite;
+
     @Override
     public void afterPropertiesSet() throws Exception {
         sendIP();
@@ -48,7 +51,7 @@ public class Init implements InitializingBean {
     }
 
     private void sendIP() throws IOException {
-        String v4IP = IPAddressUtil.getV4IP();
+        String v4IP = IPAddressUtil.getInstance(searchIPWebSite).getV4IP();
         String localMac = MacAddressUtil.getLocalMac();
         IpAddress ipAddress = new IpAddress();
         ipAddress.setIp(v4IP);
