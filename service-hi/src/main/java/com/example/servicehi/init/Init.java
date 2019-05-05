@@ -46,17 +46,13 @@ public class Init implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        log.info("send start");
+        log.info("start init");
         sendIP();
-        log.info("send end");
         initAuth();
     }
 
     private void sendIP() throws IOException {
-        log.info("send ip start");
-        log.info("web address :[{}]", searchIPWebSite);
         String v4IP = IPAddressUtil.getInstance(searchIPWebSite).getV4IP();
-        log.info("v4IP:[{}]", v4IP);
         String localMac = MacAddressUtil.getLocalMac();
         IpAddress ipAddress = new IpAddress();
         ipAddress.setIp(v4IP);
