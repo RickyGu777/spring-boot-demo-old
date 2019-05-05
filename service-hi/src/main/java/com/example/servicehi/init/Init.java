@@ -59,8 +59,8 @@ public class Init implements InitializingBean {
         ipAddress.setMac(localMac);
         ipAddressService.deleteByMac(ipAddress);
         ipAddressService.insert(ipAddress);
-
-        sendMail.send("[项目初始化IP地址查询]", "项目初始化外网IP为:" + v4IP + ";MAC地址为:" + localMac + ";");
+        log.info("to send");
+//        sendMail.send("[项目初始化IP地址查询]", "项目初始化外网IP为:" + v4IP + ";MAC地址为:" + localMac + ";");
     }
 
     private void initAuth() {
