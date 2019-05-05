@@ -4,3 +4,8 @@ server:
 spring:
   application:
     name: CONFIG-CLIENT
+
+#eureka:
+#  client:
+#    serviceUrl:
+#      defaultZone: http://demo:8761/eureka/
