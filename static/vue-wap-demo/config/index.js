@@ -20,7 +20,7 @@ module.exports = {
         }
       },
       '/static/': {
-        target: 'http://118.24.153.163/',  // 接口域名
+        target: 'http://demo/',  // 接口域名
         changeOrigin: true,  //是否跨域
         pathRewrite: {
           '^/': ''   //需要rewrite重写的,

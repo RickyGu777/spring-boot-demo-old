@@ -12,11 +12,15 @@ spring:
     url: jdbc:mysql://demo:3306/finalfantasyxiv?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Hongkong
     username: fell
     password: finalfantasyxiv
-
-  boot:
-    admin:
-      client:
-        url: http://localhost:8791
+  cloud:
+    config:
+      fail-fast: true
+      name: ${spring.application.name}
+      profile: dev
+      discovery:
+        enabled: false
+        service-id: CONFIG-CLIENT
+      uri:
   mail:
     host: smtp.qq.com
     username: 544107559@qq.com
@@ -66,7 +70,7 @@ pagehelper:
 logging:
   level:
     com.example.servicehi.controller: info
-    com.example.servicehi.dao : debug
+    com.example.servicehi.dao: debug
 
 delete_old_auth: true #删除旧权限
 
