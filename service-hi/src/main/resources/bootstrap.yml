@@ -11,7 +11,7 @@ spring:
       uri: 'http://demo:8763'
   admin:
     client:
-      url: 'http://localhost:8764'
+      url: 'http://demo:8764'
 
 eureka:
   client:
