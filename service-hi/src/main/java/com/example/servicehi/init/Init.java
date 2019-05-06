@@ -45,10 +45,15 @@ public class Init implements InitializingBean {
     private String searchIPWebSite;
 
     @Override
-    public void afterPropertiesSet() throws Exception {
+    public void afterPropertiesSet()  {
+        log.info("start init");
+        log.info("start init");
+        log.info("start init");
+        log.info("start init");
+        log.info("start init");
         log.info("start init");
 //        sendIP();
-        initAuth();
+//        initAuth();
     }
 
     private void sendIP() throws IOException {
