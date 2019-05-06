@@ -19,3 +19,13 @@ eureka:
     instance:
       lease-expiration-duration-in-seconds: 30
       lease-renewal-interval-in-seconds: 10
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: shutdown
+    #注意下面这个位置！！
+  endpoint:
+    shutdown:
+      enabled: true
