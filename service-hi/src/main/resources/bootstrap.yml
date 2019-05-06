@@ -9,8 +9,11 @@ spring:
       name: ${spring.application.name}
       profile: dev
       uri: 'http://demo:8763'
+  admin:
+    client:
+      url: 'http://localhost:8764'
 
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+#eureka:
+#  client:
+#    serviceUrl:
+#      defaultZone: http://localhost:8761/eureka/
