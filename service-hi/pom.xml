@@ -83,10 +83,12 @@
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
         <!-- 邮件配置 -->
+<!--
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
+-->
         <!-- mysql 链接配置 -->
         <dependency>
             <groupId>mysql</groupId>
