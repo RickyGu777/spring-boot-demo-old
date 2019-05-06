@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class SendMail {
-    @Autowired
-    private JavaMailSender mailSender; //自动注入的Bean
+//    @Autowired
+//    private JavaMailSender mailSender; //自动注入的Bean
 
     @Value("${spring.mail.username}")
     private String Sender; //读取配置文件中的参数
@@ -28,6 +28,6 @@ public class SendMail {
         message.setTo(Sender); //自己给自己发送邮件
         message.setSubject(subject);
         message.setText(text);
-        mailSender.send(message);
+//        mailSender.send(message);
     }
 }
