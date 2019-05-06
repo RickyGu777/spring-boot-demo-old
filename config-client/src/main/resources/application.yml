@@ -11,3 +11,13 @@ spring:
       server:
         native:
           search-locations: classpath:/config
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://demo:8761/eureka/
+    healthcheck:
+      enabled: true
+    instance:
+      lease-expiration-duration-in-seconds: 30
+      lease-renewal-interval-in-seconds: 10

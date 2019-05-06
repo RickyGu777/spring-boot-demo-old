@@ -7,11 +7,11 @@ spring:
     url: jdbc:mysql://demo:3306/finalfantasyxiv?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Hongkong
     username: fell
     password: finalfantasyxiv
-  mail:
-    host: smtp.qq.com
-    username: 544107559@qq.com
-    password: kxxochmhfkaybfhi
-    default-encoding: utf-8
+#  mail:
+#    host: smtp.qq.com
+#    username: 544107559@qq.com
+#    password: kxxochmhfkaybfhi
+#    default-encoding: utf-8
   servlet:
     multipart:
       max-file-size: 10MB
