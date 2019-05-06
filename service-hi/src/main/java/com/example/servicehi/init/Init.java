@@ -23,7 +23,6 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 import java.io.IOException;
 import java.util.*;
 
-@Component
 @Slf4j
 public class Init implements InitializingBean {
     @Autowired
