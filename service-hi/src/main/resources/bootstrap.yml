@@ -9,9 +9,12 @@ spring:
       name: ${spring.application.name}
       profile: dev
       uri: 'http://demo:8763'
-  admin:
-    client:
-      url: 'http://demo:8764'
+  boot:
+    admin:
+      client:
+        url: 'http://demo:8764'
+        username: 'root'
+        password: 'password'
 
 eureka:
   client:
