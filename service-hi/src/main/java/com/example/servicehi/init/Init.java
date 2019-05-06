@@ -47,7 +47,7 @@ public class Init implements InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
         log.info("start init");
-        sendIP();
+//        sendIP();
         initAuth();
     }
 
