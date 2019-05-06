@@ -16,3 +16,8 @@ eureka:
 spring:
   application:
     name: EURKA-SERVER
+
+management:
+  endpoint:
+    shutdown:
+      enabled: true
