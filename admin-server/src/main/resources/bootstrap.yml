@@ -24,8 +24,6 @@ management:
   endpoints:
     web:
       exposure:
-        include: shutdown
+        include: '*'
     #注意下面这个位置！！
-  endpoint:
-    shutdown:
-      enabled: true
+    enabled-by-default: true
