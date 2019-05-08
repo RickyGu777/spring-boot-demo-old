@@ -42,11 +42,6 @@ pagehelper:
   reasonable: true
   support-methods-arguments: true
 
-logging:
-  level:
-    com.example.servicehi.controller: info
-    com.example.servicehi.dao: debug
-
 delete_old_auth: true #删除旧权限
 
 wechat:

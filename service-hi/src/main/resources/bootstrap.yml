@@ -29,8 +29,3 @@ management:
         include: '*'
     #注意下面这个位置！！
     enabled-by-default: true
-
-logging:
-  level:
-    root: info
-    com.example.servicehi: debug
