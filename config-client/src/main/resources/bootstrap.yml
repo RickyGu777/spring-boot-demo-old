@@ -31,3 +31,5 @@ management:
   endpoint:
     shutdown:
       enabled: true
+logging:
+  config: classpath:logback.xml
