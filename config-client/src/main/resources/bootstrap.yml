@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: CONFIG-CLIENT
+    name: config-client
   profiles:
     active: native
   cloud:

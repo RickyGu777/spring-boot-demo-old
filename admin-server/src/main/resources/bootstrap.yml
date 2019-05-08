@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: ADMIN-SERVER
+    name: admin-server
   cloud:
     config:
       name: ${spring.application.name}
