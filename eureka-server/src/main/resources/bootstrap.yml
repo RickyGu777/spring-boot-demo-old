@@ -17,13 +17,12 @@ spring:
   application:
     name: eurka-server
 
-
-#management:
-#  endpoints:
-#    web:
-#      exposure:
-#        include: shutdown
-#    #注意下面这个位置！！
-#  endpoint:
-#    shutdown:
-#      enabled: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: shutdown
+    #注意下面这个位置！！
+  endpoint:
+    shutdown:
+      enabled: true
