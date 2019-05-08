@@ -21,7 +21,10 @@ import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 @Component
 @Slf4j
@@ -60,7 +63,7 @@ public class Init implements InitializingBean {
         ipAddressService.deleteByMac(ipAddress);
         ipAddressService.insert(ipAddress);
         log.info("to send");
-        sendMail.send("[项目初始化IP地址查询]", "项目初始化外网IP为:" + v4IP + ";MAC地址为:" + localMac + ";");
+//        sendMail.send("[项目初始化IP地址查询]", "项目初始化外网IP为:" + v4IP + ";MAC地址为:" + localMac + ";");
     }
 
     private void initAuth() {

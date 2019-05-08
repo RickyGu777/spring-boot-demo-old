@@ -32,7 +32,6 @@ spring:
 #    web:
 #      exposure:
 #        include: shutdown
-#    #注意下面这个位置！！
 #  endpoint:
 #    shutdown:
 #      enabled: true
