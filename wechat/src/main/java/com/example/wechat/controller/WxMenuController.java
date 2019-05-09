@@ -156,7 +156,6 @@ public class WxMenuController {
      */
     @GetMapping("/get")
     public WxMpMenu menuGet(@PathVariable String appid) throws WxErrorException {
-        log.info("get controller. appid =[{}]", appid);
         return this.wxService.switchover1(appid).getMenuService().menuGet();
     }
 
