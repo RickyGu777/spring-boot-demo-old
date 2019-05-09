@@ -1,0 +1,17 @@
+spring:
+  jackson:
+    time-zone: GMT+8
+    default-property-inclusion: non_empty
+    date-format: yyyy-MM-dd HH:mm:ss
+  datasource:
+    url: jdbc:mysql://demo:3306/finalfantasyxiv?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Hongkong
+    username: fell
+    password: finalfantasyxiv
+
+wx:
+  mp:
+    configs:
+      - appId: wx180cb4037e983551
+        secret: cf0bf3e4c546ded33dcd54b4290c145c
+        token: FinalFantasyXIV
+        aesKey:
