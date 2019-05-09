@@ -7,7 +7,7 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication
-@MapperScan("com.example.servicehi.dao")
+@MapperScan("com.example.wechat.dao")
 @EnableEurekaClient
 @EnableTransactionManagement
 public class WechatApplication {

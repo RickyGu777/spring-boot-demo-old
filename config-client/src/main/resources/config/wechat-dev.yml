@@ -19,6 +19,15 @@ spring:
         min-idle: 0
     timeout: 300
 
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.example.wechat.entity
+
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+
 wx:
   mp:
     configs:
