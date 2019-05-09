@@ -1,5 +1,6 @@
 package com.example.wechat.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.bean.menu.WxMenu;
 import me.chanjar.weixin.common.bean.menu.WxMenuButton;
@@ -23,6 +24,7 @@ import static me.chanjar.weixin.common.api.WxConsts.MenuButtonType;
  */
 @RestController
 @RequestMapping("/wx/menu/{appid}")
+@Slf4j
 public class WxMenuController {
     private WxMpService wxService;
 
@@ -88,13 +90,13 @@ public class WxMenuController {
         button34.setName("获取用户信息");
 
         ServletRequestAttributes servletRequestAttributes =
-            (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+                (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         if (servletRequestAttributes != null) {
             HttpServletRequest request = servletRequestAttributes.getRequest();
             URL requestURL = new URL(request.getRequestURL().toString());
             String url = this.wxService.switchover1(appid).oauth2buildAuthorizationUrl(
-                String.format("%s://%s/wx/redirect/%s/greet", requestURL.getProtocol(), requestURL.getHost(), appid),
-                WxConsts.OAuth2Scope.SNSAPI_USERINFO, null);
+                    String.format("%s://%s/wx/redirect/%s/greet", requestURL.getProtocol(), requestURL.getHost(), appid),
+                    WxConsts.OAuth2Scope.SNSAPI_USERINFO, null);
             button34.setUrl(url);
         }
 
@@ -154,6 +156,7 @@ public class WxMenuController {
      */
     @GetMapping("/get")
     public WxMpMenu menuGet(@PathVariable String appid) throws WxErrorException {
+        log.info("get controller. appid =[{}]", appid);
         return this.wxService.switchover1(appid).getMenuService().menuGet();
     }
 
