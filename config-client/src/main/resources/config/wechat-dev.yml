@@ -7,6 +7,17 @@ spring:
     url: jdbc:mysql://demo:3306/finalfantasyxiv?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Hongkong
     username: fell
     password: finalfantasyxiv
+  redis:
+    port: 6379
+    host: demo
+    password: finalfantasyxiv
+    jedis:
+      pool:
+        max-active: 8
+        max-wait: -1
+        max-idle: 8
+        min-idle: 0
+    timeout: 300
 
 wx:
   mp:

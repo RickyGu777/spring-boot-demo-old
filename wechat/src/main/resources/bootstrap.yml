@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: service-hi
+    name: wechat
   cloud:
     config:
       name: ${spring.application.name}
