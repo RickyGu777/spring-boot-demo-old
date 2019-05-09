@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication
 @MapperScan("com.example.servicehi.dao")
-//@EnableEurekaClient
+@EnableEurekaClient
 @EnableTransactionManagement
 public class ServiceHiApplication {
 
