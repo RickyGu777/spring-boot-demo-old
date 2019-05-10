@@ -16,7 +16,7 @@ public class WxUserController {
     private WxMpService wxService;
 
     @PostMapping("/getUserInfo")
-    public Object user(@PathVariable String appid, @RequestBody String openId) throws WxErrorException {
+    public Object user(@PathVariable String appid, @RequestParam("openId") String openId) throws WxErrorException {
         this.wxService.switchover(appid);
         WxMpUserService userService = wxService.getUserService();
         WxMpUser wxMpUser = userService.userInfo(openId);
