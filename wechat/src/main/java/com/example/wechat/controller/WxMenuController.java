@@ -99,10 +99,11 @@ public class WxMenuController {
 //        button3.getSubButtons().add(button34);
 //
         this.wxService.switchover(appid);
-        WxMenuButton button1 = new WxMenuButton();
-        button1.setType(MenuButtonType.CLICK);
-        button1.setName("Vue");
-        button1.setKey("Vue");
+        WxMenuButton button = new WxMenuButton();
+        button.setType(MenuButtonType.VIEW);
+        button.setName("Vue");
+        button.setUrl("http://demo/vue/index.html#/");
+        menu.getButtons().add(button);
         return this.wxService.getMenuService().menuCreate(menu);
     }
 
