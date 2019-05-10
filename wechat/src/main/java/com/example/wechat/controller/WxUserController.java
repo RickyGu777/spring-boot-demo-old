@@ -14,7 +14,7 @@ public class WxUserController {
     @Autowired
     private WxMpService wxService;
 
-    @PostMapping(value = "/getUserInfo")
+    @RequestMapping(value = "/getUserInfo")
     public String user(@PathVariable String appid) throws WxErrorException {
         this.wxService.switchover(appid);
         return wxService.getAccessToken();
