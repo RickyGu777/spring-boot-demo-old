@@ -7,15 +7,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.imageio.ImageIO;
-import javax.imageio.stream.ImageInputStream;
-import javax.imageio.stream.ImageOutputStream;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 @RequestMapping(value = "/test")
 @Slf4j
@@ -26,66 +22,49 @@ public class TestController {
         return objects;
     }
 
-    public static void main(String[] args) throws IOException {
-        // 读取图片
-        BufferedImage bufImage = ImageIO.read(new File("D://left.png"));
-
-        // 获取图片的宽高
-        int width = bufImage.getWidth();
-        int height = bufImage.getHeight();
-
-        int subWidth = (int) (width * 0.1);
-        int beginWidth = width - subWidth;
-        int subHeight = (int) (height * 0.8);
-        int beginHeight = (height - subHeight) / 2;
-
-
-        // 读取出图片的所有像素
-//        int[] rgbs = bufImage.getRGB(0, 0, width, height, null, 0, width);
-
-        // 对图片的像素矩阵进行水平镜像
-//        for (int row = 0; row < height; row++) {
-//            for (int col = 0; col < width / 2; col++) {
-//                int temp = rgbs[row * width + col];
-//                rgbs[row * width + col] = rgbs[row * width + (width - 1 - col)];
-//                rgbs[row * width + (width - 1 - col)] = temp;
+//    public static void main(String[] args) throws IOException {
+//
+//        File file = new File("D://right.png");
+//        Image src = Toolkit.getDefaultToolkit().getImage(file.getPath());
+//        BufferedImage rightImage = toBufferedImage(src);
+//        int rightHeight = rightImage.getHeight();
+//
+//        int subRightHeight = rightHeight * 8 / 10; // 要裁剪的高度
+//        int beginRightHeight = (rightHeight - subRightHeight) / 2; // 裁剪开始高度
+//
+//        log.info(beginRightHeight + "");
+//
+//        BufferedImage rightImageSubimage = rightImage.getSubimage(0, beginRightHeight, 20, subRightHeight);
+//
+//        byte[] rightImageBytes = imageToBytes(rightImageSubimage, "PNG");
+//
+//        file = new File("D://left.png");
+//        src = Toolkit.getDefaultToolkit().getImage(file.getPath());
+//        BufferedImage leftImage = toBufferedImage(src);
+//
+//        int leftImageWidth = leftImage.getWidth();
+//        int leftImageHeight = leftImage.getHeight();
+//
+//        for (int i = leftImageWidth - 20; i > leftImageWidth / 2; i--) {
+//            long startTime = System.nanoTime();   //获取开始时间
+//            boolean over = false;
+//            for (int i1 = 0; i1 < leftImageHeight - subRightHeight; i1++) {
+//                BufferedImage leftImageSubimage = leftImage.getSubimage(i, i1, 20, subRightHeight);
+//                byte[] leftImageBytes = imageToBytes(leftImageSubimage, "PNG");
+//                over = Arrays.equals(rightImageBytes, leftImageBytes);
+//                if (over) {
+//                    ImageIO.write(rightImageSubimage, "PNG", new File("D://rignt_sub.png"));
+//                    ImageIO.write(leftImageSubimage, "PNG", new File("D://left_sub.png"));
+//                    long endTime = System.nanoTime(); //获取结束时间
+//                    log.info("i:[{}],i1:[{}],costTime[{}]", i, i1, endTime - startTime);
+//                    break;
+//                }
+//            }
+//            if (over) {
+//                break;
 //            }
 //        }
-        BufferedImage subimage = bufImage.getSubimage(beginWidth, beginHeight, subWidth, subHeight);
-
-        byte[] jpegs = imageToBytes(subimage, "PNG");
-
-        log.info("jpegs:[{}]", jpegs);
-        log.info("jpegs length:[{}]", jpegs.length);
-
-
-        BufferedImage bufImage2 = ImageIO.read(new File("D://right.png"));
-        BufferedImage subimage2 = bufImage2.getSubimage(beginWidth, beginHeight, subWidth, subHeight);
-        byte[] jpegs2 = imageToBytes(subimage2, "PNG");
-
-        log.info("jpegs2:[{}]", jpegs2);
-        log.info("jpegs2 length:[{}]", jpegs2.length);
-
-        boolean same = true;
-        for (int i = 0; i < jpegs2.length; i++) {
-            if (jpegs2[i] != jpegs[i]) {
-                same = false;
-            }
-        }
-
-        if (same) {
-            log.info("true");
-        } else {
-            log.info("false");
-        }
-
-        // 把水平镜像后的像素矩阵设置回 bufImage
-//        bufImage.setRGB(0, 0, width, height, rgbs, 0, width);
-
-        // 把修改过的 bufImage 保存到本地
-//        ImageIO.write(subimage, "JPEG", new File("D://bb.jpg"));
-//        ImageIO.write(subimage, "JPEG", new File("D://2.jpg"));
-    }
+//    }
 
     public static byte[] imageToBytes(BufferedImage bImage, String format) {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -95,5 +74,101 @@ public class TestController {
             e.printStackTrace();
         }
         return out.toByteArray();
+    }
+
+    public static BufferedImage toBufferedImage(Image image) {
+        if (image instanceof BufferedImage) {
+            return (BufferedImage) image;
+        }
+        image = new ImageIcon(image).getImage();
+        BufferedImage bimage = null;
+        GraphicsEnvironment ge = GraphicsEnvironment
+                .getLocalGraphicsEnvironment();
+        try {
+            int transparency = Transparency.OPAQUE;
+            GraphicsDevice gs = ge.getDefaultScreenDevice();
+            GraphicsConfiguration gc = gs.getDefaultConfiguration();
+            bimage = gc.createCompatibleImage(image.getWidth(null),
+                    image.getHeight(null), transparency);
+        } catch (HeadlessException e) {
+        }
+        if (bimage == null) {
+            int type = BufferedImage.TYPE_INT_RGB;
+            bimage = new BufferedImage(image.getWidth(null),
+                    image.getHeight(null), type);
+        }
+        Graphics g = bimage.createGraphics();
+        g.drawImage(image, 0, 0, null);
+        g.dispose();
+        return bimage;
+    }
+
+    /**
+     *
+     * @Title: 构造图片
+     * @Description: 生成水印并返回java.awt.image.BufferedImage
+     * @param file
+     *            源文件(图片)
+     * @param waterFile
+     *            水印文件(图片)
+     * @param x
+     *            距离右下角的X偏移量
+     * @param y
+     *            距离右下角的Y偏移量
+     * @param alpha
+     *            透明度, 选择值从0.0~1.0: 完全透明~完全不透明
+     * @return BufferedImage
+     * @throws IOException
+     */
+    public static BufferedImage watermark(File file, File waterFile, int x, int y, float alpha) throws IOException {
+        // 获取底图
+        BufferedImage buffImg = ImageIO.read(file);
+        // 获取层图
+        BufferedImage waterImg = ImageIO.read(waterFile);
+        // 创建Graphics2D对象，用在底图对象上绘图
+        Graphics2D g2d = buffImg.createGraphics();
+        int waterImgWidth = waterImg.getWidth();// 获取层图的宽度
+        int waterImgHeight = waterImg.getHeight();// 获取层图的高度
+        // 在图形和图像中实现混合和透明效果
+        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP, alpha));
+        // 绘制
+        g2d.drawImage(waterImg, x, y, waterImgWidth, waterImgHeight, null);
+        g2d.dispose();// 释放图形上下文使用的系统资源
+        return buffImg;
+    }
+
+    /**
+     * 输出水印图片
+     *
+     * @param buffImg
+     *            图像加水印之后的BufferedImage对象
+     * @param savePath
+     *            图像加水印之后的保存路径
+     */
+    private static void generateWaterFile(BufferedImage buffImg, String savePath) {
+        int temp = savePath.lastIndexOf(".") + 1;
+        try {
+            ImageIO.write(buffImg, savePath.substring(temp), new File(savePath));
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+    }
+
+    /**
+     *
+     * @param args
+     * @throws IOException
+     *             IO异常直接抛出了
+     * @author bls
+     */
+    public static void main(String[] args) throws IOException {
+        String sourceFilePath = "D://1438494338165.jpg";
+        String waterFilePath = "D://left.png";
+        String saveFilePath = "D://left_sub1111.png";
+//        NewImageUtils newImageUtils = new NewImageUtils();
+        // 构建叠加层
+        BufferedImage buffImg = watermark(new File(sourceFilePath), new File(waterFilePath), 0, 0, 1.0f);
+        // 输出水印图片
+        generateWaterFile(buffImg, saveFilePath);
     }
 }
