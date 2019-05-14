@@ -10,6 +10,8 @@ import org.apache.commons.lang.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @Slf4j
 @RestController
 @RequestMapping("/wx/user/{appid}")
@@ -18,11 +20,11 @@ public class WxUserController {
     private WxMpService wxService;
 
     @PostMapping("/getUserInfo")
-    public Object user(@PathVariable String appid, @RequestBody(required = false) String openId) throws WxErrorException {
-        Validate.isTrue(StringUtils.isNotEmpty(openId),"openId不能为空");
+    public Object user(@PathVariable String appid, @RequestBody(required = false) Map<String, String> openId) throws WxErrorException {
+        Validate.isTrue(StringUtils.isNotEmpty(openId.get("openId")), "openId不能为空");
         this.wxService.switchover(appid);
         WxMpUserService userService = wxService.getUserService();
-        WxMpUser wxMpUser = userService.userInfo(openId);
+        WxMpUser wxMpUser = userService.userInfo(openId.get("openId"));
         return wxMpUser;
     }
 }
