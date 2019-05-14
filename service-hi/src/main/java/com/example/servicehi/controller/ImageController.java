@@ -47,7 +47,7 @@ public class ImageController {
     public Map uploadImage(@RequestParam("img") MultipartFile multipartFile) throws IOException {
         String originalFilename = multipartFile.getOriginalFilename();
         String fileName = UUIDUtil.createUUID() + "." + multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().lastIndexOf(".") + 1);
-        String compress = SaveAndPostImg.compress(multipartFile, SystemUtils.IS_OS_LINUX ? config.getLinux() : config.getWindows(), fileName);
+        String compress = SaveAndPostImg.compress(multipartFile, config.getFilePath(), fileName);
         Map map = JSON.parseObject(compress, Map.class);
 
         HashMap<String, Object> hashMap = new HashMap<>();
@@ -71,7 +71,7 @@ public class ImageController {
         uploadImgService.insert(uploadImg);
 
         if (SystemUtils.IS_OS_WINDOWS) {
-            SaveAndPostImg.sendImage(SystemUtils.IS_OS_LINUX ? config.getLinux() : config.getWindows() + File.separator + uploadImg.getRandomName());
+            SaveAndPostImg.sendImage(config.getFilePath() + uploadImg.getRandomName());
         }
         return hashMap;
     }
@@ -99,7 +99,7 @@ public class ImageController {
     public ResponseUtil QRCode(@RequestParam("file") MultipartFile multipartFile) throws IOException {
         String originalFilename = multipartFile.getOriginalFilename();
         String fileName = UUIDUtil.createUUID() + "." + multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().lastIndexOf(".") + 1);
-        String compress = SaveAndPostImg.compress(multipartFile, SystemUtils.IS_OS_LINUX ? config.getLinux() : config.getWindows(), fileName);
+        String compress = SaveAndPostImg.compress(multipartFile, config.getFilePath(), fileName);
         Map map = JSON.parseObject(compress, Map.class);
 
         HashMap<String, Object> hashMap = new HashMap<>();
@@ -122,7 +122,7 @@ public class ImageController {
         }
         uploadImgService.insert(uploadImg);
 
-        String filePath = SystemUtils.IS_OS_LINUX ? config.getLinux() : config.getWindows() + File.separator + fileName;
+        String filePath = config.getFilePath() + fileName;
         log.info("fileName:[{}]", fileName);
         log.info("filePath:[{}]", filePath);
         String qrCode = ZixingCodeUtil.decodeQRCodeImage(filePath, null).replace("\uD83D\uDCF1", "");
@@ -132,7 +132,7 @@ public class ImageController {
         shareTicketImgService.insert(shareTicketImg);
 
         if (SystemUtils.IS_OS_WINDOWS) {
-            SaveAndPostImg.sendImage(SystemUtils.IS_OS_LINUX ? config.getLinux() : config.getWindows() + File.separator + uploadImg.getRandomName());
+            SaveAndPostImg.sendImage(config.getFilePath() + uploadImg.getRandomName());
         }
         return new ResponseUtil(qrCode);
     }
@@ -150,7 +150,7 @@ public class ImageController {
         uploadImg.setRandomName(originalFilename);
         uploadImg = uploadImgService.selectImageInfoByRandomName(uploadImg);
         String randomName = uploadImg.getRandomName();
-        File dest = new File(config.getLinux() + File.separator + randomName);
+        File dest = new File(config.getLinux() + randomName);
         multipartFile.transferTo(dest);
         return new ResponseUtil();
     }

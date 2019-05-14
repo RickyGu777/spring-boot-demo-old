@@ -57,7 +57,7 @@ public class BaiduController {
         // 上传至图床
         String originalFilename = multipartFile.getOriginalFilename();
         String fileName = UUIDUtil.createUUID() + "." + multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().lastIndexOf(".") + 1);
-        String compress = SaveAndPostImg.compress(multipartFile, SystemUtils.IS_OS_LINUX ? config.getLinux() : config.getWindows(), fileName);
+        String compress = SaveAndPostImg.compress(multipartFile, config.getFilePath(), fileName);
         Map map = JSON.parseObject(compress, Map.class);
         HashMap<String, Object> hashMap = new HashMap<>();
         UploadImg uploadImg = new UploadImg();
@@ -96,7 +96,7 @@ public class BaiduController {
             baiduOCRWordsService.insertList(baiduOCRDto.getWordsResult());
         }
         if (SystemUtils.IS_OS_WINDOWS) {
-            SaveAndPostImg.sendImage(SystemUtils.IS_OS_LINUX ? config.getLinux() : config.getWindows() + File.separator + uploadImg.getRandomName());
+            SaveAndPostImg.sendImage(config.getFilePath() + uploadImg.getRandomName());
         }
         return new ResponseUtil(baiduOCRDto);
     }

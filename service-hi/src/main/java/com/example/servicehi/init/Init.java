@@ -1,5 +1,6 @@
 package com.example.servicehi.init;
 
+import com.example.servicehi.common.Config;
 import com.example.servicehi.common.SendMail;
 import com.example.servicehi.entity.Auth;
 import com.example.servicehi.entity.IpAddress;
@@ -8,6 +9,7 @@ import com.example.servicehi.service.IpAddressService;
 import com.example.servicehi.util.IPAddressUtil;
 import com.example.servicehi.util.MacAddressUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.SystemUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,6 +22,7 @@ import org.springframework.web.servlet.mvc.condition.RequestMethodsRequestCondit
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -41,6 +44,9 @@ public class Init implements InitializingBean {
     @Autowired
     private AuthService<Auth> authService;
 
+    @Autowired
+    private Config config;
+
     @Value("${delete_old_auth}")
     private boolean delete_old_auth;
 
@@ -48,9 +54,10 @@ public class Init implements InitializingBean {
     private String searchIPWebSite;
 
     @Override
-    public void afterPropertiesSet()  {
+    public void afterPropertiesSet() {
 //        sendIP();
         initAuth();
+        config.setFilePath(SystemUtils.IS_OS_LINUX ? config.getLinux() : config.getWindows());
     }
 
     private void sendIP() throws IOException {

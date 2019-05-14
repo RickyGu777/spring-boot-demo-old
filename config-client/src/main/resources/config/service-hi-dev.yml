@@ -33,9 +33,9 @@ mybatis:
   type-aliases-package: com.example.servicehi.entity
 
 uploadImagePath:
-  windows: 'D:/images'
-  linux: '/usr/local/app/static/uploadImage'
-  linuxPath: '/static/uploadImage'
+  windows: 'D:\\images\\'
+  linux: '/usr/local/app/static/uploadImage/'
+  linuxPath: '/static/uploadImage/'
 
 pagehelper:
   helper-dialect: mysql

@@ -23,7 +23,7 @@ public class SaveAndPostImg {
 
     public static String compress(MultipartFile multipartFile, String path, String fileName) throws IOException {
         String postUrl = "https://sm.ms/api/upload";
-        File dest = new File(path + File.separator + fileName); // 保存位置
+        File dest = new File(path + fileName); // 保存位置
         FileUtil.checkParentFile(dest);
         multipartFile.transferTo(dest);
 
