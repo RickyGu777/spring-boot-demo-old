@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -129,6 +130,14 @@ public class ImageController {
         ShareTicketImg shareTicketImg = new ShareTicketImg();
         shareTicketImg.setUploadImgUUID(uploadImg.getUuid());
         shareTicketImg.setQRCode(qrCode);
+        String[] split = qrCode.split("-----------------\n" + "长按復·制这段描述，");
+        String[] split1 = split[0].split("\n");
+        BigDecimal beforeMoney = new BigDecimal(split1[0].replace("【在售价】￥",""));
+        BigDecimal afterMoney = new BigDecimal(split1[1].replace("【券后价】￥",""));
+        shareTicketImg.setBeforeMoney(beforeMoney);
+        shareTicketImg.setAfterMoney(afterMoney);
+        String taobaoCode = split[1].replace("，打开【taobao】即可抢购", "");
+        shareTicketImg.setTaobaoCode(taobaoCode);
         shareTicketImgService.insert(shareTicketImg);
 
         if (SystemUtils.IS_OS_WINDOWS) {

@@ -3,6 +3,7 @@ package com.example.servicehi.entity;
 import lombok.*;
 import org.apache.ibatis.type.Alias;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
 @Alias("ShareTicketImg")
@@ -14,6 +15,10 @@ import java.util.Objects;
 public class ShareTicketImg extends BaseEntity{
     private String QRCode;
     private String uploadImgUUID;
+    private BigDecimal beforeMoney;
+    private BigDecimal afterMoney;
+    private String taobaoCode;
+    private String title;
 
     @Override
     public boolean equals(Object o) {

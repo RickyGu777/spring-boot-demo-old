@@ -41,7 +41,7 @@
             a.UUID as UUID,
             a.TITLE as TITLE,
             a.URL as URL,
-            (SELECT #{tipsName}) as TIPS_NAME
+            #{tipsName} as TIPS_NAME
         FROM
             SHARE_TICKET_URL a
         INNER JOIN TIPS_RELATION b ON a.UUID = b.OTHER_UUID
