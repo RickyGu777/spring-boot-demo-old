@@ -12,6 +12,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 
 @RequestMapping(value = "/test")
 @Slf4j
@@ -22,22 +23,22 @@ public class TestController {
         return objects;
     }
 
-//    public static void main(String[] args) throws IOException {
-//
-//        File file = new File("D://right.png");
-//        Image src = Toolkit.getDefaultToolkit().getImage(file.getPath());
-//        BufferedImage rightImage = toBufferedImage(src);
+    public static void main(String[] args) throws IOException {
+
+        File file = new File("D://20190514094531.jpg");
+        Image src = Toolkit.getDefaultToolkit().getImage(file.getPath());
+        BufferedImage rightImage = toBufferedImage(src);
 //        int rightHeight = rightImage.getHeight();
-//
+
 //        int subRightHeight = rightHeight * 8 / 10; // 要裁剪的高度
 //        int beginRightHeight = (rightHeight - subRightHeight) / 2; // 裁剪开始高度
-//
+
 //        log.info(beginRightHeight + "");
-//
-//        BufferedImage rightImageSubimage = rightImage.getSubimage(0, beginRightHeight, 20, subRightHeight);
-//
+
+        BufferedImage rightImageSubimage = rightImage.getSubimage(570, 989, 150, 150);
+
 //        byte[] rightImageBytes = imageToBytes(rightImageSubimage, "PNG");
-//
+        ImageIO.write(rightImageSubimage, "JPEG", new File("D://bb.jpg"));
 //        file = new File("D://left.png");
 //        src = Toolkit.getDefaultToolkit().getImage(file.getPath());
 //        BufferedImage leftImage = toBufferedImage(src);
@@ -64,7 +65,7 @@ public class TestController {
 //                break;
 //            }
 //        }
-//    }
+    }
 
     public static byte[] imageToBytes(BufferedImage bImage, String format) {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -161,14 +162,14 @@ public class TestController {
      *             IO异常直接抛出了
      * @author bls
      */
-    public static void main(String[] args) throws IOException {
-        String sourceFilePath = "D://1438494338165.jpg";
-        String waterFilePath = "D://left.png";
-        String saveFilePath = "D://left_sub1111.png";
-//        NewImageUtils newImageUtils = new NewImageUtils();
-        // 构建叠加层
-        BufferedImage buffImg = watermark(new File(sourceFilePath), new File(waterFilePath), 0, 0, 1.0f);
-        // 输出水印图片
-        generateWaterFile(buffImg, saveFilePath);
-    }
+//    public static void main(String[] args) throws IOException {
+//        String sourceFilePath = "D://1438494338165.jpg";
+//        String waterFilePath = "D://left.png";
+//        String saveFilePath = "D://left_sub1111.png";
+////        NewImageUtils newImageUtils = new NewImageUtils();
+//        // 构建叠加层
+//        BufferedImage buffImg = watermark(new File(sourceFilePath), new File(waterFilePath), 0, 0, 1.0f);
+//        // 输出水印图片
+//        generateWaterFile(buffImg, saveFilePath);
+//    }
 }

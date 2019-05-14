@@ -10,6 +10,7 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -136,17 +137,14 @@ public class ZixingCodeUtil {
         log.info("imagePath:[{}]", imagePath);
         log.info("charset:[{}]", charset);
         BufferedImage image;
-        try {
-            image = ImageIO.read(new File(imagePath));
-        } catch (IOException e) {
-            e.printStackTrace();
-            return "二维码解析失败[" + e.getMessage() + "],log:[imagePath:" + imagePath + "charset:" + charset + "]";
-        }
-        if (null == image) {
+        Image src = Toolkit.getDefaultToolkit().getImage(new File(imagePath).getPath());
+        image = toBufferedImage(src);
+        BufferedImage rightImageSubimage = image.getSubimage(570, 989, 150, 150);
+        if (null == rightImageSubimage) {
             System.out.println("Could not decode QRCodeImage");
             return "";
         }
-        BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(new BufferedImageLuminanceSource(image)));
+        BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(new BufferedImageLuminanceSource(rightImageSubimage)));
         Map<DecodeHintType, String> hints = new HashMap();
         hints.put(DecodeHintType.CHARACTER_SET, charset == null ? "UTF-8" : charset);
         Result result;
@@ -160,4 +158,30 @@ public class ZixingCodeUtil {
         }
     }
 
+    private static BufferedImage toBufferedImage(Image image) {
+        if (image instanceof BufferedImage) {
+            return (BufferedImage) image;
+        }
+        image = new ImageIcon(image).getImage();
+        BufferedImage bimage = null;
+        GraphicsEnvironment ge = GraphicsEnvironment
+                .getLocalGraphicsEnvironment();
+        try {
+            int transparency = Transparency.OPAQUE;
+            GraphicsDevice gs = ge.getDefaultScreenDevice();
+            GraphicsConfiguration gc = gs.getDefaultConfiguration();
+            bimage = gc.createCompatibleImage(image.getWidth(null),
+                    image.getHeight(null), transparency);
+        } catch (HeadlessException e) {
+        }
+        if (bimage == null) {
+            int type = BufferedImage.TYPE_INT_RGB;
+            bimage = new BufferedImage(image.getWidth(null),
+                    image.getHeight(null), type);
+        }
+        Graphics g = bimage.createGraphics();
+        g.drawImage(image, 0, 0, null);
+        g.dispose();
+        return bimage;
+    }
 }

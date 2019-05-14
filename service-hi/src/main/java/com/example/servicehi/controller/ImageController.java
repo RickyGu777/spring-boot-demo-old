@@ -1,24 +1,26 @@
 package com.example.servicehi.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.TypeReference;
 import com.example.servicehi.common.Config;
 import com.example.servicehi.entity.ShareTicketImg;
 import com.example.servicehi.entity.UploadImg;
+import com.example.servicehi.entity.dto.BaiduOCRDto;
 import com.example.servicehi.service.ShareTicketImgService;
 import com.example.servicehi.service.UploadImgService;
+import com.example.servicehi.util.Baidu.BaiduTool;
 import com.example.servicehi.util.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.SystemUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import sun.misc.BASE64Encoder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.math.BigDecimal;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -98,6 +100,13 @@ public class ImageController {
      */
     @PostMapping(value = "/QRCode")
     public ResponseUtil QRCode(@RequestParam("file") MultipartFile multipartFile) throws IOException {
+        BASE64Encoder encoder = new BASE64Encoder();
+        String imgData = encoder.encode(multipartFile.getBytes()).replace("\r\n", "");
+        imgData = URLEncoder.encode(imgData, "UTF-8");
+        String url = "https://aip.baidubce.com/rest/2.0/ocr/v1/general_basic";
+        String param = "?language_type=CHN_ENG&access_token=" + BaiduTool.getAuth() + "&image=" + imgData;
+        BaiduOCRDto baiduOCRDto = JSON.parseObject(HttpRequest.baiduOCRPost(url, param), BaiduOCRDto.class);
+
         String originalFilename = multipartFile.getOriginalFilename();
         String fileName = UUIDUtil.createUUID() + "." + multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().lastIndexOf(".") + 1);
         String compress = SaveAndPostImg.compress(multipartFile, config.getFilePath(), fileName);
@@ -138,6 +147,8 @@ public class ImageController {
         shareTicketImg.setAfterMoney(afterMoney);
         String taobaoCode = split[1].replace("，打开【taobao】即可抢购", "");
         shareTicketImg.setTaobaoCode(taobaoCode);
+
+        shareTicketImg.setTitle(baiduOCRDto.getWordsResult().get(0).getWords());
         shareTicketImgService.insert(shareTicketImg);
 
         if (SystemUtils.IS_OS_WINDOWS) {

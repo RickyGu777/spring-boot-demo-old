@@ -84,8 +84,8 @@ public class BaiduController {
         imgData = URLEncoder.encode(imgData, "UTF-8");
         String url = "https://aip.baidubce.com/rest/2.0/ocr/v1/general_basic";
         String param = "?language_type=CHN_ENG&access_token=" + BaiduTool.getAuth() + "&image=" + imgData;
-        String s = HttpRequest.baiduOCRPost(url, param);
-        BaiduOCRDto baiduOCRDto = JSON.parseObject(s, BaiduOCRDto.class);
+//        String s = HttpRequest.baiduOCRPost(url, param);
+        BaiduOCRDto baiduOCRDto = JSON.parseObject(HttpRequest.baiduOCRPost(url, param), BaiduOCRDto.class);
         baiduOCRDto.setUploadImgUUID(uploadImg.getUuid());
         baiduOCRService.insert(baiduOCRDto);
         if (baiduOCRDto.getErrorCode() == null) {
