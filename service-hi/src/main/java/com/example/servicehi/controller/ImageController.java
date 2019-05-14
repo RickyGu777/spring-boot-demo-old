@@ -122,7 +122,9 @@ public class ImageController {
         }
         uploadImgService.insert(uploadImg);
 
-        String filePath = SystemUtils.IS_OS_LINUX ? config.getLinux() : config.getWindows() + "/" + fileName;
+        String filePath = SystemUtils.IS_OS_LINUX ? config.getLinux() : config.getWindows() + File.separator + fileName;
+        log.info("fileName:[{}]", fileName);
+        log.info("filePath:[{}]", filePath);
         String qrCode = ZixingCodeUtil.decodeQRCodeImage(filePath, null).replace("\uD83D\uDCF1", "");
         ShareTicketImg shareTicketImg = new ShareTicketImg();
         shareTicketImg.setUploadImgUUID(uploadImg.getUuid());
@@ -155,7 +157,7 @@ public class ImageController {
 
     @ResponseBody
     @GetMapping("/download")
-    public void downloadFiles(HttpServletRequest request, HttpServletResponse response){
+    public void downloadFiles(HttpServletRequest request, HttpServletResponse response) {
         /*
          *  test
          * */
@@ -183,10 +185,10 @@ public class ImageController {
         //循环将文件写入压缩流
         DataOutputStream os = null;
         try {
-            if (agent.contains("MSIE")||agent.contains("Trident")) {
+            if (agent.contains("MSIE") || agent.contains("Trident")) {
                 downloadName = java.net.URLEncoder.encode(downloadName, "UTF-8");
             } else {
-                downloadName = new String(downloadName.getBytes("UTF-8"),"ISO-8859-1");
+                downloadName = new String(downloadName.getBytes("UTF-8"), "ISO-8859-1");
             }
             response.setHeader("Content-Disposition", "attachment;fileName=\"" + downloadName + "\"");
 
@@ -194,12 +196,12 @@ public class ImageController {
             zipos = new ZipOutputStream(new BufferedOutputStream(response.getOutputStream()));
             zipos.setMethod(ZipOutputStream.DEFLATED); //设置压缩方法
 
-            for(int i = 0; i < list.size(); i++ ){
+            for (int i = 0; i < list.size(); i++) {
 
                 InputStream is = null;
-                try{
+                try {
                     File file = new File(list.get(i));
-                    if(file.exists()){
+                    if (file.exists()) {
                         //添加ZipEntry，并ZipEntry中写入文件流
                         //这里，加上i是防止要下载的文件有重名的导致下载失败
                         zipos.putNextEntry(new ZipEntry(i + "_" + file.getName()));
@@ -207,19 +209,19 @@ public class ImageController {
                         is = new FileInputStream(file);
                         byte[] b = new byte[1024];
                         int length;
-                        while((length = is.read(b))!= -1){
+                        while ((length = is.read(b)) != -1) {
                             os.write(b, 0, length);
                         }
                     }
                 } finally {
-                    if(null != is){
+                    if (null != is) {
                         is.close();
                     }
                     zipos.closeEntry();
                 }
 
             }
-            if(null != os){
+            if (null != os) {
                 os.flush();
             }
 
@@ -229,10 +231,10 @@ public class ImageController {
         } finally {
             //关闭流
             try {
-                if(null != os){
+                if (null != os) {
                     os.close();
                 }
-                if(null != zipos){
+                if (null != zipos) {
                     zipos.close();
                 }
 

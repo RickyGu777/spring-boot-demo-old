@@ -20,7 +20,7 @@ import java.util.Map;
 /**
  * ZXing工具类
  *
- * @author 玄玉<http:   /   /   blog.csdn.net   /   jadyer>
+ * @author 玄玉<http:       /       /       blog.csdn.net       /       jadyer>
  * @version v1.0
  * @history v1.0-->方法新建,目前仅支持二维码的生成和解析,生成二维码时支持添加logo头像
  * @editor Sep 10, 2013 9:32:23 PM
@@ -79,7 +79,7 @@ public class ZixingCodeUtil {
      * @return 生成二维码结果(true or false)
      */
     public static boolean encodeQRCodeImage(String content, String charset, String imagePath, int width, int height, String logoPath) {
-        Map<EncodeHintType, Object> hints = new HashMap<EncodeHintType, Object>();
+        Map<EncodeHintType, Object> hints = new HashMap();
         //指定编码格式
         //hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
         //指定纠错级别(L--7%,M--15%,Q--25%,H--30%)
@@ -140,14 +140,14 @@ public class ZixingCodeUtil {
             image = ImageIO.read(new File(imagePath));
         } catch (IOException e) {
             e.printStackTrace();
-            return "";
+            return "二维码解析失败[" + e.getMessage() + "]";
         }
         if (null == image) {
             System.out.println("Could not decode QRCodeImage");
             return "";
         }
         BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(new BufferedImageLuminanceSource(image)));
-        Map<DecodeHintType, String> hints = new HashMap<DecodeHintType, String>();
+        Map<DecodeHintType, String> hints = new HashMap();
         hints.put(DecodeHintType.CHARACTER_SET, charset == null ? "UTF-8" : charset);
         Result result;
         try {
