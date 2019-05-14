@@ -19,7 +19,7 @@ public class WxUserController {
 
     @PostMapping("/getUserInfo")
     public Object user(@PathVariable String appid, @RequestBody(required = false) String openId) throws WxErrorException {
-        Validate.isTrue(StringUtils.isEmpty(openId),"openId不能为空");
+        Validate.isTrue(StringUtils.isNotEmpty(openId),"openId不能为空");
         this.wxService.switchover(appid);
         WxMpUserService userService = wxService.getUserService();
         WxMpUser wxMpUser = userService.userInfo(openId);
