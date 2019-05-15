@@ -11,6 +11,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -24,10 +26,22 @@ public class TestController {
     }
 
     public static void main(String[] args) throws IOException {
+        File inFile = new File("D://75de39c92eb7d69ffd90fe6778286987.dat");
+        File outFile = new File("d:\\解密后的图片.jpg");
 
-        File file = new File("D://20190514094531.jpg");
-        Image src = Toolkit.getDefaultToolkit().getImage(file.getPath());
-        BufferedImage rightImage = toBufferedImage(src);
+        FileInputStream input = new FileInputStream(inFile);
+        FileOutputStream output = new FileOutputStream(outFile);
+
+        int content = 0;
+        while ((content = input.read()) != -1) {
+            output.write(content ^ 0x51);
+        }
+
+        output.close();
+        input.close();
+//        File file = new File("D://20190514094531.jpg");
+//        Image src = Toolkit.getDefaultToolkit().getImage(file.getPath());
+//        BufferedImage rightImage = toBufferedImage(src);
 //        int rightHeight = rightImage.getHeight();
 
 //        int subRightHeight = rightHeight * 8 / 10; // 要裁剪的高度
@@ -35,10 +49,10 @@ public class TestController {
 
 //        log.info(beginRightHeight + "");
 
-        BufferedImage rightImageSubimage = rightImage.getSubimage(570, 989, 150, 150);
+//        BufferedImage rightImageSubimage = rightImage.getSubimage(570, 989, 150, 150);
 
 //        byte[] rightImageBytes = imageToBytes(rightImageSubimage, "PNG");
-        ImageIO.write(rightImageSubimage, "JPEG", new File("D://bb.jpg"));
+//        ImageIO.write(rightImageSubimage, "JPEG", new File("D://bb.jpg"));
 //        file = new File("D://left.png");
 //        src = Toolkit.getDefaultToolkit().getImage(file.getPath());
 //        BufferedImage leftImage = toBufferedImage(src);
@@ -105,21 +119,15 @@ public class TestController {
     }
 
     /**
-     *
-     * @Title: 构造图片
-     * @Description: 生成水印并返回java.awt.image.BufferedImage
-     * @param file
-     *            源文件(图片)
-     * @param waterFile
-     *            水印文件(图片)
-     * @param x
-     *            距离右下角的X偏移量
-     * @param y
-     *            距离右下角的Y偏移量
-     * @param alpha
-     *            透明度, 选择值从0.0~1.0: 完全透明~完全不透明
+     * @param file      源文件(图片)
+     * @param waterFile 水印文件(图片)
+     * @param x         距离右下角的X偏移量
+     * @param y         距离右下角的Y偏移量
+     * @param alpha     透明度, 选择值从0.0~1.0: 完全透明~完全不透明
      * @return BufferedImage
      * @throws IOException
+     * @Title: 构造图片
+     * @Description: 生成水印并返回java.awt.image.BufferedImage
      */
     public static BufferedImage watermark(File file, File waterFile, int x, int y, float alpha) throws IOException {
         // 获取底图
@@ -141,10 +149,8 @@ public class TestController {
     /**
      * 输出水印图片
      *
-     * @param buffImg
-     *            图像加水印之后的BufferedImage对象
-     * @param savePath
-     *            图像加水印之后的保存路径
+     * @param buffImg  图像加水印之后的BufferedImage对象
+     * @param savePath 图像加水印之后的保存路径
      */
     private static void generateWaterFile(BufferedImage buffImg, String savePath) {
         int temp = savePath.lastIndexOf(".") + 1;

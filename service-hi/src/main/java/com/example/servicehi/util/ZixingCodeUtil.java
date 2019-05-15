@@ -152,7 +152,7 @@ public class ZixingCodeUtil {
             result = new MultiFormatReader().decode(bitmap, hints);
             return result.getText();
         } catch (NotFoundException e) {
-            System.out.println("二维码图片[" + imagePath + "]解析失败,堆栈轨迹如下");
+            log.error("二维码图片[{}]解析失败,堆栈轨迹如下", imagePath);
             e.printStackTrace();
             return "";
         }
