@@ -22,7 +22,7 @@ public class ScheduledService {
     @Autowired
     private RedisTemplate redisTemplate;
 
-    @Scheduled(cron = "0/30 * * * * ?")
+    @Scheduled(cron = "0 0 0 1/1 * ?")
     public void getHotWord() {
         log.info("getHotWord,Time:[{}]", new Date());
         HotWord hotWord = new HotWord();
