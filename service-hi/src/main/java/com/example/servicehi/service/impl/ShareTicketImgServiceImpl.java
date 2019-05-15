@@ -33,7 +33,14 @@ public class ShareTicketImgServiceImpl<T extends ShareTicketImg> implements Shar
     @Transactional
     public List<T> selectTitleAndTips(T t) {
         HotWord hotWord = new HotWord();
-
+        hotWord.setHotWord(t.getTitle());
+        hotWord.setCreateDate(new Date());
+        HotWord todayHotWord = hotWordService.selectTodayHotWord(hotWord);
+        if (todayHotWord == null) {
+            hotWordService.insert(hotWord);
+        } else {
+            hotWordService.updateTimes(todayHotWord);
+        }
         PageHelper.startPage(t.getPage(), t.getSize());
         return new PageInfo(shareTicketImgDao.selectTitleAndTips(t)).getList();
     }

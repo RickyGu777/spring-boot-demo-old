@@ -20,11 +20,32 @@
     </insert>
 
     <update id="updateTimes" parameterType="HotWord">
-        update HOT_WORD set TIMES = TIMES + 1
+        update HOT_WORD set TIMES = TIMES + 1 , MODI_DATE = #{modiDate}
         where UUID = #{uuid} and ID = #{id} and TIMES = #{times} and HOT_WORD = #{hotWord}
     </update>
 
     <select id="selectHotWord" parameterType="HotWord" resultMap="HotWordResult">
-        select * from HOT_WORD where STATUS = '0' order by TIMES desc LIMIT 10
+        select * from HOT_WORD where HOT_WORD = #{hotWord}
+    </select>
+
+    <select id="selectTodayHotWord" resultMap="HotWordResult">
+        select * from HOT_WORD where STATUS = '0'
+        and DATE_FORMAT(CREATE_DATE, '%Y-%m-%d') = DATE_FORMAT(NOW(), '%Y-%m-%d')
+        order by TIMES desc LIMIT 10
+    </select>
+
+    <select id="selectDateHotWord" parameterType="HotWord" resultMap="HotWordResult">
+        SELECT
+            HOT_WORD,
+            SUM(TIMES) AS TIMES
+        FROM
+            HOT_WORD
+        WHERE
+            DATE_FORMAT(CREATE_DATE, '%Y-%m-%d') > DATE_FORMAT(
+                DATE_SUB(NOW(), INTERVAL #{times} DAY),
+                '%Y-%m-%d'
+            )
+        GROUP BY
+            HOT_WORD ORDER BY TIMES DESC LIMIT 10
     </select>
 </mapper>

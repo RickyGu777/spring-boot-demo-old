@@ -12,4 +12,5 @@ import org.apache.ibatis.type.Alias;
 public class HotWord extends BaseEntity{
     private String hotWord;
     private int times;
+    private String status = "0";
 }

@@ -18,35 +18,35 @@
         <result column="MODI_DATE" property="modiDate"/>
     </resultMap>
 
-    <insert id="insert" parameterType="ShareTicketUrl">
+    <insert id="insert" parameterType="ShareTicketImg">
         insert into SHARE_TICKET_IMG (UUID, QR_CODE, UPLOAD_IMG_UUID, BEFORE_MONEY, AFTER_MONEY, TAOBAO_CODE, TITLE,
           CREATE_USER_UUID, CREATE_DATE, MODI_USER_UUID, MODI_DATE)
         values (#{uuid},#{QRCode},#{uploadImgUUID},#{beforeMoney},#{afterMoney},#{taobaoCode},#{title},
           #{createUserUUID},#{createDate},#{modiUserUUID},#{modiDate});
     </insert>
 
-    <resultMap id="ShareTicketImgRelationResult" type="ShareTicketUrlDto" extends="ShareTicketImgResult">
+    <resultMap id="ShareTicketImgRelationResult" type="ShareTicketImgDto" extends="ShareTicketImgResult">
         <result column="TIPS_NAME" property="tipsName"/>
         <collection property="tipsRelations" column="{tipsName=TIPS_NAME,otherUUID=UUID}"
                     ofType="TipsRelation" select="com.example.servicehi.dao.TipsRelationDao.selectByNameAndOtherUUID"/>
     </resultMap>
 
-    <select id="selectTitleAndTips" parameterType="ShareTicketUrlDto" resultMap="ShareTicketImgRelationResult">
+    <select id="selectTitleAndTips" parameterType="ShareTicketImgDto" resultMap="ShareTicketImgRelationResult">
         SELECT
-        a.UUID as UUID,
-        a.QR_CODE as QR_CODE,
-        a.TAOBAO_CODE as TAOBAO_CODE,
-        a.TITLE as TITLE,
-        a.BEFORE_MONEY as BEFORE_MONEY,
-        a.AFTER_MONEY as AFTER_MONEY,
-        #{tipsName} as TIPS_NAME
+            a.UUID as UUID,
+            a.QR_CODE as QR_CODE,
+            a.TAOBAO_CODE as TAOBAO_CODE,
+            a.TITLE as TITLE,
+            a.BEFORE_MONEY as BEFORE_MONEY,
+            a.AFTER_MONEY as AFTER_MONEY,
+            #{tipsName} as TIPS_NAME
         FROM
-        SHARE_TICKET_URL a
+            SHARE_TICKET_IMG a
         INNER JOIN TIPS_RELATION b ON a.UUID = b.OTHER_UUID
-        WHERE a.IS_DEL = '0'
-        AND b.IS_DEL = '0'
-        AND (b.TIPS_NAME = #{tipsName} OR a.TITLE like CONCAT('%',#{title},'%'))
+            WHERE a.IS_DEL = '0'
+            AND b.IS_DEL = '0'
+            AND (b.TIPS_NAME like CONCAT('%',#{tipsName},'%') OR a.TITLE like CONCAT('%',#{title},'%'))
         GROUP BY
-        a.TITLE
+            a.TITLE
     </select>
 </mapper>

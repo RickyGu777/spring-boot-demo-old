@@ -27,7 +27,7 @@ public class BaseEntity implements Serializable {
     public BaseEntity() {
         if (this.uuid == null) {
             this.uuid = UUIDUtil.createUUID();
-            log.info("CREATE UUID ---> " + this.uuid);
+            log.info("CREATE UUID:[{}]", this.uuid);
         }
     }
 }
