@@ -35,7 +35,7 @@ public class ShareTicketImgServiceImpl<T extends ShareTicketImg> implements Shar
         HotWord hotWord = new HotWord();
         hotWord.setHotWord(t.getTitle());
         hotWord.setCreateDate(new Date());
-        HotWord todayHotWord = hotWordService.selectTodayHotWord(hotWord);
+        HotWord todayHotWord = hotWordService.selectHotWord(hotWord);
         if (todayHotWord == null) {
             hotWordService.insert(hotWord);
         } else {

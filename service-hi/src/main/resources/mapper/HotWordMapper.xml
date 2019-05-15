@@ -26,6 +26,7 @@
 
     <select id="selectHotWord" parameterType="HotWord" resultMap="HotWordResult">
         select * from HOT_WORD where HOT_WORD = #{hotWord}
+        and DATE_FORMAT(CREATE_DATE, '%Y-%m-%d') = DATE_FORMAT(NOW(), '%Y-%m-%d')
     </select>
 
     <select id="selectTodayHotWord" resultMap="HotWordResult">
