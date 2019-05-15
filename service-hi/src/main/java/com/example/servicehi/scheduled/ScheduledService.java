@@ -38,10 +38,5 @@ public class ScheduledService {
         hotWord.setTimes(30);
         List<HotWord> aMonthBeforeHotWords = hotWordService.selectDateHotWord(hotWord);
         redisTemplate.opsForValue().set("aMonthBeforeHotWords", JSON.toJSONString(aMonthBeforeHotWords));
-
-        log.info("oneDaysBeforeHotWords in redis:[{}]", redisTemplate.opsForValue().get("oneDaysBeforeHotWords"));
-        log.info("threeDaysBeforeHotWords in redis:[{}]", redisTemplate.opsForValue().get("threeDaysBeforeHotWords"));
-        log.info("aWeekBeforeHotWords in redis:[{}]", redisTemplate.opsForValue().get("aWeekBeforeHotWords"));
-        log.info("aMonthBeforeHotWords in redis:[{}]", redisTemplate.opsForValue().get("aMonthBeforeHotWords"));
     }
 }
