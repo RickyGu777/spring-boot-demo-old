@@ -1,8 +1,10 @@
 package com.example.servicehi.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.example.servicehi.common.CodeMsg;
 import com.example.servicehi.entity.HotWord;
 import com.example.servicehi.entity.ShareTicketImg;
+import com.example.servicehi.handler.GlobalException;
 import com.example.servicehi.service.HotWordService;
 import com.example.servicehi.service.ShareTicketImgService;
 import com.example.servicehi.util.ResponseUtil;
@@ -114,6 +116,9 @@ public class ShareTicketImgController {
 
     @PostMapping(value = "/selectTopTenHotWord")
     public ResponseUtil selectTopTenHotWord() {
+        if (1 == 1) {
+            throw new GlobalException(CodeMsg.SERVER_ERROR);
+        }
         HashMap<String, List<HotWord>> hotWordMap = new HashMap<>();
         hotWordMap.put("oneDaysBeforeHotWords", JSON.parseObject(redisTemplate.opsForValue().get("oneDaysBeforeHotWords").toString(), List.class));
         hotWordMap.put("threeDaysBeforeHotWords", JSON.parseObject(redisTemplate.opsForValue().get("threeDaysBeforeHotWords").toString(), List.class));
