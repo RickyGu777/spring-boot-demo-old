@@ -1,13 +1,14 @@
 package com.example.servicehi.controller;
 
+import com.example.servicehi.common.CodeMsg;
 import com.example.servicehi.entity.AhriUrl;
+import com.example.servicehi.handler.GlobalException;
 import com.example.servicehi.service.AhriUrlService;
 import com.example.servicehi.util.JsoupTest;
 import com.example.servicehi.util.ResponseUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.apache.ibatis.datasource.DataSourceException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,22 +32,30 @@ public class AhriUrlController {
     public ResponseUtil insert(@RequestBody AhriUrl ahriUrl) {
         List<AhriUrl> ahriUrls = ahriUrlService.selectURL(ahriUrl);
         if (ahriUrls.isEmpty()) {
-            ahriUrlService.insert(ahriUrl);
-            log.info("新增成功");
-            return new ResponseUtil();
+            try {
+                ahriUrlService.insert(ahriUrl);
+            } catch (Exception e) {
+                e.printStackTrace();
+                throw new GlobalException(CodeMsg.AHRI_URL_CONRTROLLER_ERROR_INSERT_ERROR);
+            }
+            return new ResponseUtil("新增成功");
         } else {
-            log.error("有重复URL");
-            return ResponseUtil.buildERROR("有重复URL");
+            throw new GlobalException(CodeMsg.AHRI_URL_CONRTROLLER_ERROR_REPORT_URL);
         }
     }
 
     @PostMapping(value = "/download")
     public ResponseUtil download() {
-        List<AhriUrl> ahriUrls = ahriUrlService.selectTodayURL();
-        JsoupTest.addUrl(ahriUrls);
-        JsoupTest instance = JsoupTest.getInstance();
-        instance.Download();
-        ahriUrls.forEach(t -> ahriUrlService.delete(t));
+        try {
+            List<AhriUrl> ahriUrls = ahriUrlService.selectTodayURL();
+            JsoupTest.addUrl(ahriUrls);
+            JsoupTest instance = JsoupTest.getInstance();
+            instance.Download();
+            ahriUrls.forEach(t -> ahriUrlService.delete(t));
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new GlobalException(CodeMsg.AHRI_URL_CONRTROLLER_ERROR_DOWNLOAD_ERROR);
+        }
         return new ResponseUtil();
     }
 
