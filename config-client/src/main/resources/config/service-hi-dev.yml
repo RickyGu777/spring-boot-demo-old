@@ -50,3 +50,8 @@ wechat:
   token: FinalFantasyXIV
 
 searchIPWebSite: 'http://2019.ip138.com/ic.asp'
+
+logging:
+  level:
+    com.example.servicehi.controller: info
+    com.example.servicehi.dao: debug
