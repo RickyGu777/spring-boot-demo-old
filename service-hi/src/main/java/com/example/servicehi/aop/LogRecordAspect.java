@@ -15,6 +15,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Field;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -54,6 +55,7 @@ public class LogRecordAspect {
         log.info("请求开始===uri:[{}]", uri);
         log.info("请求开始===method:[{}]", method);
         log.info("请求开始===params:[{}]", params);
+        log.info("请求开始===times:[{}]", new Date());
 
         // result的值就是被拦截方法的返回值
         Object result = pjp.proceed();
