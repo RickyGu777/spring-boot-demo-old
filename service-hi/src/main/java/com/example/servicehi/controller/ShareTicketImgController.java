@@ -24,96 +24,28 @@ import java.util.List;
 @AllArgsConstructor
 @Slf4j
 public class ShareTicketImgController {
-//    private final ShareTicketUrlService<ShareTicketUrl> shareTicketUrlService;
-
     private final ShareTicketImgService<ShareTicketImg> shareTicketImgService;
 
     private final HotWordService<HotWord> hotWordService;
 
     private final RedisTemplate redisTemplate;
-//    /**
-//     * 新增优惠券链接
-//     *
-//     * @param shareTicketUrl
-//     * @return
-//     */
-//    @PostMapping(value = "/insert")
-//    public ResponseUtil insert(@RequestBody ShareTicketUrl shareTicketUrl) {
-//        if (CollectionUtils.isEmpty(shareTicketUrlService.selectRepeatUrl(shareTicketUrl))) {
-//            shareTicketUrlService.insert(shareTicketUrl);
-//            return new ResponseUtil();
-//        } else {
-//            return ResponseUtil.buildERROR("已有有重复链接");
-//        }
-//    }
-//
-//    /**
-//     * 批量新增优惠券链接
-//     *
-//     * @param shareTicketUrls
-//     * @return
-//     */
-//    @PostMapping(value = "/insertList")
-//    public ResponseUtil insertList(@RequestBody List<ShareTicketUrl> shareTicketUrls) {
-//        shareTicketUrls.forEach(item -> Validate.notEmpty(item.getUrl()));
-//        List<ShareTicketUrl> repeatUrlList = shareTicketUrlService.selectRepeatUrlList(shareTicketUrls);
-//        List<ShareTicketUrl> newList = new ArrayList<>();
-//        List<ShareTicketUrl> oldList = new ArrayList<>();
-//        shareTicketUrls.forEach(item -> {
-//            if (repeatUrlList.contains(item)) {
-//                oldList.add(item);
-//            } else {
-//                item.setIsDel("0");
-//                newList.add(item);
-//            }
-//        });
-//        if (!CollectionUtils.isEmpty(newList)) {
-//            shareTicketUrlService.insertList(newList);
-//        }
-//        return new ResponseUtil(oldList);
-//    }
-//
-//    /**
-//     * 修改状态
-//     *
-//     * @param shareTicketUrls
-//     * @return
-//     */
-//    @PostMapping(value = "/changeTicketStatus")
-//    public ResponseUtil changeTicketStatus(@RequestBody List<ShareTicketUrl> shareTicketUrls) {
-//        shareTicketUrls.forEach(item -> Validate.notEmpty(item.getStatus()));
-//        shareTicketUrlService.updateListStatus(shareTicketUrls);
-//        return new ResponseUtil();
-//    }
-//
-//    /**
-//     * 根据类型查询，如果有标题则同时查询
-//     *
-//     * @param shareTicketUrlDto
-//     * @return
-//     */
-//    @PostMapping(value = "/selectTitleAndTipsName")
-//    public ResponseUtil selectTitleAndTipsName(@RequestBody ShareTicketUrlDto shareTicketUrlDto) {
-//        return new ResponseUtil(shareTicketUrlService.selectTitleAndTipsName(shareTicketUrlDto));
-//    }
-//
-//    /**
-//     * 查询重复url
-//     * 不重复返回true，重复返回false
-//     *
-//     * @param shareTicketUrl
-//     * @return
-//     */
-//    @PostMapping(value = "/selectRepeatUrl")
-//    public ResponseUtil selectRepeatUrl(@RequestBody ShareTicketUrl shareTicketUrl) {
-//        return new ResponseUtil(CollectionUtils.isEmpty(shareTicketUrlService.selectRepeatUrl(shareTicketUrl)));
-//    }
 
+    /**
+     * 根据关键词搜索
+     *
+     * @param shareTicketImg
+     * @return
+     */
     @PostMapping(value = "/selectQRcodeAndTitle")
     public ResponseUtil selectQRcodeAndTitle(@RequestBody ShareTicketImg shareTicketImg) {
         return new ResponseUtil(shareTicketImgService.selectTitleAndTips(shareTicketImg));
     }
 
+    /**
+     * 获取热门搜索单词
+     *
+     * @return
+     */
     @PostMapping(value = "/selectTopTenHotWord")
     public ResponseUtil selectTopTenHotWord() {
         HashMap<String, List<HotWord>> hotWordMap = new HashMap<>();

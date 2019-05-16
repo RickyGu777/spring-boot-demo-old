@@ -15,6 +15,7 @@
         ref="myQuillEditor"
         :options="editorOption">
       </quill-editor>
+      <button class="tag-read" data-clipboard-text="我是可以复制的内容，啦啦啦啦" @click="copy">立即阅读</button>
       <el-button @click="addDiary" v-if="!buttonShow">上传</el-button>
       <el-button @click="updateDiaryByUUID" v-if="buttonShow">更新</el-button>
     </el-main>
@@ -23,6 +24,7 @@
 </template>
 
 <script>
+  import Clipboard from 'clipboard';
   import {Quill, quillEditor} from 'vue-quill-editor'
   import {container, ImageExtend, QuillWatch} from 'quill-image-extend-module'
   import {addDiary, selectDiaryByUUID, updateDiaryByUUID} from '@/request/api';// 导入我们的api接口
@@ -112,13 +114,27 @@
           }
           this.diary.tipsRelations.push(event.data);
         } else {
-          this.diary.tipsRelations.forEach((item,index) => {
+          this.diary.tipsRelations.forEach((item, index) => {
             if (item.tipsUUID == event.data.tipsUUID) {
               this.diary.tipsRelations.splice(index, 1);
             }
           });
         }
         console.log(this.diary);
+      },
+      copy() {
+        var clipboard = new Clipboard('.tag-read')
+        clipboard.on('success', e => {
+          console.log('复制成功')
+          // 释放内存
+          clipboard.destroy()
+        })
+        clipboard.on('error', e => {
+          // 不支持复制
+          console.log('该浏览器不支持自动复制')
+          // 释放内存
+          clipboard.destroy()
+        })
       }
     }
   }

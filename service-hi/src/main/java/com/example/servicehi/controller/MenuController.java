@@ -22,7 +22,8 @@ public class MenuController {
 
     @PostMapping(value = "/getMenuList")
     public ResponseUtil<List<Menu>> getMenuList(@RequestBody(required = false) Menu menu) {
-        return new ResponseUtil(menuService.selectMenu(menu));
+        List<Menu> menus = menuService.selectMenu(menu);
+        return new ResponseUtil(menus);
     }
 
     @PostMapping(value = "/createUUID")
