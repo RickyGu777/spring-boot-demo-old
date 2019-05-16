@@ -116,9 +116,6 @@ public class ShareTicketImgController {
 
     @PostMapping(value = "/selectTopTenHotWord")
     public ResponseUtil selectTopTenHotWord() {
-        if (1 == 1) {
-            throw new GlobalException(CodeMsg.SERVER_ERROR);
-        }
         HashMap<String, List<HotWord>> hotWordMap = new HashMap<>();
         hotWordMap.put("oneDaysBeforeHotWords", JSON.parseObject(redisTemplate.opsForValue().get("oneDaysBeforeHotWords").toString(), List.class));
         hotWordMap.put("threeDaysBeforeHotWords", JSON.parseObject(redisTemplate.opsForValue().get("threeDaysBeforeHotWords").toString(), List.class));
