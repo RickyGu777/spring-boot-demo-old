@@ -3,8 +3,10 @@ package com.example.servicehi.service.impl;
 import com.example.servicehi.dao.ShareTicketImgDao;
 import com.example.servicehi.entity.HotWord;
 import com.example.servicehi.entity.ShareTicketImg;
+import com.example.servicehi.entity.TicketInvalid;
 import com.example.servicehi.service.HotWordService;
 import com.example.servicehi.service.ShareTicketImgService;
+import com.example.servicehi.service.TicketInvalidService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,9 @@ import java.util.List;
 public class ShareTicketImgServiceImpl<T extends ShareTicketImg> implements ShareTicketImgService<T> {
     @Autowired
     private ShareTicketImgDao<T> shareTicketImgDao;
+
+    @Autowired
+    private TicketInvalidService<TicketInvalid> ticketInvalidService;
 
     @Autowired
     private HotWordService<HotWord> hotWordService;
@@ -43,5 +48,20 @@ public class ShareTicketImgServiceImpl<T extends ShareTicketImg> implements Shar
         }
         PageHelper.startPage(t.getPage(), t.getSize());
         return new PageInfo(shareTicketImgDao.selectTitleAndTips(t)).getList();
+    }
+
+    @Override
+    public List<T> selectTicket(T t) {
+        PageHelper.startPage(t.getPage(), t.getSize());
+        return new PageInfo(shareTicketImgDao.selectTicket(t)).getList();
+    }
+
+    @Override
+    public void ticketInvalid(T t) {
+        t.setModiDate(new Date());
+        TicketInvalid ticketInvalid = new TicketInvalid();
+        ticketInvalid.setTicketUUID(t.getUuid());
+        ticketInvalidService.removeTicketInvalid(ticketInvalid);
+        shareTicketImgDao.ticketInvalid(t);
     }
 }

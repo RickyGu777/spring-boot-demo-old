@@ -1,12 +1,12 @@
 package com.example.servicehi.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.example.servicehi.common.CodeMsg;
 import com.example.servicehi.entity.HotWord;
 import com.example.servicehi.entity.ShareTicketImg;
-import com.example.servicehi.handler.GlobalException;
+import com.example.servicehi.entity.TicketInvalid;
 import com.example.servicehi.service.HotWordService;
 import com.example.servicehi.service.ShareTicketImgService;
+import com.example.servicehi.service.TicketInvalidService;
 import com.example.servicehi.util.ResponseUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,9 +26,21 @@ import java.util.List;
 public class ShareTicketImgController {
     private final ShareTicketImgService<ShareTicketImg> shareTicketImgService;
 
+    private final TicketInvalidService<TicketInvalid> ticketInvalidService;
+
     private final HotWordService<HotWord> hotWordService;
 
     private final RedisTemplate redisTemplate;
+
+    /**
+     * 默认搜索
+     *
+     * @return
+     */
+    @PostMapping(value = "/selectTicket")
+    public ResponseUtil selectTicket(@RequestBody ShareTicketImg shareTicketImg) {
+        return new ResponseUtil<>(shareTicketImgService.selectTicket(shareTicketImg));
+    }
 
     /**
      * 根据关键词搜索
@@ -56,4 +68,50 @@ public class ShareTicketImgController {
         hotWordMap.put("todayHotWords", hotWordService.selectTodayHotWord());
         return new ResponseUtil(hotWordMap);
     }
+
+    /**
+     * 过期的优惠券置为无效
+     *
+     * @param shareTicketImg
+     * @return
+     */
+    @PostMapping(value = "/ticketInvalid")
+    public ResponseUtil ticketInvalid(@RequestBody ShareTicketImg shareTicketImg) {
+        shareTicketImgService.ticketInvalid(shareTicketImg);
+        return new ResponseUtil();
+    }
+
+    /**
+     * 新增无效优惠券记录，到一定程度后由后台验证后删除
+     *
+     * @param ticketInvalid
+     * @return
+     */
+    @PostMapping(value = "/addTicketInvalid")
+    public ResponseUtil addTicketInvalid(@RequestBody TicketInvalid ticketInvalid) {
+        ticketInvalidService.insert(ticketInvalid);
+        return new ResponseUtil();
+    }
+
+    /**
+     * 查询所有被标记无效的优惠券的次数
+     *
+     * @return
+     */
+    @PostMapping(value = "/ticketInvalidCountList")
+    public ResponseUtil ticketInvalidCountList() {
+        return new ResponseUtil(ticketInvalidService.selectCountList());
+    }
+
+    /**
+     * 查询指定优惠券被标记无效的次数
+     *
+     * @param ticketInvalid
+     * @return
+     */
+    @PostMapping(value = "/ticketInvalidCount")
+    public ResponseUtil ticketInvalidCount(@RequestBody TicketInvalid ticketInvalid) {
+        return new ResponseUtil(ticketInvalidService.selectCount(ticketInvalid));
+    }
+
 }

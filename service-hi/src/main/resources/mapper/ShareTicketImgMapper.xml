@@ -44,9 +44,19 @@
             SHARE_TICKET_IMG a
         INNER JOIN TIPS_RELATION b ON a.UUID = b.OTHER_UUID
             WHERE a.IS_DEL = '0'
+            AND a.STATUS = '0'
+            AND b.STATUS = '0'
             AND b.IS_DEL = '0'
             AND (b.TIPS_NAME like CONCAT('%',#{tipsName},'%') OR a.TITLE like CONCAT('%',#{title},'%'))
         GROUP BY
             a.TITLE
     </select>
+
+    <select id="selectTicket" parameterType="ShareTicketImg" resultMap="ShareTicketImgResult">
+        select * from SHARE_TICKET_IMG where IS_DEL = '0' and STATUS = '0' order by CREATE_DATE desc
+    </select>
+
+    <update id="ticketInvalid" parameterType="ShareTicketImg">
+        update SHARE_TICKET_IMG set STATUS = '1', MODI_DATE = #{modiDate} where STATUS = '0' and UUID = #{uuid} and ID = #{id}
+    </update>
 </mapper>

@@ -11,4 +11,8 @@ public interface ShareTicketImgDao<T extends ShareTicketImg> {
     void insert(T t);
 
     List<T> selectTitleAndTips(T t);
+
+    List<T> selectTicket(T t);
+
+    void ticketInvalid(T t);
 }
