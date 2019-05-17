@@ -102,7 +102,7 @@ public class WxMenuController {
         WxMenuButton button = new WxMenuButton();
         button.setType(MenuButtonType.VIEW);
         button.setName("Vue");
-        button.setUrl("http://118.24.153.163/vue/index.html#/");
+        button.setUrl("http://118.24.153.163/phone/index.html#/");
         menu.getButtons().add(button);
         return this.wxService.getMenuService().menuCreate(menu);
     }
