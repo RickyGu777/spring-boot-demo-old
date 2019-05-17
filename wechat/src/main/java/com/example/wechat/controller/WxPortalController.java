@@ -97,7 +97,12 @@ public class WxPortalController {
         }
 
         this.logger.debug("\n组装回复信息：{}", out);
-        return out;
+        return "这里是FinalFantasyXIV爱好者的个人微信公众号，\n" +
+                "旨在更新狒狒14的各种相关信息。\n" +
+                "如果我的公众号内容中有任何侵犯您版权的信息，\n" +
+                "请将发送邮件至544107550@qq.com。\n" +
+                "并在邮件中留下您可靠的联系方式，我将尽快联系您，\n" +
+                "与您核实侵权信息后我将尽快删除。";
     }
 
     private WxMpXmlOutMessage route(WxMpXmlMessage message) {
