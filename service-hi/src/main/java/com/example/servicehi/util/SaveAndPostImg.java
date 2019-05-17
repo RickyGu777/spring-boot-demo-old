@@ -1,5 +1,7 @@
 package com.example.servicehi.util;
 
+import com.example.servicehi.common.CodeMsg;
+import com.example.servicehi.handler.GlobalException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -33,7 +35,7 @@ public class SaveAndPostImg {
         Map<String, String> fileMap = new HashMap<>();
         fileMap.put("smfile", dest.getPath());
 
-        String res = "";
+        String res;
         HttpURLConnection conn = null;
         String BOUNDARY = "----WebKitFormBoundarypAIqI1RWBfPWiOKq"; //boundary就是request头和上传文件内容的分隔符
         try {
@@ -136,8 +138,8 @@ public class SaveAndPostImg {
             res = strBuf.toString();
             reader.close();
         } catch (Exception e) {
-            System.out.println("发送POST请求出错。" + postUrl);
             e.printStackTrace();
+            throw new GlobalException(CodeMsg.SAVE_IMG_POST_REQUEST_ERROR);
         } finally {
             if (conn != null) {
                 conn.disconnect();

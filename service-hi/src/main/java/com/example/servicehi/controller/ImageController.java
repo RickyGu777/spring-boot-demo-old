@@ -1,30 +1,19 @@
 package com.example.servicehi.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.example.servicehi.common.Config;
-import com.example.servicehi.entity.ShareTicketImg;
 import com.example.servicehi.entity.UploadImg;
-import com.example.servicehi.entity.dto.BaiduOCRDto;
-import com.example.servicehi.service.ShareTicketImgService;
 import com.example.servicehi.service.UploadImgService;
-import com.example.servicehi.util.Baidu.BaiduTool;
-import com.example.servicehi.util.*;
+import com.example.servicehi.util.ResponseUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.SystemUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import sun.misc.BASE64Encoder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.math.BigDecimal;
-import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -34,8 +23,6 @@ import java.util.zip.ZipOutputStream;
 @Slf4j
 public class ImageController {
     private final UploadImgService<UploadImg> uploadImgService;
-
-    private final ShareTicketImgService<ShareTicketImg> shareTicketImgService;
 
     private final Config config;
 
@@ -47,36 +34,8 @@ public class ImageController {
      * @throws IOException
      */
     @PostMapping(value = "/upload")
-    public Map uploadImage(@RequestParam("img") MultipartFile multipartFile) throws IOException {
-        String originalFilename = multipartFile.getOriginalFilename();
-        String fileName = UUIDUtil.createUUID() + "." + multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().lastIndexOf(".") + 1);
-        String compress = SaveAndPostImg.compress(multipartFile, config.getFilePath(), fileName);
-        Map map = JSON.parseObject(compress, Map.class);
-
-        HashMap<String, Object> hashMap = new HashMap<>();
-        UploadImg uploadImg = new UploadImg();
-        uploadImg.setOriginalName(originalFilename);
-        uploadImg.setIsDel("0");
-        uploadImg.setRandomName(fileName);
-        if ("success".equals(map.get("code").toString())) {
-            String responseUrl = ((Map) map.get("data")).get("url").toString();
-            uploadImg.setResponseUrl(responseUrl);
-            hashMap.put("img", ((Map) map.get("data")).get("url"));
-            hashMap.put("code", 0);
-        } else if ("error".equals(map.get("code").toString())) {
-            hashMap.put("msg", map.get("msg"));
-            hashMap.put("code", 1);
-        }
-        uploadImg.setTitle(uploadImg.getRandomName());
-        if (SystemUtils.IS_OS_LINUX) {
-            uploadImg.setImagePath('.' + config.getLinuxPath() + uploadImg.getRandomName());
-        }
-        uploadImgService.insert(uploadImg);
-
-        if (SystemUtils.IS_OS_WINDOWS) {
-            SaveAndPostImg.sendImage(config.getFilePath() + uploadImg.getRandomName());
-        }
-        return hashMap;
+    public ResponseUtil uploadImage(@RequestParam("img") MultipartFile multipartFile) throws IOException {
+        return new ResponseUtil(uploadImgService.uploadImage(multipartFile));
     }
 
     /**
@@ -100,61 +59,7 @@ public class ImageController {
      */
     @PostMapping(value = "/QRCode")
     public ResponseUtil QRCode(@RequestParam("file") MultipartFile multipartFile) throws IOException {
-        BASE64Encoder encoder = new BASE64Encoder();
-        String imgData = encoder.encode(multipartFile.getBytes()).replace("\r\n", "");
-        imgData = URLEncoder.encode(imgData, "UTF-8");
-        String url = "https://aip.baidubce.com/rest/2.0/ocr/v1/general_basic";
-        String param = "?language_type=CHN_ENG&access_token=" + BaiduTool.getAuth() + "&image=" + imgData;
-        BaiduOCRDto baiduOCRDto = JSON.parseObject(HttpRequest.baiduOCRPost(url, param), BaiduOCRDto.class);
-
-        String originalFilename = multipartFile.getOriginalFilename();
-        String fileName = UUIDUtil.createUUID() + "." + multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().lastIndexOf(".") + 1);
-        String compress = SaveAndPostImg.compress(multipartFile, config.getFilePath(), fileName);
-        Map map = JSON.parseObject(compress, Map.class);
-
-        HashMap<String, Object> hashMap = new HashMap<>();
-        UploadImg uploadImg = new UploadImg();
-        uploadImg.setOriginalName(originalFilename);
-        uploadImg.setIsDel("0");
-        uploadImg.setRandomName(fileName);
-        if ("success".equals(map.get("code").toString())) {
-            String responseUrl = ((Map) map.get("data")).get("url").toString();
-            uploadImg.setResponseUrl(responseUrl);
-            hashMap.put("img", ((Map) map.get("data")).get("url"));
-            hashMap.put("code", 0);
-        } else if ("error".equals(map.get("code").toString())) {
-            hashMap.put("msg", map.get("msg"));
-            hashMap.put("code", 1);
-        }
-        uploadImg.setTitle(uploadImg.getRandomName());
-        if (SystemUtils.IS_OS_LINUX) {
-            uploadImg.setImagePath('.' + config.getLinuxPath() + uploadImg.getRandomName());
-        }
-        uploadImgService.insert(uploadImg);
-
-        String filePath = config.getFilePath() + fileName;
-        log.info("fileName:[{}]", fileName);
-        log.info("filePath:[{}]", filePath);
-        String qrCode = ZixingCodeUtil.decodeQRCodeImage(filePath, null).replace("\uD83D\uDCF1", "");
-        ShareTicketImg shareTicketImg = new ShareTicketImg();
-        shareTicketImg.setUploadImgUUID(uploadImg.getUuid());
-        shareTicketImg.setQRCode(qrCode);
-        String[] split = qrCode.split("-----------------\n" + "长按復·制这段描述，");
-        String[] split1 = split[0].split("\n");
-        BigDecimal beforeMoney = new BigDecimal(split1[0].replace("【在售价】￥",""));
-        BigDecimal afterMoney = new BigDecimal(split1[1].replace("【券后价】￥",""));
-        shareTicketImg.setBeforeMoney(beforeMoney);
-        shareTicketImg.setAfterMoney(afterMoney);
-        String taobaoCode = split[1].replace("，打开【taobao】即可抢购", "");
-        shareTicketImg.setTaobaoCode(taobaoCode);
-
-        shareTicketImg.setTitle(baiduOCRDto.getWordsResult().get(0).getWords());
-        shareTicketImgService.insert(shareTicketImg);
-
-        if (SystemUtils.IS_OS_WINDOWS) {
-            SaveAndPostImg.sendImage(config.getFilePath() + uploadImg.getRandomName());
-        }
-        return new ResponseUtil(qrCode);
+        return new ResponseUtil(uploadImgService.getQRCode(multipartFile));
     }
 
     @PostMapping(value = "/getImageWall")

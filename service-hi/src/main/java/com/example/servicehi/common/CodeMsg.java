@@ -12,7 +12,15 @@ public class CodeMsg {
     public static CodeMsg AHRI_URL_CONRTROLLER_ERROR_INSERT_ERROR = new CodeMsg(10002, "新增URL出错");
     public static CodeMsg AHRI_URL_CONRTROLLER_ERROR_DOWNLOAD_ERROR = new CodeMsg(10002, "下载出错");
 
+    // 权限
     public static CodeMsg AUTH_CONTROLLER_BASE_ERROR = new CodeMsg(20001, "Auth服务端异常");
+
+    // 图片上传
+    public static CodeMsg IMAGE_CONTROLLER_BASE_ERROR = new CodeMsg(30001, "图片服务异常");
+    public static CodeMsg IMAGE_CONTROLLER_UPLOAD_IMAGE_ERROR = new CodeMsg(30002, "保存图片数据失败");
+
+    // 工具类异常
+    public static CodeMsg SAVE_IMG_POST_REQUEST_ERROR = new CodeMsg(90001, "上传图床工具类，POST请求失败");
 
     private CodeMsg(int code, String msg) {
         this.code = code;
