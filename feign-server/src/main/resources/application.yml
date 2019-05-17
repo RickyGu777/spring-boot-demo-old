@@ -22,5 +22,5 @@ management:
     web:
       exposure:
         include: '*'
-    #注意下面这个位置！！
+    #娉ㄦ剰涓嬮潰杩欎釜浣嶇疆锛侊紒
     enabled-by-default: true
