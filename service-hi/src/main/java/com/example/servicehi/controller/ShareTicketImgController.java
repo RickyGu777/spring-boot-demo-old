@@ -70,7 +70,7 @@ public class ShareTicketImgController {
     }
 
     /**
-     * 过期的优惠券置为无效
+     * 当无效条数增加到一定数量的时候，由后台验证，后删除过期的优惠券置为无效
      *
      * @param shareTicketImg
      * @return
@@ -82,7 +82,7 @@ public class ShareTicketImgController {
     }
 
     /**
-     * 新增无效优惠券记录，到一定程度后由后台验证后删除
+     * 新增无效优惠券记录
      *
      * @param ticketInvalid
      * @return
