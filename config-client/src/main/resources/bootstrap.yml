@@ -1,0 +1,33 @@
+server:
+  port: 8763
+
+spring:
+  application:
+    name: config-client
+  profiles:
+    active: native
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: classpath:/config
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+    healthcheck:
+      enabled: true
+    instance:
+      lease-expiration-duration-in-seconds: 30
+      lease-renewal-interval-in-seconds: 10
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: shutdown
+    #注意下面这个位置！！
+  endpoint:
+    shutdown:
+      enabled: true

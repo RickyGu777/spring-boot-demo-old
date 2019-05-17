@@ -4,6 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -204,5 +206,18 @@ public class ZipFileUtils {
                 e.printStackTrace();
             }
         }
+    }
+
+    class zipFile{
+        String path;
+        boolean isFile;
+    }
+
+    public static File[] zipFileList(String path){
+        File file = new File(path);
+        FileUtil.checkParentFile(file);
+        boolean directory = file.isDirectory();
+        File[] files = file.listFiles();
+        return files;
     }
 }

@@ -6,6 +6,8 @@ import com.example.servicehi.service.IpAddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 @Service
 public class IpAddressServiceImpl<T extends IpAddress> implements IpAddressService<T> {
     @Autowired
@@ -23,6 +25,7 @@ public class IpAddressServiceImpl<T extends IpAddress> implements IpAddressServi
 
     @Override
     public void insert(T t) {
+        t.setCreateDate(new Date());
         ipAddressDao.insert(t);
     }
 

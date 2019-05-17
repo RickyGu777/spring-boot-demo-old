@@ -3,19 +3,36 @@ package com.example.servicehi.util;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.InetAddress;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 
 /**
  * 查询外网IP工具类
  */
 @Slf4j
 public class IPAddressUtil {
+    private String searchIPWebSite;
+
+    private static IPAddressUtil ipAddressUtil;
+
     private IPAddressUtil() {
+    }
+
+    public static IPAddressUtil getInstance(String webSite){
+        if (ipAddressUtil == null) {
+            ipAddressUtil = new IPAddressUtil();
+            ipAddressUtil.searchIPWebSite = webSite;
+            return ipAddressUtil;
+        } else {
+            return ipAddressUtil;
+        }
     }
 
     /**
@@ -23,12 +40,36 @@ public class IPAddressUtil {
      *
      * @return 外网IP
      */
-    public static String getV4IP() throws IOException {
-        Connection connection = getConnection("https://www.ip.cn/");
-        Document document = connection.get();
-        Element body = document.body();
-        Element element = body.getElementsByClass("well").get(0).getElementsByTag("code").get(0);
-        return element.text();
+    public String getV4IP() {
+        URL url;
+        URLConnection urlconn;
+        BufferedReader br = null;
+        try {
+            url = new URL(searchIPWebSite);//爬取的网站是百度搜索ip时排名第一的那个
+            urlconn = url.openConnection();
+            br = new BufferedReader(new InputStreamReader(urlconn.getInputStream()));
+            String buf;
+            String get = null;
+            while ((buf = br.readLine()) != null) {
+                get += buf;
+            }
+            int where, end;
+            for (where = 0; where < get.length() && get.charAt(where) != '['; where++) ;
+            for (end = where; end < get.length() && get.charAt(end) != ']'; end++) ;
+            get = get.substring(where + 1, end);
+            return get;
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                br.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return "0.0.0.0";
     }
 
     /**
@@ -36,7 +77,7 @@ public class IPAddressUtil {
      *
      * @return 内网IP
      */
-    public static String getIntranetIp() {
+    public String getIntranetIp() {
         try {
             return InetAddress.getLocalHost().getHostAddress();
         } catch (Exception e) {
@@ -44,7 +85,7 @@ public class IPAddressUtil {
         }
     }
 
-    public static String getIpAddr(HttpServletRequest request) {
+    public String getIpAddr(HttpServletRequest request) {
         String ip = request.getHeader("x-forwarded-for");
         log.info("=====");
         log.info(ip);
@@ -77,7 +118,7 @@ public class IPAddressUtil {
         return ip;
     }
 
-    private static Connection getConnection(String url) {
+    private Connection getConnection(String url) {
         Connection connect = Jsoup.connect(url);
         connect.header("Accept", "application/json, text/javascript, */*; q=0.01").header("Accept-Encoding", "gzip, deflate");
         connect.header("Accept-Language", "zh-CN,zh;q=0.9").header("Connection", "keep-alive");

@@ -1,0 +1,37 @@
+spring:
+  jackson:
+    time-zone: GMT+8
+    default-property-inclusion: non_empty
+    date-format: yyyy-MM-dd HH:mm:ss
+  datasource:
+    url: jdbc:mysql://demo:3306/finalfantasyxiv?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Hongkong
+    username: fell
+    password: finalfantasyxiv
+  redis:
+    port: 6379
+    host: demo
+    password: finalfantasyxiv
+    jedis:
+      pool:
+        max-active: 8
+        max-wait: -1
+        max-idle: 8
+        min-idle: 0
+    timeout: 300
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.example.wechat.entity
+
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+
+wx:
+  mp:
+    configs:
+      - appId: wx180cb4037e983551
+        secret: cf0bf3e4c546ded33dcd54b4290c145c
+        token: FinalFantasyXIV
+        aesKey:

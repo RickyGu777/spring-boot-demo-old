@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.servicehi.dao.TicketInvalidDao">
+    <resultMap id="TicketInvalidResult" type="com.example.servicehi.entity.TicketInvalid">
+        <result column="ID" property="id"/>
+        <result column="UUID" property="uuid"/>
+        <result column="TICKET_UUID" property="ticketUUID"/>
+        <result column="IS_DEL" property="isDel"/>
+        <result column="STATUS" property="status"/>
+        <result column="CREATE_USER_UUID" property="createUserUUID"/>
+        <result column="CREATE_DATE" property="createDate"/>
+        <result column="MODI_USER_UUID" property="modiUserUUID"/>
+        <result column="MODI_DATE" property="modiDate"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="TicketInvalid">
+        insert into TICKET_INVALID (UUID, TICKET_UUID, CREATE_USER_UUID, CREATE_DATE, MODI_USER_UUID, MODI_DATE)
+        values (#{uuid},#{ticketUUID},#{createUserUUID},#{createDate},#{modiUserUUID},#{modiDate});
+    </insert>
+
+    <select id="selectCountList" resultMap="TicketInvalidResult">
+        select count (*) from TICKET_INVALID where IS_DEL = '0' and STATUS = '0' group by TICKET_UUID
+    </select>
+
+    <select id="selectCount" parameterType="TicketInvalid" resultMap="TicketInvalidResult">
+        select count (*) from TICKET_INVALID where IS_DEL = '0' and STATUS = '0' where TICKET_UUID = #{ticketUUID} group by TICKET_UUID
+    </select>
+
+    <update id="removeTicketInvalid" parameterType="TicketInvalid">
+        update TICKET_INVALID set STATUS = '1',MODI_DATE = #{modiDate} where TICKET_UUID = #{ticketUUID} and STATUS = '0'
+    </update>
+</mapper>

@@ -1,16 +1,15 @@
+// The Vue build version to load with the `import` command
+// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
-import FastClick from 'fastclick'
-import VueRouter from 'vue-router'
 import App from './App'
-import router from './router/index';
-
-Vue.use(VueRouter)
-
-FastClick.attach(document.body)
+import router from './router'
 
 Vue.config.productionTip = false
 
+/* eslint-disable no-new */
 new Vue({
+  el: '#app',
   router,
-  render: h => h(App)
-}).$mount('#app-box')
+  components: { App },
+  template: '<App/>'
+})

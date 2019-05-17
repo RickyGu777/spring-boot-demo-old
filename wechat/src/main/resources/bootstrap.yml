@@ -1,0 +1,30 @@
+server:
+  port: 8767
+
+spring:
+  application:
+    name: wechat
+  cloud:
+    config:
+      name: ${spring.application.name}
+      profile: dev
+      uri: 'http://demo:8763'
+  main:
+    allow-bean-definition-overriding: true
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://demo:8761/eureka/
+    healthcheck:
+      enabled: true
+    instance:
+      lease-expiration-duration-in-seconds: 30
+      lease-renewal-interval-in-seconds: 10
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+    enabled-by-default: true

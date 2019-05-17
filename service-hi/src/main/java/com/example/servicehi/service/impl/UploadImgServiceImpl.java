@@ -1,20 +1,49 @@
 package com.example.servicehi.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.example.servicehi.common.CodeMsg;
+import com.example.servicehi.common.Config;
 import com.example.servicehi.dao.UploadImgDao;
+import com.example.servicehi.entity.ShareTicketImg;
 import com.example.servicehi.entity.UploadImg;
+import com.example.servicehi.entity.dto.BaiduOCRDto;
+import com.example.servicehi.handler.GlobalException;
+import com.example.servicehi.service.ShareTicketImgService;
 import com.example.servicehi.service.UploadImgService;
+import com.example.servicehi.util.Baidu.BaiduTool;
+import com.example.servicehi.util.HttpRequest;
+import com.example.servicehi.util.SaveAndPostImg;
+import com.example.servicehi.util.UUIDUtil;
+import com.example.servicehi.util.ZixingCodeUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.SystemUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import sun.misc.BASE64Encoder;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
+import java.net.URLEncoder;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
+@Slf4j
 public class UploadImgServiceImpl<T extends UploadImg> implements UploadImgService<T> {
     @Autowired
     private UploadImgDao<T> uploadImgDao;
+
+    @Autowired
+    private Config config;
+
+    @Autowired
+    private ShareTicketImgService<ShareTicketImg> shareTicketImgService;
 
     @Override
     public void insert(T t) {
@@ -43,5 +72,102 @@ public class UploadImgServiceImpl<T extends UploadImg> implements UploadImgServi
     public PageInfo selectPictureWall(T t) {
         PageHelper.startPage(t.getPage(), t.getSize());
         return new PageInfo(uploadImgDao.selectPictureWall(t));
+    }
+
+    @Override
+    public HashMap uploadImage(MultipartFile multipartFile) throws IOException {
+        String originalFilename = multipartFile.getOriginalFilename();
+        String fileName = UUIDUtil.createUUID() + "." + multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().lastIndexOf(".") + 1);
+        String compress = SaveAndPostImg.compress(multipartFile, config.getFilePath(), fileName);
+        Map map = JSON.parseObject(compress, Map.class);
+
+        HashMap<String, Object> hashMap = new HashMap<>();
+        UploadImg uploadImg = new UploadImg();
+        uploadImg.setOriginalName(originalFilename);
+        uploadImg.setIsDel("0");
+        uploadImg.setRandomName(fileName);
+        if ("success".equals(map.get("code").toString())) {
+            String responseUrl = ((Map) map.get("data")).get("url").toString();
+            uploadImg.setResponseUrl(responseUrl);
+            hashMap.put("img", ((Map) map.get("data")).get("url"));
+            hashMap.put("code", 0);
+        } else if ("error".equals(map.get("code").toString())) {
+            hashMap.put("msg", map.get("msg"));
+            hashMap.put("code", 1);
+        }
+        uploadImg.setTitle(uploadImg.getRandomName());
+        if (SystemUtils.IS_OS_LINUX) {
+            uploadImg.setImagePath('.' + config.getLinuxPath() + uploadImg.getRandomName());
+        }
+        try {
+            insert((T) uploadImg);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new GlobalException(CodeMsg.IMAGE_CONTROLLER_UPLOAD_IMAGE_ERROR);
+        }
+
+        if (SystemUtils.IS_OS_WINDOWS) {
+            SaveAndPostImg.sendImage(config.getFilePath() + uploadImg.getRandomName());
+        }
+        return hashMap;
+    }
+
+    @Override
+    public String getQRCode(MultipartFile multipartFile) throws IOException {
+        BASE64Encoder encoder = new BASE64Encoder();
+        String imgData = encoder.encode(multipartFile.getBytes()).replace("\r\n", "");
+        imgData = URLEncoder.encode(imgData, "UTF-8");
+        String url = "https://aip.baidubce.com/rest/2.0/ocr/v1/general_basic";
+        String param = "?language_type=CHN_ENG&access_token=" + BaiduTool.getAuth() + "&image=" + imgData;
+        BaiduOCRDto baiduOCRDto = JSON.parseObject(HttpRequest.baiduOCRPost(url, param), BaiduOCRDto.class);
+
+        String originalFilename = multipartFile.getOriginalFilename();
+        String fileName = UUIDUtil.createUUID() + "." + multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().lastIndexOf(".") + 1);
+        String compress = SaveAndPostImg.compress(multipartFile, config.getFilePath(), fileName);
+        Map map = JSON.parseObject(compress, Map.class);
+
+        HashMap<String, Object> hashMap = new HashMap<>();
+        UploadImg uploadImg = new UploadImg();
+        uploadImg.setOriginalName(originalFilename);
+        uploadImg.setIsDel("0");
+        uploadImg.setRandomName(fileName);
+        if ("success".equals(map.get("code").toString())) {
+            String responseUrl = ((Map) map.get("data")).get("url").toString();
+            uploadImg.setResponseUrl(responseUrl);
+            hashMap.put("img", ((Map) map.get("data")).get("url"));
+            hashMap.put("code", 0);
+        } else if ("error".equals(map.get("code").toString())) {
+            hashMap.put("msg", map.get("msg"));
+            hashMap.put("code", 1);
+        }
+        uploadImg.setTitle(uploadImg.getRandomName());
+        if (SystemUtils.IS_OS_LINUX) {
+            uploadImg.setImagePath('.' + config.getLinuxPath() + uploadImg.getRandomName());
+        }
+        insert((T) uploadImg);
+
+        String filePath = config.getFilePath() + fileName;
+        log.info("fileName:[{}]", fileName);
+        log.info("filePath:[{}]", filePath);
+        String qrCode = ZixingCodeUtil.decodeQRCodeImage(filePath, null).replace("\uD83D\uDCF1", "");
+        ShareTicketImg shareTicketImg = new ShareTicketImg();
+        shareTicketImg.setUploadImgUUID(uploadImg.getUuid());
+        shareTicketImg.setQRCode(qrCode);
+        String[] split = qrCode.split("-----------------\n" + "长按復·制这段描述，");
+        String[] split1 = split[0].split("\n");
+        BigDecimal beforeMoney = new BigDecimal(split1[0].replace("【在售价】￥",""));
+        BigDecimal afterMoney = new BigDecimal(split1[1].replace("【券后价】￥",""));
+        shareTicketImg.setBeforeMoney(beforeMoney);
+        shareTicketImg.setAfterMoney(afterMoney);
+        String taobaoCode = split[1].replace("，打开【taobao】即可抢购", "");
+        shareTicketImg.setTaobaoCode(taobaoCode);
+
+        shareTicketImg.setTitle(baiduOCRDto.getWordsResult().get(0).getWords());
+        shareTicketImgService.insert(shareTicketImg);
+
+        if (SystemUtils.IS_OS_WINDOWS) {
+            SaveAndPostImg.sendImage(config.getFilePath() + uploadImg.getRandomName());
+        }
+        return qrCode;
     }
 }

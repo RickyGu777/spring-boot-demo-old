@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.wechat.dao.WeChatPublicAccountResponseInfoDao">
+    <resultMap id="WeChatPublicAccountResponseInfoResult" type="com.example.wechat.entity.WeChatPublicAccountResponseInfo">
+        <result column="ID" property="id"/>
+        <result column="UUID" property="uuid"/>
+        <result column="REQUEST_INFO" property="requestInfo"/>
+        <result column="RESPONSE_INFO" property="responseInfo"/>
+        <result column="IS_DEL" property="isDel"/>
+        <result column="STATUS" property="status"/>
+        <result column="CREATE_USER_UUID" property="createUserUUID"/>
+        <result column="CREATE_DATE" property="createDate"/>
+        <result column="MODI_USER_UUID" property="modiUserUUID"/>
+        <result column="MODI_DATE" property="modiDate"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="WeChatPublicAccountResponseInfo">
+        insert into WE_CHAT_PUBLIC_ACCOUNT_RESPONSE_INFO (UUID, REQUEST_INFO, RESPONSE_INFO, CREATE_USER_UUID, CREATE_DATE, MODI_USER_UUID, MODI_DATE)
+        values (#{uuid},#{requestInfo},#{responseInfo},#{createUserUUID},#{createDate},#{modiUserUUID},#{modiDate});
+    </insert>
+
+    <select id="selectByRequestInfo" parameterType="WeChatPublicAccountResponseInfo" resultType="WeChatPublicAccountResponseInfo">
+        select * from WE_CHAT_PUBLIC_ACCOUNT_RESPONSE_INFO where REQUEST_INFO = #{requestInfo}
+    </select>
+</mapper>

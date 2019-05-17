@@ -5,9 +5,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class CmdUtil {
-    public static String exec(String command) throws InterruptedException {
+    public static String exec(String command) {
         String returnString = "";
-        Process pro = null;
+        Process pro;
         Runtime runTime = Runtime.getRuntime();
         if (runTime == null) {
             System.err.println("Create runtime false!");

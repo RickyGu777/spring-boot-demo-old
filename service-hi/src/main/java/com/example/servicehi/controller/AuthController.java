@@ -16,7 +16,7 @@ public class AuthController {
     private final AuthService<Auth> authService;
 
     @PostMapping(value = "/selectAllAuth")
-    public Object selectAllAuth(){
+    public Object selectAllAuth() {
         return authService.selectAll();
     }
 

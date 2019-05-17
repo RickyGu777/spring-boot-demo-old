@@ -1,5 +1,6 @@
 package com.example.servicehi.init;
 
+import com.example.servicehi.common.Config;
 import com.example.servicehi.common.SendMail;
 import com.example.servicehi.entity.Auth;
 import com.example.servicehi.entity.IpAddress;
@@ -8,6 +9,7 @@ import com.example.servicehi.service.IpAddressService;
 import com.example.servicehi.util.IPAddressUtil;
 import com.example.servicehi.util.MacAddressUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.SystemUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,8 +22,12 @@ import org.springframework.web.servlet.mvc.condition.RequestMethodsRequestCondit
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
+import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 @Component
 @Slf4j
@@ -38,26 +44,33 @@ public class Init implements InitializingBean {
     @Autowired
     private AuthService<Auth> authService;
 
-    @Value(("${delete_old_auth}"))
+    @Autowired
+    private Config config;
+
+    @Value("${delete_old_auth}")
     private boolean delete_old_auth;
 
+    @Value("${searchIPWebSite}")
+    private String searchIPWebSite;
+
     @Override
-    public void afterPropertiesSet() throws Exception {
-        sendIP();
+    public void afterPropertiesSet() {
+//        sendIP();
         initAuth();
+        config.setFilePath(SystemUtils.IS_OS_LINUX ? config.getLinux() : config.getWindows());
     }
 
     private void sendIP() throws IOException {
-//        String v4IP = IPAddressUtil.getV4IP();
-//        String localMac = MacAddressUtil.getLocalMac();
-//        IpAddress ipAddress = new IpAddress();
-//        ipAddress.setIp(v4IP);
-//        ipAddress.setCreateDate(new Date());
-//        ipAddress.setMac(localMac);
-//        ipAddressService.deleteByMac(ipAddress);
-//        ipAddressService.insert(ipAddress);
-//
-//        sendMail.send("项目初始化IP地址查询", "项目初始化外网IP为:" + v4IP + ";MAC地址为:" + localMac + ";");
+        String v4IP = IPAddressUtil.getInstance(searchIPWebSite).getV4IP();
+        String localMac = MacAddressUtil.getLocalMac();
+        IpAddress ipAddress = new IpAddress();
+        ipAddress.setIp(v4IP);
+        ipAddress.setCreateDate(new Date());
+        ipAddress.setMac(localMac);
+        ipAddressService.deleteByMac(ipAddress);
+        ipAddressService.insert(ipAddress);
+        log.info("to send");
+//        sendMail.send("[项目初始化IP地址查询]", "项目初始化外网IP为:" + v4IP + ";MAC地址为:" + localMac + ";");
     }
 
     private void initAuth() {

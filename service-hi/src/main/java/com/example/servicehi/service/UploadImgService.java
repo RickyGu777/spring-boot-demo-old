@@ -2,7 +2,11 @@ package com.example.servicehi.service;
 
 import com.example.servicehi.entity.UploadImg;
 import com.github.pagehelper.PageInfo;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 import java.util.List;
 
 public interface UploadImgService<T extends UploadImg> {
@@ -15,4 +19,8 @@ public interface UploadImgService<T extends UploadImg> {
     void updateTitle(T t);
 
     PageInfo selectPictureWall(T t);
+
+    HashMap uploadImage(MultipartFile multipartFile) throws IOException;
+
+    String getQRCode(MultipartFile multipartFile) throws IOException;
 }

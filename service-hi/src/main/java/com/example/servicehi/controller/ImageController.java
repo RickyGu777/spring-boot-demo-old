@@ -1,17 +1,11 @@
 package com.example.servicehi.controller;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.TypeReference;
 import com.example.servicehi.common.Config;
-import com.example.servicehi.entity.ShareTicketImg;
 import com.example.servicehi.entity.UploadImg;
-import com.example.servicehi.service.ShareTicketImgService;
 import com.example.servicehi.service.UploadImgService;
-import com.example.servicehi.util.*;
+import com.example.servicehi.util.ResponseUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.SystemUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,9 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -31,8 +23,6 @@ import java.util.zip.ZipOutputStream;
 @Slf4j
 public class ImageController {
     private final UploadImgService<UploadImg> uploadImgService;
-
-    private final ShareTicketImgService<ShareTicketImg> shareTicketImgService;
 
     private final Config config;
 
@@ -44,36 +34,8 @@ public class ImageController {
      * @throws IOException
      */
     @PostMapping(value = "/upload")
-    public Map uploadImage(@RequestParam("img") MultipartFile multipartFile) throws IOException {
-        String originalFilename = multipartFile.getOriginalFilename();
-        String fileName = UUIDUtil.createUUID() + "." + multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().lastIndexOf(".") + 1);
-        String compress = SaveAndPostImg.compress(multipartFile, SystemUtils.IS_OS_LINUX ? config.getLinux() : config.getWindows(), fileName);
-        Map map = JSON.parseObject(compress, Map.class);
-
-        HashMap<String, Object> hashMap = new HashMap<>();
-        UploadImg uploadImg = new UploadImg();
-        uploadImg.setOriginalName(originalFilename);
-        uploadImg.setIsDel("0");
-        uploadImg.setRandomName(fileName);
-        if ("success".equals(map.get("code").toString())) {
-            String responseUrl = ((Map) map.get("data")).get("url").toString();
-            uploadImg.setResponseUrl(responseUrl);
-            hashMap.put("img", ((Map) map.get("data")).get("url"));
-            hashMap.put("code", 0);
-        } else if ("error".equals(map.get("code").toString())) {
-            hashMap.put("msg", map.get("msg"));
-            hashMap.put("code", 1);
-        }
-        uploadImg.setTitle(uploadImg.getRandomName());
-        if (SystemUtils.IS_OS_LINUX) {
-            uploadImg.setImagePath('.' + config.getLinuxPath() + uploadImg.getRandomName());
-        }
-        uploadImgService.insert(uploadImg);
-
-        if (SystemUtils.IS_OS_WINDOWS) {
-            SaveAndPostImg.sendImage(SystemUtils.IS_OS_LINUX ? config.getLinux() : config.getWindows() + File.separator + uploadImg.getRandomName());
-        }
-        return hashMap;
+    public ResponseUtil uploadImage(@RequestParam("img") MultipartFile multipartFile) throws IOException {
+        return new ResponseUtil(uploadImgService.uploadImage(multipartFile));
     }
 
     /**
@@ -97,42 +59,7 @@ public class ImageController {
      */
     @PostMapping(value = "/QRCode")
     public ResponseUtil QRCode(@RequestParam("file") MultipartFile multipartFile) throws IOException {
-        String originalFilename = multipartFile.getOriginalFilename();
-        String fileName = UUIDUtil.createUUID() + "." + multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().lastIndexOf(".") + 1);
-        String compress = SaveAndPostImg.compress(multipartFile, SystemUtils.IS_OS_LINUX ? config.getLinux() : config.getWindows(), fileName);
-        Map map = JSON.parseObject(compress, Map.class);
-
-        HashMap<String, Object> hashMap = new HashMap<>();
-        UploadImg uploadImg = new UploadImg();
-        uploadImg.setOriginalName(originalFilename);
-        uploadImg.setIsDel("0");
-        uploadImg.setRandomName(fileName);
-        if ("success".equals(map.get("code").toString())) {
-            String responseUrl = ((Map) map.get("data")).get("url").toString();
-            uploadImg.setResponseUrl(responseUrl);
-            hashMap.put("img", ((Map) map.get("data")).get("url"));
-            hashMap.put("code", 0);
-        } else if ("error".equals(map.get("code").toString())) {
-            hashMap.put("msg", map.get("msg"));
-            hashMap.put("code", 1);
-        }
-        uploadImg.setTitle(uploadImg.getRandomName());
-        if (SystemUtils.IS_OS_LINUX) {
-            uploadImg.setImagePath('.' + config.getLinuxPath() + uploadImg.getRandomName());
-        }
-        uploadImgService.insert(uploadImg);
-
-        String filePath = SystemUtils.IS_OS_LINUX ? config.getLinux() : config.getWindows() + "/" + fileName;
-        String qrCode = ZixingCodeUtil.decodeQRCodeImage(filePath, null).replace("\uD83D\uDCF1", "");
-        ShareTicketImg shareTicketImg = new ShareTicketImg();
-        shareTicketImg.setUploadImgUUID(uploadImg.getUuid());
-        shareTicketImg.setQRCode(qrCode);
-        shareTicketImgService.insert(shareTicketImg);
-
-        if (SystemUtils.IS_OS_WINDOWS) {
-            SaveAndPostImg.sendImage(SystemUtils.IS_OS_LINUX ? config.getLinux() : config.getWindows() + File.separator + uploadImg.getRandomName());
-        }
-        return new ResponseUtil(qrCode);
+        return new ResponseUtil(uploadImgService.getQRCode(multipartFile));
     }
 
     @PostMapping(value = "/getImageWall")
@@ -148,14 +75,14 @@ public class ImageController {
         uploadImg.setRandomName(originalFilename);
         uploadImg = uploadImgService.selectImageInfoByRandomName(uploadImg);
         String randomName = uploadImg.getRandomName();
-        File dest = new File(config.getLinux() + File.separator + randomName);
+        File dest = new File(config.getLinux() + randomName);
         multipartFile.transferTo(dest);
         return new ResponseUtil();
     }
 
     @ResponseBody
     @GetMapping("/download")
-    public void downloadFiles(HttpServletRequest request, HttpServletResponse response){
+    public void downloadFiles(HttpServletRequest request, HttpServletResponse response) {
         /*
          *  test
          * */
@@ -183,10 +110,10 @@ public class ImageController {
         //循环将文件写入压缩流
         DataOutputStream os = null;
         try {
-            if (agent.contains("MSIE")||agent.contains("Trident")) {
+            if (agent.contains("MSIE") || agent.contains("Trident")) {
                 downloadName = java.net.URLEncoder.encode(downloadName, "UTF-8");
             } else {
-                downloadName = new String(downloadName.getBytes("UTF-8"),"ISO-8859-1");
+                downloadName = new String(downloadName.getBytes("UTF-8"), "ISO-8859-1");
             }
             response.setHeader("Content-Disposition", "attachment;fileName=\"" + downloadName + "\"");
 
@@ -194,12 +121,12 @@ public class ImageController {
             zipos = new ZipOutputStream(new BufferedOutputStream(response.getOutputStream()));
             zipos.setMethod(ZipOutputStream.DEFLATED); //设置压缩方法
 
-            for(int i = 0; i < list.size(); i++ ){
+            for (int i = 0; i < list.size(); i++) {
 
                 InputStream is = null;
-                try{
+                try {
                     File file = new File(list.get(i));
-                    if(file.exists()){
+                    if (file.exists()) {
                         //添加ZipEntry，并ZipEntry中写入文件流
                         //这里，加上i是防止要下载的文件有重名的导致下载失败
                         zipos.putNextEntry(new ZipEntry(i + "_" + file.getName()));
@@ -207,19 +134,19 @@ public class ImageController {
                         is = new FileInputStream(file);
                         byte[] b = new byte[1024];
                         int length;
-                        while((length = is.read(b))!= -1){
+                        while ((length = is.read(b)) != -1) {
                             os.write(b, 0, length);
                         }
                     }
                 } finally {
-                    if(null != is){
+                    if (null != is) {
                         is.close();
                     }
                     zipos.closeEntry();
                 }
 
             }
-            if(null != os){
+            if (null != os) {
                 os.flush();
             }
 
@@ -229,10 +156,10 @@ public class ImageController {
         } finally {
             //关闭流
             try {
-                if(null != os){
+                if (null != os) {
                     os.close();
                 }
-                if(null != zipos){
+                if (null != zipos) {
                     zipos.close();
                 }
 
