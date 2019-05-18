@@ -1,8 +1,6 @@
 package com.example.servicehi.service;
 
 import com.example.servicehi.entity.ShareTicketImg;
-import com.github.pagehelper.PageInfo;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -14,4 +12,6 @@ public interface ShareTicketImgService<T extends ShareTicketImg> {
     List<T> selectTicket(T t);
 
     void ticketInvalid(T t);
+
+    void updateCopyTimes(T t);
 }

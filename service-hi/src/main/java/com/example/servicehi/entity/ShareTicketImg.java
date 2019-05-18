@@ -19,6 +19,7 @@ public class ShareTicketImg extends BaseEntity{
     private BigDecimal afterMoney;
     private String taobaoCode;
     private String title;
+    private long copyTimes;
 
     @Override
     public boolean equals(Object o) {

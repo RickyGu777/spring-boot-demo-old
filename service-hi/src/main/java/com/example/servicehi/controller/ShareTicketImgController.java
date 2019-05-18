@@ -54,6 +54,18 @@ public class ShareTicketImgController {
     }
 
     /**
+     * 每次点击复制按钮后，增加一次该优惠券热度
+     *
+     * @param shareTicketImg
+     * @return
+     */
+    @PostMapping(value = "/addCopyTimes")
+    public ResponseUtil addCopyTimes(@RequestBody ShareTicketImg shareTicketImg) {
+        shareTicketImgService.updateCopyTimes(shareTicketImg);
+        return new ResponseUtil();
+    }
+
+    /**
      * 获取热门搜索单词
      *
      * @return
