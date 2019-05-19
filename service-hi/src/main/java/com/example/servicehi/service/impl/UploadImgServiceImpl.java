@@ -24,9 +24,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import sun.misc.BASE64Encoder;
 
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.util.Date;
@@ -97,7 +98,7 @@ public class UploadImgServiceImpl<T extends UploadImg> implements UploadImgServi
             hashMap.put("code", 1);
         }
         uploadImg.setTitle(uploadImg.getRandomName());
-        if (SystemUtils.IS_OS_LINUX) {
+        if (!SystemUtils.IS_OS_LINUX) {
             uploadImg.setImagePath('.' + config.getLinuxPath() + uploadImg.getRandomName());
         }
         try {
@@ -144,7 +145,7 @@ public class UploadImgServiceImpl<T extends UploadImg> implements UploadImgServi
             hashMap.put("code", 1);
         }
         uploadImg.setTitle(uploadImg.getRandomName());
-        if (SystemUtils.IS_OS_LINUX) {
+        if (!SystemUtils.IS_OS_LINUX) {
             uploadImg.setImagePath('.' + config.getLinuxPath() + uploadImg.getRandomName());
         }
         insert((T) uploadImg);
@@ -190,7 +191,7 @@ public class UploadImgServiceImpl<T extends UploadImg> implements UploadImgServi
             cutHashMap.put("code", 1);
         }
         cutImgUpload.setTitle(cutImgUpload.getRandomName());
-        if (SystemUtils.IS_OS_LINUX) {
+        if (!SystemUtils.IS_OS_LINUX) {
             cutImgUpload.setImagePath('.' + config.getLinuxPath() + cutImgUpload.getRandomName());
         }
         insert((T) cutImgUpload);
@@ -208,8 +209,9 @@ public class UploadImgServiceImpl<T extends UploadImg> implements UploadImgServi
     private BufferedImage cutImg(MultipartFile file) {
         BufferedImage srcImage = null;
         try {
-            FileInputStream in = (FileInputStream) file.getInputStream();
-            srcImage = javax.imageio.ImageIO.read(in);
+            InputStream inputStream = file.getInputStream();
+//            FileInputStream in = (FileInputStream) file.getInputStream();
+            srcImage = ImageIO.read(inputStream);
         } catch (IOException e) {
             System.out.println("读取图片文件出错！" + e.getMessage());
         }

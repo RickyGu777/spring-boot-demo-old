@@ -85,7 +85,7 @@ public class BaiduOCRWordsServiceImpl<T extends BaiduOCRWords> implements BaiduO
         }
         uploadImg.setStatus("1");
         uploadImg.setTitle(uploadImg.getRandomName());
-        if (SystemUtils.IS_OS_LINUX) {
+        if (!SystemUtils.IS_OS_LINUX) {
             uploadImg.setImagePath('.' + config.getLinuxPath() + uploadImg.getRandomName());
         }
         uploadImgService.insert(uploadImg);
