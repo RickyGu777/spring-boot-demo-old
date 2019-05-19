@@ -172,6 +172,7 @@ public class UploadImgServiceImpl<T extends UploadImg> implements UploadImgServi
 
         String cutFileName = UUIDUtil.createUUID() + "." + multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().lastIndexOf(".") + 1);
         // 裁剪图片，将二维码和粉象图标删除
+        log.info("cutImg before");
         BufferedImage bufferedImage = cutImg(multipartFile);
         BufferedImage subimage = bufferedImage.getSubimage(0, 100, 750, 850);
         String cutImgcompress = SaveAndPostImg.compressToCut(subimage, config.getFilePath(), cutFileName);
@@ -209,6 +210,9 @@ public class UploadImgServiceImpl<T extends UploadImg> implements UploadImgServi
     }
 
     private BufferedImage cutImg(MultipartFile file) {
+        log.info("=====================");
+        log.info("[{}]",file == null);
+        log.info("=====================");
         BufferedImage srcImage = null;
         try {
             InputStream inputStream = file.getInputStream();
