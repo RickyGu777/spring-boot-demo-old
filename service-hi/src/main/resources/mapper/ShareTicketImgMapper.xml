@@ -6,6 +6,7 @@
         <result column="UUID" property="uuid"/>
         <result column="QR_CODE" property="QRCode"/>
         <result column="UPLOAD_IMG_UUID" property="uploadImgUUID"/>
+        <result column="CUT_UPLOAD_IMG_UUID" property="cutUploadImgUUID"/>
         <result column="BEFORE_MONEY" property="beforeMoney"/>
         <result column="AFTER_MONEY" property="afterMoney"/>
         <result column="TAOBAO_CODE" property="taobaoCode"/>
@@ -20,9 +21,9 @@
     </resultMap>
 
     <insert id="insert" parameterType="ShareTicketImg">
-        insert into SHARE_TICKET_IMG (UUID, QR_CODE, UPLOAD_IMG_UUID, BEFORE_MONEY, AFTER_MONEY, TAOBAO_CODE, TITLE,
+        insert into SHARE_TICKET_IMG (UUID, QR_CODE, UPLOAD_IMG_UUID, CUT_UPLOAD_IMG_UUID, BEFORE_MONEY, AFTER_MONEY, TAOBAO_CODE, TITLE,
           CREATE_USER_UUID, CREATE_DATE, MODI_USER_UUID, MODI_DATE)
-        values (#{uuid},#{QRCode},#{uploadImgUUID},#{beforeMoney},#{afterMoney},#{taobaoCode},#{title},
+        values (#{uuid},#{QRCode},#{uploadImgUUID},#{cutUploadImgUUID},#{beforeMoney},#{afterMoney},#{taobaoCode},#{title},
           #{createUserUUID},#{createDate},#{modiUserUUID},#{modiDate});
     </insert>
 
@@ -39,6 +40,8 @@
             a.TAOBAO_CODE as TAOBAO_CODE,
             a.TITLE as TITLE,
             a.BEFORE_MONEY as BEFORE_MONEY,
+            a.UPLOAD_IMG_UUID as UPLOAD_IMG_UUID,
+            a.CUT_UPLOAD_IMG_UUID as CUT_UPLOAD_IMG_UUID,
             a.AFTER_MONEY as AFTER_MONEY,
             a.COPY_TIMES as COPY_TIMES,
             #{tipsName} as TIPS_NAME
@@ -56,6 +59,8 @@
 
     <resultMap id="ShareTicketImgAndUrl" type="ShareTicketImgDto" extends="ShareTicketImgResult">
         <collection property="uploadImg" column="{uuid=UPLOAD_IMG_UUID}"
+                    ofType="UploadImg" select="com.example.servicehi.dao.UploadImgDao.selectByUUID"/>
+        <collection property="cutUploadImg" column="{uuid=CUT_UPLOAD_IMG_UUID}"
                     ofType="UploadImg" select="com.example.servicehi.dao.UploadImgDao.selectByUUID"/>
     </resultMap>
 

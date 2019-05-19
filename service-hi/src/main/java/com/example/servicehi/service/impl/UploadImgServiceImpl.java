@@ -24,8 +24,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import sun.misc.BASE64Encoder;
 
+import java.awt.image.BufferedImage;
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.util.Date;
@@ -114,6 +115,7 @@ public class UploadImgServiceImpl<T extends UploadImg> implements UploadImgServi
 
     @Override
     public String getQRCode(MultipartFile multipartFile) throws IOException {
+        // 百度OCR识别
         BASE64Encoder encoder = new BASE64Encoder();
         String imgData = encoder.encode(multipartFile.getBytes()).replace("\r\n", "");
         imgData = URLEncoder.encode(imgData, "UTF-8");
@@ -121,6 +123,7 @@ public class UploadImgServiceImpl<T extends UploadImg> implements UploadImgServi
         String param = "?language_type=CHN_ENG&access_token=" + BaiduTool.getAuth() + "&image=" + imgData;
         BaiduOCRDto baiduOCRDto = JSON.parseObject(HttpRequest.baiduOCRPost(url, param), BaiduOCRDto.class);
 
+        // 将上传的图片保存至图床，并保存数据到数据库
         String originalFilename = multipartFile.getOriginalFilename();
         String fileName = UUIDUtil.createUUID() + "." + multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().lastIndexOf(".") + 1);
         String compress = SaveAndPostImg.compress(multipartFile, config.getFilePath(), fileName);
@@ -146,28 +149,70 @@ public class UploadImgServiceImpl<T extends UploadImg> implements UploadImgServi
         }
         insert((T) uploadImg);
 
+        // 识别二维码
         String filePath = config.getFilePath() + fileName;
-        log.info("fileName:[{}]", fileName);
-        log.info("filePath:[{}]", filePath);
         String qrCode = ZixingCodeUtil.decodeQRCodeImage(filePath, null).replace("\uD83D\uDCF1", "");
+
+        // 保存优惠券数据
         ShareTicketImg shareTicketImg = new ShareTicketImg();
         shareTicketImg.setUploadImgUUID(uploadImg.getUuid());
         shareTicketImg.setQRCode(qrCode);
         String[] split = qrCode.split("-----------------\n" + "长按復·制这段描述，");
         String[] split1 = split[0].split("\n");
-        BigDecimal beforeMoney = new BigDecimal(split1[0].replace("【在售价】￥",""));
-        BigDecimal afterMoney = new BigDecimal(split1[1].replace("【券后价】￥",""));
+        BigDecimal beforeMoney = new BigDecimal(split1[0].replace("【在售价】￥", ""));
+        BigDecimal afterMoney = new BigDecimal(split1[1].replace("【券后价】￥", ""));
         shareTicketImg.setBeforeMoney(beforeMoney);
         shareTicketImg.setAfterMoney(afterMoney);
         String taobaoCode = split[1].replace("，打开【taobao】即可抢购", "");
         shareTicketImg.setTaobaoCode(taobaoCode);
 
         shareTicketImg.setTitle(baiduOCRDto.getWordsResult().get(0).getWords());
+
+        // 裁剪图片，将二维码和粉象图标删除
+        BufferedImage bufferedImage = cutImg(multipartFile);
+        BufferedImage subimage = bufferedImage.getSubimage(0, 100, 750, 850);
+        String cutImgcompress = SaveAndPostImg.compressToCut(subimage, config.getFilePath(), fileName);
+
+        Map cutImgcompressMap = JSON.parseObject(cutImgcompress, Map.class);
+
+        HashMap<String, Object> cutHashMap = new HashMap<>();
+        UploadImg cutImgUpload = new UploadImg();
+        cutImgUpload.setOriginalName(originalFilename);
+        cutImgUpload.setIsDel("0");
+        cutImgUpload.setRandomName(fileName);
+        if ("success".equals(cutImgcompressMap.get("code").toString())) {
+            String responseUrl = ((Map) cutImgcompressMap.get("data")).get("url").toString();
+            cutImgUpload.setResponseUrl(responseUrl);
+            cutHashMap.put("img", ((Map) cutImgcompressMap.get("data")).get("url"));
+            cutHashMap.put("code", 0);
+        } else if ("error".equals(cutImgcompressMap.get("code").toString())) {
+            cutHashMap.put("msg", cutImgcompressMap.get("msg"));
+            cutHashMap.put("code", 1);
+        }
+        cutImgUpload.setTitle(cutImgUpload.getRandomName());
+        if (SystemUtils.IS_OS_LINUX) {
+            cutImgUpload.setImagePath('.' + config.getLinuxPath() + cutImgUpload.getRandomName());
+        }
+        insert((T) cutImgUpload);
+
+        shareTicketImg.setCutUploadImgUUID(cutImgUpload.getUuid());
         shareTicketImgService.insert(shareTicketImg);
 
         if (SystemUtils.IS_OS_WINDOWS) {
             SaveAndPostImg.sendImage(config.getFilePath() + uploadImg.getRandomName());
+            SaveAndPostImg.sendImage(config.getFilePath() + cutImgUpload.getRandomName());
         }
         return qrCode;
+    }
+
+    private BufferedImage cutImg(MultipartFile file) {
+        BufferedImage srcImage = null;
+        try {
+            FileInputStream in = (FileInputStream) file.getInputStream();
+            srcImage = javax.imageio.ImageIO.read(in);
+        } catch (IOException e) {
+            System.out.println("读取图片文件出错！" + e.getMessage());
+        }
+        return srcImage;
     }
 }

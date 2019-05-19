@@ -17,5 +17,6 @@ import java.util.List;
 public class ShareTicketImgDto extends ShareTicketImg {
     private List<TipsRelation> tipsRelations;
     private UploadImg uploadImg;
+    private UploadImg cutUploadImg;
     private String tipsName;
 }

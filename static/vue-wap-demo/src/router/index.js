@@ -9,6 +9,7 @@ import Diary from '@/components/Diary/Diary'
 import DiaryDetail from '@/components/Diary/DiaryDetail'
 import Ahri from '@/components/Ahri/Ahri'
 import OCR from '@/components/Baidu/OCR'
+import QRCode from '@/components/Baidu/QRCode'
 import OCRList from '@/components/Baidu/OCRList'
 import GetUUID from '@/components/Menu/GetUUID'
 import Menu from '@/components/Menu/Menu'
@@ -54,6 +55,10 @@ export default new Router({
       path: '/OCR',
       name: 'OCR',
       component: OCR
+    }, {
+      path: '/QRCode',
+      name: 'QRCode',
+      component: QRCode
     }, {
       path: '/Ahri',
       name: 'Ahri',

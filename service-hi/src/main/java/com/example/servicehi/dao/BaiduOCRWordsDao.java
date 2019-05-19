@@ -1,6 +1,5 @@
 package com.example.servicehi.dao;
 
-import com.example.servicehi.entity.BaiduOCR;
 import com.example.servicehi.entity.BaiduOCRWords;
 import org.springframework.stereotype.Repository;
 

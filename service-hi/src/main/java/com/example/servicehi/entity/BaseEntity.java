@@ -24,6 +24,8 @@ public class BaseEntity implements Serializable {
     private Integer page;
     private Integer size;
 
+    private DbConfig dbConfig;
+
     public BaseEntity() {
         if (this.uuid == null) {
             this.uuid = UUIDUtil.createUUID();
