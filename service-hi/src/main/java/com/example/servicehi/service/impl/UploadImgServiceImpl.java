@@ -108,9 +108,9 @@ public class UploadImgServiceImpl<T extends UploadImg> implements UploadImgServi
             throw new GlobalException(CodeMsg.IMAGE_CONTROLLER_UPLOAD_IMAGE_ERROR);
         }
 
-//        if (SystemUtils.IS_OS_WINDOWS) {
-//            SaveAndPostImg.sendImage(config.getFilePath() + uploadImg.getRandomName());
-//        }
+        if (SystemUtils.IS_OS_WINDOWS) {
+            SaveAndPostImg.sendImage(config.getFilePath() + uploadImg.getRandomName());
+        }
         return hashMap;
     }
 
@@ -169,10 +169,12 @@ public class UploadImgServiceImpl<T extends UploadImg> implements UploadImgServi
 
         shareTicketImg.setTitle(baiduOCRDto.getWordsResult().get(0).getWords());
 
+
+        String cutFileName = UUIDUtil.createUUID() + "." + multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().lastIndexOf(".") + 1);
         // 裁剪图片，将二维码和粉象图标删除
         BufferedImage bufferedImage = cutImg(multipartFile);
         BufferedImage subimage = bufferedImage.getSubimage(0, 100, 750, 850);
-        String cutImgcompress = SaveAndPostImg.compressToCut(subimage, config.getFilePath(), fileName);
+        String cutImgcompress = SaveAndPostImg.compressToCut(subimage, config.getFilePath(), cutFileName);
 
         Map cutImgcompressMap = JSON.parseObject(cutImgcompress, Map.class);
 
@@ -180,7 +182,7 @@ public class UploadImgServiceImpl<T extends UploadImg> implements UploadImgServi
         UploadImg cutImgUpload = new UploadImg();
         cutImgUpload.setOriginalName(originalFilename);
         cutImgUpload.setIsDel("0");
-        cutImgUpload.setRandomName(fileName);
+        cutImgUpload.setRandomName(cutFileName);
         if ("success".equals(cutImgcompressMap.get("code").toString())) {
             String responseUrl = ((Map) cutImgcompressMap.get("data")).get("url").toString();
             cutImgUpload.setResponseUrl(responseUrl);
@@ -199,10 +201,10 @@ public class UploadImgServiceImpl<T extends UploadImg> implements UploadImgServi
         shareTicketImg.setCutUploadImgUUID(cutImgUpload.getUuid());
         shareTicketImgService.insert(shareTicketImg);
 
-//        if (SystemUtils.IS_OS_WINDOWS) {
-//            SaveAndPostImg.sendImage(config.getFilePath() + uploadImg.getRandomName());
-//            SaveAndPostImg.sendImage(config.getFilePath() + cutImgUpload.getRandomName());
-//        }
+        if (SystemUtils.IS_OS_WINDOWS) {
+            SaveAndPostImg.sendImage(config.getFilePath() + uploadImg.getRandomName());
+            SaveAndPostImg.sendImage(config.getFilePath() + cutImgUpload.getRandomName());
+        }
         return qrCode;
     }
 

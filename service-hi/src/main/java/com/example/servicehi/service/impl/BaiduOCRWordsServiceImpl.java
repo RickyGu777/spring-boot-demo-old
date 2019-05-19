@@ -104,9 +104,9 @@ public class BaiduOCRWordsServiceImpl<T extends BaiduOCRWords> implements BaiduO
             });
             insertList((List<T>) baiduOCRDto.getWordsResult());
         }
-//        if (SystemUtils.IS_OS_WINDOWS) {
-//            SaveAndPostImg.sendImage(config.getFilePath() + uploadImg.getRandomName());
-//        }
+        if (SystemUtils.IS_OS_WINDOWS) {
+            SaveAndPostImg.sendImage(config.getFilePath() + uploadImg.getRandomName());
+        }
         return baiduOCRDto;
     }
 }
