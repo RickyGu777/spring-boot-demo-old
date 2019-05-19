@@ -24,10 +24,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import sun.misc.BASE64Encoder;
 
-import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.util.Date;
@@ -173,7 +174,10 @@ public class UploadImgServiceImpl<T extends UploadImg> implements UploadImgServi
         String cutFileName = UUIDUtil.createUUID() + "." + multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().lastIndexOf(".") + 1);
         // 裁剪图片，将二维码和粉象图标删除
         log.info("cutImg before");
-        BufferedImage bufferedImage = cutImg(multipartFile);
+//        BufferedImage bufferedImage = cutImg(multipartFile);
+        File inFile = new File(config.getFilePath(), fileName);
+        Image src = Toolkit.getDefaultToolkit().getImage(inFile.getPath());
+        BufferedImage bufferedImage = toBufferedImage(src);
         BufferedImage subimage = bufferedImage.getSubimage(0, 100, 750, 850);
         String cutImgcompress = SaveAndPostImg.compressToCut(subimage, config.getFilePath(), cutFileName);
 
@@ -209,20 +213,29 @@ public class UploadImgServiceImpl<T extends UploadImg> implements UploadImgServi
         return qrCode;
     }
 
-    private BufferedImage cutImg(MultipartFile file) {
-        log.info("=====================");
-        log.info("[{}]",file == null);
-        log.info("=====================");
-        BufferedImage srcImage = null;
-        try {
-            InputStream inputStream = file.getInputStream();
-            log.info("inputStream==null:[{}]", inputStream == null);
-//            FileInputStream in = (FileInputStream) file.getInputStream();
-            srcImage = ImageIO.read(inputStream);
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("读取图片文件出错！" + e.getMessage());
+    private BufferedImage toBufferedImage(Image image) {
+        if (image instanceof BufferedImage) {
+            return (BufferedImage) image;
         }
-        return srcImage;
-    }
-}
+        image = new ImageIcon(image).getImage();
+        BufferedImage bimage = null;
+        GraphicsEnvironment ge = GraphicsEnvironment
+                .getLocalGraphicsEnvironment();
+        try {
+            int transparency = Transparency.OPAQUE;
+            GraphicsDevice gs = ge.getDefaultScreenDevice();
+            GraphicsConfiguration gc = gs.getDefaultConfiguration();
+            bimage = gc.createCompatibleImage(image.getWidth(null),
+                    image.getHeight(null), transparency);
+        } catch (HeadlessException e) {
+        }
+        if (bimage == null) {
+            int type = BufferedImage.TYPE_INT_RGB;
+            bimage = new BufferedImage(image.getWidth(null),
+                    image.getHeight(null), type);
+        }
+        Graphics g = bimage.createGraphics();
+        g.drawImage(image, 0, 0, null);
+        g.dispose();
+        return bimage;
+    }}
