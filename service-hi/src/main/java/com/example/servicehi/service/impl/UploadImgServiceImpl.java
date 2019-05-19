@@ -98,7 +98,7 @@ public class UploadImgServiceImpl<T extends UploadImg> implements UploadImgServi
             hashMap.put("code", 1);
         }
         uploadImg.setTitle(uploadImg.getRandomName());
-        if (!SystemUtils.IS_OS_LINUX) {
+        if (SystemUtils.IS_OS_LINUX) {
             uploadImg.setImagePath('.' + config.getLinuxPath() + uploadImg.getRandomName());
         }
         try {
@@ -108,9 +108,9 @@ public class UploadImgServiceImpl<T extends UploadImg> implements UploadImgServi
             throw new GlobalException(CodeMsg.IMAGE_CONTROLLER_UPLOAD_IMAGE_ERROR);
         }
 
-        if (SystemUtils.IS_OS_WINDOWS) {
-            SaveAndPostImg.sendImage(config.getFilePath() + uploadImg.getRandomName());
-        }
+//        if (SystemUtils.IS_OS_WINDOWS) {
+//            SaveAndPostImg.sendImage(config.getFilePath() + uploadImg.getRandomName());
+//        }
         return hashMap;
     }
 
@@ -145,7 +145,7 @@ public class UploadImgServiceImpl<T extends UploadImg> implements UploadImgServi
             hashMap.put("code", 1);
         }
         uploadImg.setTitle(uploadImg.getRandomName());
-        if (!SystemUtils.IS_OS_LINUX) {
+        if (SystemUtils.IS_OS_LINUX) {
             uploadImg.setImagePath('.' + config.getLinuxPath() + uploadImg.getRandomName());
         }
         insert((T) uploadImg);
@@ -191,7 +191,7 @@ public class UploadImgServiceImpl<T extends UploadImg> implements UploadImgServi
             cutHashMap.put("code", 1);
         }
         cutImgUpload.setTitle(cutImgUpload.getRandomName());
-        if (!SystemUtils.IS_OS_LINUX) {
+        if (SystemUtils.IS_OS_LINUX) {
             cutImgUpload.setImagePath('.' + config.getLinuxPath() + cutImgUpload.getRandomName());
         }
         insert((T) cutImgUpload);
@@ -199,10 +199,10 @@ public class UploadImgServiceImpl<T extends UploadImg> implements UploadImgServi
         shareTicketImg.setCutUploadImgUUID(cutImgUpload.getUuid());
         shareTicketImgService.insert(shareTicketImg);
 
-        if (SystemUtils.IS_OS_WINDOWS) {
-            SaveAndPostImg.sendImage(config.getFilePath() + uploadImg.getRandomName());
-            SaveAndPostImg.sendImage(config.getFilePath() + cutImgUpload.getRandomName());
-        }
+//        if (SystemUtils.IS_OS_WINDOWS) {
+//            SaveAndPostImg.sendImage(config.getFilePath() + uploadImg.getRandomName());
+//            SaveAndPostImg.sendImage(config.getFilePath() + cutImgUpload.getRandomName());
+//        }
         return qrCode;
     }
 
