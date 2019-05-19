@@ -212,6 +212,7 @@ public class UploadImgServiceImpl<T extends UploadImg> implements UploadImgServi
         BufferedImage srcImage = null;
         try {
             InputStream inputStream = file.getInputStream();
+            log.info("inputStream==null:[{}]", inputStream == null);
 //            FileInputStream in = (FileInputStream) file.getInputStream();
             srcImage = ImageIO.read(inputStream);
         } catch (IOException e) {
