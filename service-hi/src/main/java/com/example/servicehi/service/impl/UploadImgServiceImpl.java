@@ -220,6 +220,7 @@ public class UploadImgServiceImpl<T extends UploadImg> implements UploadImgServi
 //            FileInputStream in = (FileInputStream) file.getInputStream();
             srcImage = ImageIO.read(inputStream);
         } catch (IOException e) {
+            e.printStackTrace();
             System.out.println("读取图片文件出错！" + e.getMessage());
         }
         return srcImage;
