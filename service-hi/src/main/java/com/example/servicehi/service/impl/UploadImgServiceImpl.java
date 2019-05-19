@@ -175,7 +175,7 @@ public class UploadImgServiceImpl<T extends UploadImg> implements UploadImgServi
         // 裁剪图片，将二维码和粉象图标删除
         log.info("cutImg before");
 //        BufferedImage bufferedImage = cutImg(multipartFile);
-        File inFile = new File(config.getFilePath(), fileName);
+        File inFile = new File(config.getFilePath()+fileName);
         Image src = Toolkit.getDefaultToolkit().getImage(inFile.getPath());
         BufferedImage bufferedImage = toBufferedImage(src);
         BufferedImage subimage = bufferedImage.getSubimage(0, 100, 750, 850);
