@@ -11,10 +11,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Arrays;
 
 @RequestMapping(value = "/test")
 @Slf4j
@@ -26,19 +23,24 @@ public class TestController {
     }
 
     public static void main(String[] args) throws IOException {
-        File inFile = new File("D://75de39c92eb7d69ffd90fe6778286987.dat");
-        File outFile = new File("d:\\解密后的图片.jpg");
-
-        FileInputStream input = new FileInputStream(inFile);
-        FileOutputStream output = new FileOutputStream(outFile);
-
-        int content = 0;
-        while ((content = input.read()) != -1) {
-            output.write(content ^ 0x51);
-        }
-
-        output.close();
-        input.close();
+        File inFile = new File("D://20190518235508.jpg");
+        Image src = Toolkit.getDefaultToolkit().getImage(inFile.getPath());
+        BufferedImage rightImage = toBufferedImage(src);
+        BufferedImage subimage = rightImage.getSubimage(0, 100, 750, 850);
+        ImageIO.write(subimage, "JPEG", new File("D://bb.jpg"));
+//        File inFile = new File("D://75de39c92eb7d69ffd90fe6778286987.dat");
+//        File outFile = new File("d:\\解密后的图片.jpg");
+//
+//        FileInputStream input = new FileInputStream(inFile);
+//        FileOutputStream output = new FileOutputStream(outFile);
+//
+//        int content = 0;
+//        while ((content = input.read()) != -1) {
+//            output.write(content ^ 0x51);
+//        }
+//
+//        output.close();
+//        input.close();
 //        File file = new File("D://20190514094531.jpg");
 //        Image src = Toolkit.getDefaultToolkit().getImage(file.getPath());
 //        BufferedImage rightImage = toBufferedImage(src);

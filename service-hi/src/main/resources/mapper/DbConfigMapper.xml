@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.servicehi.dao.DbConfigDao">
+    <resultMap id="DbConfigResult" type="com.example.servicehi.entity.DbConfig">
+        <result column="ID" property="id"/>
+        <result column="UUID" property="uuid"/>
+        <result column="CODE" property="code"/>
+        <result column="VALUE" property="value"/>
+        <result column="REMARK" property="remark"/>
+        <result column="IS_DEL" property="isDel"/>
+        <result column="STATUS" property="status"/>
+        <result column="CREATE_USER_UUID" property="createUserUUID"/>
+        <result column="CREATE_DATE" property="createDate"/>
+        <result column="MODI_USER_UUID" property="modiUserUUID"/>
+        <result column="MODI_DATE" property="modiDate"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="DbConfig">
+        insert into DB_CONFIG (UUID, CODE, "VALUE", REMARK, CREATE_USER_UUID, CREATE_DATE, MODI_USER_UUID, MODI_DATE)
+        values (#{uuid},#{code},#{value},#{remark},#{createUserUUID},#{createDate},#{modiUserUUID},#{modiDate})
+    </insert>
+
+    <select id="selectByCode" parameterType="DbConfig" resultMap="DbConfigResult">
+        select * from DB_CONFIG where CODE = #{code} and IS_DEL = '0' and STATUS = '0'
+    </select>
+
+    <select id="selectAllConfig" resultMap="DbConfigResult">
+        select * from DB_CONFIG
+    </select>
+</mapper>

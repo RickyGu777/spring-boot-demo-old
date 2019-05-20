@@ -58,7 +58,7 @@ public class ImageController {
      * @throws IOException
      */
     @PostMapping(value = "/QRCode")
-    public ResponseUtil QRCode(@RequestParam("file") MultipartFile multipartFile) throws IOException {
+    public ResponseUtil QRCode(@RequestParam(value = "file") MultipartFile multipartFile) throws IOException {
         return new ResponseUtil(uploadImgService.getQRCode(multipartFile));
     }
 
@@ -70,7 +70,7 @@ public class ImageController {
     @PostMapping(value = "/backUpImage")
     public ResponseUtil backUpImage(@RequestParam("img") MultipartFile multipartFile) throws IOException {
         String originalFilename = multipartFile.getOriginalFilename();
-        log.info("originalFilename=" + originalFilename);
+        log.info("originalFilename:[{}]", originalFilename);
         UploadImg uploadImg = new UploadImg();
         uploadImg.setRandomName(originalFilename);
         uploadImg = uploadImgService.selectImageInfoByRandomName(uploadImg);

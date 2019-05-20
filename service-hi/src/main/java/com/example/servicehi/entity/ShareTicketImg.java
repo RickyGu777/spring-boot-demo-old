@@ -15,10 +15,12 @@ import java.util.Objects;
 public class ShareTicketImg extends BaseEntity{
     private String QRCode;
     private String uploadImgUUID;
+    private String cutUploadImgUUID;
     private BigDecimal beforeMoney;
     private BigDecimal afterMoney;
     private String taobaoCode;
     private String title;
+    private long copyTimes;
 
     @Override
     public boolean equals(Object o) {

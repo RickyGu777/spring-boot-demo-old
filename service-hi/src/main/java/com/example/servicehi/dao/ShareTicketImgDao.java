@@ -1,7 +1,6 @@
 package com.example.servicehi.dao;
 
 import com.example.servicehi.entity.ShareTicketImg;
-import com.example.servicehi.entity.ShareTicketUrl;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -15,4 +14,6 @@ public interface ShareTicketImgDao<T extends ShareTicketImg> {
     List<T> selectTicket(T t);
 
     void ticketInvalid(T t);
+
+    void updateCopyTimes(T t);
 }

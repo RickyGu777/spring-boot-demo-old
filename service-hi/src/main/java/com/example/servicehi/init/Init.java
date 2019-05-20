@@ -1,10 +1,13 @@
 package com.example.servicehi.init;
 
+import com.alibaba.fastjson.JSON;
 import com.example.servicehi.common.Config;
 import com.example.servicehi.common.SendMail;
 import com.example.servicehi.entity.Auth;
+import com.example.servicehi.entity.DbConfig;
 import com.example.servicehi.entity.IpAddress;
 import com.example.servicehi.service.AuthService;
+import com.example.servicehi.service.DbConfigService;
 import com.example.servicehi.service.IpAddressService;
 import com.example.servicehi.util.IPAddressUtil;
 import com.example.servicehi.util.MacAddressUtil;
@@ -13,6 +16,7 @@ import org.apache.commons.lang.SystemUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.WebApplicationContext;
@@ -22,7 +26,6 @@ import org.springframework.web.servlet.mvc.condition.RequestMethodsRequestCondit
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -33,7 +36,13 @@ import java.util.Map;
 @Slf4j
 public class Init implements InitializingBean {
     @Autowired
+    private RedisTemplate redisTemplate;
+
+    @Autowired
     private IpAddressService<IpAddress> ipAddressService;
+
+    @Autowired
+    private DbConfigService<DbConfig> dbConfigService;
 
     @Autowired
     private SendMail sendMail;
@@ -57,6 +66,7 @@ public class Init implements InitializingBean {
     public void afterPropertiesSet() {
 //        sendIP();
         initAuth();
+        selectAllConfig();
         config.setFilePath(SystemUtils.IS_OS_LINUX ? config.getLinux() : config.getWindows());
     }
 
@@ -118,6 +128,16 @@ public class Init implements InitializingBean {
         // 循环处理过的最新权限列表，新增权限
         for (Auth auth : auths) {
             authService.insert(auth);
+        }
+    }
+
+    /**
+     * 查询所有的配置项，放入缓存，配置项code做为key
+     */
+    private void selectAllConfig() {
+        List<DbConfig> dbConfigs = dbConfigService.selectAllConfig();
+        for (DbConfig dbConfig : dbConfigs) {
+            redisTemplate.opsForValue().set(dbConfig.getCode(), JSON.toJSONString(dbConfig));
         }
     }
 }

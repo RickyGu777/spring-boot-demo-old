@@ -1,11 +1,17 @@
 <template>
   <div>
+    <el-row :gutter="20">
     <div style="margin-top: 15px;">
+      <el-col :span="8">
       <el-input placeholder="请输入内容" v-model="data.url">
         <el-button slot="append" @click="commit()">Commit</el-button>
       </el-input>
+      </el-col>
+      <el-col :span="4">
       <el-button @click="downloadAhri()">Download</el-button>
+      </el-col>
     </div>
+    </el-row>
   </div>
 </template>
 

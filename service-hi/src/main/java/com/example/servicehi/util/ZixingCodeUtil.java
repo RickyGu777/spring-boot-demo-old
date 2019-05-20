@@ -134,8 +134,6 @@ public class ZixingCodeUtil {
      * @return 解析成功后返回二维码文本, 否则返回空字符串
      */
     public static String decodeQRCodeImage(String imagePath, String charset) {
-        log.info("imagePath:[{}]", imagePath);
-        log.info("charset:[{}]", charset);
         BufferedImage image;
         Image src = Toolkit.getDefaultToolkit().getImage(new File(imagePath).getPath());
         image = toBufferedImage(src);

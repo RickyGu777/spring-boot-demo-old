@@ -6,10 +6,12 @@
         <result column="UUID" property="uuid"/>
         <result column="QR_CODE" property="QRCode"/>
         <result column="UPLOAD_IMG_UUID" property="uploadImgUUID"/>
+        <result column="CUT_UPLOAD_IMG_UUID" property="cutUploadImgUUID"/>
         <result column="BEFORE_MONEY" property="beforeMoney"/>
         <result column="AFTER_MONEY" property="afterMoney"/>
         <result column="TAOBAO_CODE" property="taobaoCode"/>
         <result column="TITLE" property="title"/>
+        <result column="COPY_TIMES" property="copyTimes"/>
         <result column="IS_DEL" property="isDel"/>
         <result column="STATUS" property="status"/>
         <result column="CREATE_USER_UUID" property="createUserUUID"/>
@@ -19,9 +21,9 @@
     </resultMap>
 
     <insert id="insert" parameterType="ShareTicketImg">
-        insert into SHARE_TICKET_IMG (UUID, QR_CODE, UPLOAD_IMG_UUID, BEFORE_MONEY, AFTER_MONEY, TAOBAO_CODE, TITLE,
+        insert into SHARE_TICKET_IMG (UUID, QR_CODE, UPLOAD_IMG_UUID, CUT_UPLOAD_IMG_UUID, BEFORE_MONEY, AFTER_MONEY, TAOBAO_CODE, TITLE,
           CREATE_USER_UUID, CREATE_DATE, MODI_USER_UUID, MODI_DATE)
-        values (#{uuid},#{QRCode},#{uploadImgUUID},#{beforeMoney},#{afterMoney},#{taobaoCode},#{title},
+        values (#{uuid},#{QRCode},#{uploadImgUUID},#{cutUploadImgUUID},#{beforeMoney},#{afterMoney},#{taobaoCode},#{title},
           #{createUserUUID},#{createDate},#{modiUserUUID},#{modiDate});
     </insert>
 
@@ -31,14 +33,17 @@
                     ofType="TipsRelation" select="com.example.servicehi.dao.TipsRelationDao.selectByNameAndOtherUUID"/>
     </resultMap>
 
-    <select id="selectTitleAndTips" parameterType="ShareTicketImgDto" resultMap="ShareTicketImgRelationResult">
+    <select id="selectTitleAndTips" parameterType="ShareTicketImgDto" resultType="ShareTicketImgDto">
         SELECT
             a.UUID as UUID,
             a.QR_CODE as QR_CODE,
             a.TAOBAO_CODE as TAOBAO_CODE,
             a.TITLE as TITLE,
             a.BEFORE_MONEY as BEFORE_MONEY,
+            a.UPLOAD_IMG_UUID as UPLOAD_IMG_UUID,
+            a.CUT_UPLOAD_IMG_UUID as CUT_UPLOAD_IMG_UUID,
             a.AFTER_MONEY as AFTER_MONEY,
+            a.COPY_TIMES as COPY_TIMES,
             #{tipsName} as TIPS_NAME
         FROM
             SHARE_TICKET_IMG a
@@ -52,11 +57,23 @@
             a.TITLE
     </select>
 
-    <select id="selectTicket" parameterType="ShareTicketImg" resultMap="ShareTicketImgResult">
+    <resultMap id="ShareTicketImgAndUrl" type="ShareTicketImgDto" extends="ShareTicketImgResult">
+        <collection property="uploadImg" column="{uuid=UPLOAD_IMG_UUID}"
+                    ofType="UploadImg" select="com.example.servicehi.dao.UploadImgDao.selectByUUID"/>
+        <collection property="cutUploadImg" column="{uuid=CUT_UPLOAD_IMG_UUID}"
+                    ofType="UploadImg" select="com.example.servicehi.dao.UploadImgDao.selectByUUID"/>
+    </resultMap>
+
+    <select id="selectTicket" parameterType="ShareTicketImgDto" resultMap="ShareTicketImgAndUrl">
         select * from SHARE_TICKET_IMG where IS_DEL = '0' and STATUS = '0' order by CREATE_DATE desc
     </select>
 
     <update id="ticketInvalid" parameterType="ShareTicketImg">
         update SHARE_TICKET_IMG set STATUS = '1', MODI_DATE = #{modiDate} where STATUS = '0' and UUID = #{uuid} and ID = #{id}
+    </update>
+
+    <update id="updateCopyTimes" parameterType="ShareTicketImg">
+        update SHARE_TICKET_IMG set COPY_TIMES = COPY_TIMES + 1, MODI_DATE = #{modiDate} where STATUS = '0' and UUID = #{uuid} and ID = #{id}
+        and COPY_TIMES = #{copyTimes}
     </update>
 </mapper>

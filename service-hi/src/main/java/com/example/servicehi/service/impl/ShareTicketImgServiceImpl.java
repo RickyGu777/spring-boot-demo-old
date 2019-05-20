@@ -64,4 +64,10 @@ public class ShareTicketImgServiceImpl<T extends ShareTicketImg> implements Shar
         ticketInvalidService.removeTicketInvalid(ticketInvalid);
         shareTicketImgDao.ticketInvalid(t);
     }
+
+    @Override
+    public void updateCopyTimes(T t) {
+        t.setModiDate(new Date());
+        shareTicketImgDao.updateCopyTimes(t);
+    }
 }
