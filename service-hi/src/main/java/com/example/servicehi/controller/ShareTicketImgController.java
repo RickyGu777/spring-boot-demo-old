@@ -44,6 +44,7 @@ public class ShareTicketImgController {
 
     /**
      * 根据关键词搜索
+     * TODO:还没有开发上传图片和标签的关联关系，开发完成后，默认搜索改用这个链接
      *
      * @param shareTicketImg
      * @return
@@ -67,6 +68,7 @@ public class ShareTicketImgController {
 
     /**
      * 获取热门搜索单词
+     * TODO:小程序页面暂时没有实现热词功能，先放着不用
      *
      * @return
      */
@@ -83,6 +85,7 @@ public class ShareTicketImgController {
 
     /**
      * 当无效条数增加到一定数量的时候，由后台验证，后删除过期的优惠券置为无效
+     * TODO:后台管理页面还未完成，完成后加入到vue页面
      *
      * @param shareTicketImg
      * @return
@@ -95,6 +98,7 @@ public class ShareTicketImgController {
 
     /**
      * 新增无效优惠券记录
+     * TODO:等后台管理页面完成后使用
      *
      * @param ticketInvalid
      * @return
@@ -107,6 +111,7 @@ public class ShareTicketImgController {
 
     /**
      * 查询所有被标记无效的优惠券的次数
+     * TODO:等后台管理页面完成后使用
      *
      * @return
      */
@@ -117,6 +122,7 @@ public class ShareTicketImgController {
 
     /**
      * 查询指定优惠券被标记无效的次数
+     * TODO:等后台管理页面完成后使用
      *
      * @param ticketInvalid
      * @return
