@@ -1,6 +1,5 @@
 <template>
   <div>
-    {{ AccessToken }}
     <el-upload
       action="/api/Baidu/OCR"
       list-type="picture-card"
@@ -15,8 +14,6 @@
 </template>
 
 <script>
-  import {getBaiduAccessToke} from '@/request/api';
-
   export default {
     name: "Word",
     data() {
@@ -26,14 +23,7 @@
         dialogVisible: false
       };
     },
-    created: function () {
-      // this.getBaiduAccessToke();
-    },
     methods: {
-      async getBaiduAccessToke() {
-        let newVar = await getBaiduAccessToke();
-        this.AccessToken = newVar.data;
-      },
       handleRemove(file, fileList) {
         console.log("handleRemove");
         console.log(file, fileList);
