@@ -2,6 +2,7 @@
   <div>
     {{ AccessToken }}
     <el-upload
+      :multiple="multipleValue"
       action="/api/Image/QRCode"
       list-type="picture-card"
       :on-preview="handlePictureCardPreview"
@@ -23,7 +24,8 @@
       return {
         AccessToken: '',
         dialogImageUrl: '',
-        dialogVisible: false
+        dialogVisible: false,
+        multipleValue: true
       };
     },
     created: function () {
