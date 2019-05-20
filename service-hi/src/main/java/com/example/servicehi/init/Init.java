@@ -12,7 +12,7 @@ import com.example.servicehi.service.IpAddressService;
 import com.example.servicehi.util.IPAddressUtil;
 import com.example.servicehi.util.MacAddressUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.SystemUtils;
+import org.apache.commons.lang3.SystemUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

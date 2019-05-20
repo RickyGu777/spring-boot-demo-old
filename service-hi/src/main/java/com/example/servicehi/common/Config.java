@@ -16,12 +16,6 @@ public class Config {
     private String linux;
     @Value("${uploadImagePath.linuxPath}")
     private String linuxPath;
-    @Value("${wechat.mp-app-id}")
-    private String weChatAppId;
-    @Value("${wechat.mp-app-secret}")
-    private String weChatAppSecret;
-    @Value("${wechat.token}")
-    private String weChatToken;
     @Setter
     private String filePath;
 }

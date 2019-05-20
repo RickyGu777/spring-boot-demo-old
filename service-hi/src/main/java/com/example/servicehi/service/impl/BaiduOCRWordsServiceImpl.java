@@ -14,7 +14,7 @@ import com.example.servicehi.util.Baidu.BaiduTool;
 import com.example.servicehi.util.HttpRequest;
 import com.example.servicehi.util.SaveAndPostImg;
 import com.example.servicehi.util.UUIDUtil;
-import org.apache.commons.lang.SystemUtils;
+import org.apache.commons.lang3.SystemUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;

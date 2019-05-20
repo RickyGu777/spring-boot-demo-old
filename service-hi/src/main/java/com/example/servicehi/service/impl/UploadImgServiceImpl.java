@@ -18,7 +18,7 @@ import com.example.servicehi.util.ZixingCodeUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.SystemUtils;
+import org.apache.commons.lang3.SystemUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -109,7 +109,8 @@ public class UploadImgServiceImpl<T extends UploadImg> implements UploadImgServi
             throw new GlobalException(CodeMsg.IMAGE_CONTROLLER_UPLOAD_IMAGE_ERROR);
         }
 
-        if (SystemUtils.IS_OS_WINDOWS) {
+
+        if (SystemUtils.IS_OS_LINUX) {
             SaveAndPostImg.sendImage(config.getFilePath() + uploadImg.getRandomName());
         }
         return hashMap;
