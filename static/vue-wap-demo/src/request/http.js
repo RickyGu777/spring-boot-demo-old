@@ -9,17 +9,17 @@ axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8';
 
 /* 请求拦截器（请求之前的操作） */
 axios.interceptors.request.use((req) => {
-  showLoading();
+  // showLoading();
   return req;
 }, err => Promise.reject(err));
 
 /* 请求之后的操作 */
 axios.interceptors.response.use((res) => {
-  hideLoading();
+  // hideLoading();
   return res;
   return Promise.reject(res);
 }, (err) => {
-  hideLoading();
+  // hideLoading();
   return Promise.reject(err);
 });
 
