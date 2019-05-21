@@ -66,8 +66,8 @@ public class ShareTicketImgServiceImpl<T extends ShareTicketImg> implements Shar
     }
 
     @Override
-    public void updateCopyTimes(T t) {
+    public int updateCopyTimes(T t) {
         t.setModiDate(new Date());
-        shareTicketImgDao.updateCopyTimes(t);
+        return shareTicketImgDao.updateCopyTimes(t);
     }
 }

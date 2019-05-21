@@ -13,5 +13,5 @@ public interface ShareTicketImgService<T extends ShareTicketImg> {
 
     void ticketInvalid(T t);
 
-    void updateCopyTimes(T t);
+    int updateCopyTimes(T t);
 }

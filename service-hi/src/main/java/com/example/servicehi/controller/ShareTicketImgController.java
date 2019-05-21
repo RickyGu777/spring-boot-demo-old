@@ -62,8 +62,7 @@ public class ShareTicketImgController {
      */
     @PostMapping(value = "/addCopyTimes")
     public ResponseUtil addCopyTimes(@RequestBody ShareTicketImg shareTicketImg) {
-        shareTicketImgService.updateCopyTimes(shareTicketImg);
-        return new ResponseUtil();
+        return new ResponseUtil(shareTicketImgService.updateCopyTimes(shareTicketImg));
     }
 
     /**
