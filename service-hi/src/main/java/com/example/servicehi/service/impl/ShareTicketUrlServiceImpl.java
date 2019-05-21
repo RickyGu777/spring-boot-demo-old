@@ -6,6 +6,7 @@ import com.example.servicehi.service.ShareTicketUrlService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -15,6 +16,7 @@ public class ShareTicketUrlServiceImpl<T extends ShareTicketUrl> implements Shar
 
     @Override
     public void insert(T t) {
+        t.setModiDate(new Date());
         shareTicketUrlDao.insert(t);
     }
 

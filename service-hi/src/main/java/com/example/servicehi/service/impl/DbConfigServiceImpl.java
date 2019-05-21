@@ -8,6 +8,7 @@ import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -17,6 +18,8 @@ public class DbConfigServiceImpl<T extends DbConfig> implements DbConfigService<
 
     @Override
     public void insert(T t) {
+        t.setModiDate(new Date());
+        t.setCreateDate(t.getModiDate());
         dbConfigDao.insert(t);
     }
 

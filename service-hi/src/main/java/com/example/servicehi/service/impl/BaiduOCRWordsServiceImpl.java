@@ -22,6 +22,7 @@ import sun.misc.BASE64Encoder;
 
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -98,9 +99,11 @@ public class BaiduOCRWordsServiceImpl<T extends BaiduOCRWords> implements BaiduO
         baiduOCRDto.setUploadImgUUID(uploadImg.getUuid());
         baiduOCRService.insert(baiduOCRDto);
         if (baiduOCRDto.getErrorCode() == null) {
-            baiduOCRDto.getWordsResult().stream().filter(words -> words.getBaiduOCRUUID() == null).forEach(student -> {
-                student.setBaiduOCRUUID(baiduOCRDto.getUuid());
-                student.setIsDel("0");
+            baiduOCRDto.getWordsResult().stream().filter(words -> words.getBaiduOCRUUID() == null).forEach(baiduOCRWords -> {
+                baiduOCRWords.setBaiduOCRUUID(baiduOCRDto.getUuid());
+                baiduOCRWords.setIsDel("0");
+                baiduOCRWords.setCreateDate(new Date());
+                baiduOCRWords.setModiDate(baiduOCRWords.getCreateDate());
             });
             insertList((List<T>) baiduOCRDto.getWordsResult());
         }

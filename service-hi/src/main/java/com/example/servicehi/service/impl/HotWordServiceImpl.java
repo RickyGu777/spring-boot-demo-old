@@ -16,8 +16,8 @@ public class HotWordServiceImpl<T extends HotWord> implements HotWordService<T> 
 
     @Override
     public void insert(T t) {
-        t.setCreateDate(new Date());
         t.setModiDate(new Date());
+        t.setCreateDate(t.getModiDate());
         hotWordDao.insert(t);
     }
 

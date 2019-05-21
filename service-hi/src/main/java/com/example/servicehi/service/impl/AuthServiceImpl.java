@@ -6,6 +6,7 @@ import com.example.servicehi.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -15,6 +16,8 @@ public class AuthServiceImpl<T extends Auth> implements AuthService<T> {
 
     @Override
     public void insert(T t) {
+        t.setModiDate(new Date());
+        t.setCreateDate(t.getModiDate());
         authDao.insert(t);
     }
 
@@ -30,11 +33,13 @@ public class AuthServiceImpl<T extends Auth> implements AuthService<T> {
 
     @Override
     public void delete(T t) {
+        t.setModiDate(new Date());
         authDao.delete(t);
     }
 
     @Override
     public void updateAuthName(T t) {
+        t.setModiDate(new Date());
         authDao.updateAuthName(t);
     }
 

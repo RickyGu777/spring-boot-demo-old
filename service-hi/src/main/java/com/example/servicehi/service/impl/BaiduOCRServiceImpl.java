@@ -36,6 +36,7 @@ public class BaiduOCRServiceImpl<T extends BaiduOCR> implements BaiduOCRService<
 
     @Override
     public void delete(T t) {
+        t.setModiDate(new Date());
         baiduOCRDao.delete(t);
     }
 }

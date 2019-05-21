@@ -7,6 +7,7 @@ import com.example.servicehi.service.TipsRelationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -15,6 +16,7 @@ public class TipsRelationServiceImpl<T extends TipsRelation> implements TipsRela
     private TipsRelationDao<T> tipsRelationDao;
     @Override
     public void insert(T t) {
+        t.setModiDate(new Date());
         tipsRelationDao.insert(t);
     }
 
@@ -25,6 +27,7 @@ public class TipsRelationServiceImpl<T extends TipsRelation> implements TipsRela
 
     @Override
     public void deleteByList(DiaryDto t) {
+        t.setModiDate(new Date());
         tipsRelationDao.deleteByList(t);
     }
 

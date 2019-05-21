@@ -6,6 +6,8 @@ import com.example.servicehi.service.DiaryHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 @Service
 public class DiaryHistoryServiceImpl<T extends DiaryHistory> implements DiaryHistoryService<T> {
     @Autowired
@@ -13,6 +15,8 @@ public class DiaryHistoryServiceImpl<T extends DiaryHistory> implements DiaryHis
 
     @Override
     public void insert(T t) {
+        t.setModiDate(new Date());
+        t.setCreateDate(t.getModiDate());
         diaryHistoryDao.insert(t);
     }
 
