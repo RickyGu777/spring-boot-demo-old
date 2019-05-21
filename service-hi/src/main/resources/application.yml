@@ -60,3 +60,4 @@ logging:
   level:
     com.example.servicehi.controller: debug
     com.example.servicehi.dao: debug
+  config: classpath:loggback.xml
