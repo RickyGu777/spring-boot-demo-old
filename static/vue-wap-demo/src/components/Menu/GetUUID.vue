@@ -27,8 +27,10 @@
     },
     methods: {
       async createUUID() {
-        let newVar = await createUUID();
-        this.uuid = newVar.data;
+        while (1 == 1) {
+          let newVar = await createUUID();
+          this.uuid = newVar.data;
+        }
       }
     }
   }
