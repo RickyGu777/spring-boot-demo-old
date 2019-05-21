@@ -65,7 +65,11 @@
     </resultMap>
 
     <select id="selectTicket" parameterType="ShareTicketImgDto" resultMap="ShareTicketImgAndUrl">
-        select * from SHARE_TICKET_IMG where IS_DEL = '0' and STATUS = '0' order by CREATE_DATE desc
+        select * from SHARE_TICKET_IMG where IS_DEL = '0' and STATUS = '0'
+        <if test="title!=null and title!=''">
+            and TITLE like CONCAT ('%',#{title},'%')
+        </if>
+        order by CREATE_DATE desc
     </select>
 
     <update id="ticketInvalid" parameterType="ShareTicketImg">
