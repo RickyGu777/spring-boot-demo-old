@@ -50,6 +50,12 @@ public class ImageController {
         return new ResponseUtil();
     }
 
+    /**
+     * 根据标题搜索图片
+     *
+     * @param uploadImg
+     * @return
+     */
     @PostMapping(value = "/selectByTitle")
     public ResponseUtil selectByTitle(@RequestBody UploadImg uploadImg) {
         return new ResponseUtil(uploadImgService.selectByTitle(uploadImg));
