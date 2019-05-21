@@ -50,6 +50,11 @@ public class ImageController {
         return new ResponseUtil();
     }
 
+    @PostMapping(value = "/selectByTitle")
+    public ResponseUtil selectByTitle(@RequestBody UploadImg uploadImg) {
+        return new ResponseUtil(uploadImgService.selectByTitle(uploadImg));
+    }
+
     /**
      * 识别微信二维码
      *

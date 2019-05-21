@@ -41,4 +41,8 @@
     <select id="selectPictureWall" parameterType="UploadImg" resultMap="UploadImgResult">
         select * from UPLOAD_IMG where IS_DEL = '0'
     </select>
+
+    <select id="selectByTitle" parameterType="UploadImg" resultMap="UploadImgResult">
+        select * from UPLOAD_IMG where TITLE = #{title}
+    </select>
 </mapper>

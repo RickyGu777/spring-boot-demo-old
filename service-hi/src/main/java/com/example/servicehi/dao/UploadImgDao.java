@@ -18,4 +18,6 @@ public interface UploadImgDao<T extends UploadImg> {
     void updateTitle(T t);
 
     List<T> selectPictureWall(T t);
+
+    T selectByTitle(T t);
 }

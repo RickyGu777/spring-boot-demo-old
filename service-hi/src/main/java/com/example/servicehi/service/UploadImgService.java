@@ -23,4 +23,6 @@ public interface UploadImgService<T extends UploadImg> {
     HashMap uploadImage(MultipartFile multipartFile) throws IOException;
 
     String getQRCode(MultipartFile multipartFile) throws IOException;
+
+    T selectByTitle(T t);
 }

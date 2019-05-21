@@ -239,4 +239,10 @@ public class UploadImgServiceImpl<T extends UploadImg> implements UploadImgServi
         g.drawImage(image, 0, 0, null);
         g.dispose();
         return bimage;
-    }}
+    }
+
+    @Override
+    public T selectByTitle(T t) {
+        return uploadImgDao.selectByTitle(t);
+    }
+}
