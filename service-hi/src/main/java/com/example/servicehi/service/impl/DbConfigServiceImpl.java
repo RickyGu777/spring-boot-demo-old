@@ -25,7 +25,7 @@ public class DbConfigServiceImpl<T extends DbConfig> implements DbConfigService<
 
     @Override
     public T selectByCode(T t) {
-        Validate.isTrue(StringUtils.isNotEmpty(t.getCode()),"错误");
+        Validate.isTrue(StringUtils.isNotEmpty(t.getCode()),"查询配置CODE不能为空，请检查");
         return dbConfigDao.selectByCode(t);
     }
 
