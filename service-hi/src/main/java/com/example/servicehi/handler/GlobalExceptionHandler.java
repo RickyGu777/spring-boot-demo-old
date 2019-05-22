@@ -19,7 +19,7 @@ import java.util.List;
 public class GlobalExceptionHandler {
     @ExceptionHandler(value = Exception.class)
     public ResponseUtil<String> exceptionHandler(HttpServletRequest request, Exception e) {
-        log.error("异常捕获,异常类型:[{}],异常发生时间:[{}],异常信息:[{}]", e.getClass().getName(), new Date(), ((GlobalException) e).getCodeMsg());
+        log.error("异常捕获,异常类型:[{}],异常发生时间:[{}],异常信息:[{}]", e.getClass().getName(), new Date(), ((GlobalException) e).getCodeMsg().getMsg());
         log.error("异常打印");
         e.printStackTrace();
         //全局异常处理逻辑
