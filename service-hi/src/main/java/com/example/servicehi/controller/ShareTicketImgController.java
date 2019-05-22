@@ -78,7 +78,7 @@ public class ShareTicketImgController {
         hotWordMap.put("threeDaysBeforeHotWords", JSON.parseObject(redisTemplate.opsForValue().get("threeDaysBeforeHotWords").toString(), List.class));
         hotWordMap.put("aWeekBeforeHotWords", JSON.parseObject(redisTemplate.opsForValue().get("aWeekBeforeHotWords").toString(), List.class));
         hotWordMap.put("aMonthBeforeHotWords", JSON.parseObject(redisTemplate.opsForValue().get("aMonthBeforeHotWords").toString(), List.class));
-        hotWordMap.put("todayHotWords", hotWordService.selectTodayHotWord());
+//        hotWordMap.put("todayHotWords", hotWordService.selectTodayHotWord());
         return new ResponseUtil(hotWordMap);
     }
 

@@ -30,7 +30,7 @@ public class DbConfigController {
 
     @PostMapping(value = "/getConfigByCode")
     public ResponseUtil getConfigByCode(@RequestBody DbConfig dbConfig) {
-        Validate.isTrue(StringUtils.isNotEmpty(dbConfig.getCode()), "参数错误，CODE为空");
+        Validate.isTrue(StringUtils.isNotEmpty(dbConfig.getCode()), "查询配置CODE不能为空，请检查");
         return new ResponseUtil(JSON.parseObject(redisTemplate.opsForValue().get(dbConfig.getCode()).toString(), DbConfig.class));
     }
 }
