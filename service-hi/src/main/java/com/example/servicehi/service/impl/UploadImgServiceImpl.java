@@ -21,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.SystemUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
 import sun.misc.BASE64Encoder;
@@ -118,6 +119,7 @@ public class UploadImgServiceImpl<T extends UploadImg> implements UploadImgServi
     }
 
     @Override
+    @Transactional
     public String getQRCode(MultipartFile multipartFile) throws IOException {
         // 百度OCR识别
         BASE64Encoder encoder = new BASE64Encoder();
@@ -208,6 +210,8 @@ public class UploadImgServiceImpl<T extends UploadImg> implements UploadImgServi
         shareTicketImg.setCutUploadImgUUID(cutImgUpload.getUuid());
         if (CollectionUtils.isEmpty(shareTicketImgService.checktTaobaoCodeRepeat(shareTicketImg))) {
             shareTicketImgService.insert(shareTicketImg);
+        } else {
+            throw new GlobalException(CodeMsg.SHARE_TICKET_REPEAT_ERROR);
         }
 
         if (SystemUtils.IS_OS_WINDOWS) {

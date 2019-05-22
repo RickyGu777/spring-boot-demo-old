@@ -28,7 +28,7 @@
     </insert>
 
     <select id="checktTaobaoCodeRepeat" parameterType="ShareTicketImg" resultMap="ShareTicketImgResult">
-        select * from SHARE_TICKET_IMG where TAOBAO_CODE = #{taobaoCode}
+        select * from SHARE_TICKET_IMG where TAOBAO_CODE = #{taobaoCode} and IS_DEL = '0' and STATUS = '0'
     </select>
 
     <resultMap id="ShareTicketImgRelationResult" type="ShareTicketImgDto" extends="ShareTicketImgResult">
