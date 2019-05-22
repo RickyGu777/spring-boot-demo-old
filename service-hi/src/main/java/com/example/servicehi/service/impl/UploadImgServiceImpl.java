@@ -21,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.SystemUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
 import sun.misc.BASE64Encoder;
 
@@ -205,7 +206,9 @@ public class UploadImgServiceImpl<T extends UploadImg> implements UploadImgServi
         insert((T) cutImgUpload);
 
         shareTicketImg.setCutUploadImgUUID(cutImgUpload.getUuid());
-        shareTicketImgService.insert(shareTicketImg);
+        if (CollectionUtils.isEmpty(shareTicketImgService.checktTaobaoCodeRepeat(shareTicketImg))) {
+            shareTicketImgService.insert(shareTicketImg);
+        }
 
         if (SystemUtils.IS_OS_WINDOWS) {
             SaveAndPostImg.sendImage(config.getFilePath() + uploadImg.getRandomName());

@@ -35,6 +35,11 @@ public class ShareTicketImgServiceImpl<T extends ShareTicketImg> implements Shar
     }
 
     @Override
+    public List<T> checktTaobaoCodeRepeat(T t) {
+        return shareTicketImgDao.checktTaobaoCodeRepeat(t);
+    }
+
+    @Override
     @Transactional
     public List<T> selectTitleAndTips(T t) {
         HotWord hotWord = new HotWord();

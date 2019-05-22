@@ -27,6 +27,10 @@
           #{createUserUUID},#{createDate},#{modiUserUUID},#{modiDate});
     </insert>
 
+    <select id="checktTaobaoCodeRepeat" parameterType="ShareTicketImg" resultMap="ShareTicketImgResult">
+        select * from SHARE_TICKET_IMG where TAOBAO_CODE = #{taobaoCode}
+    </select>
+
     <resultMap id="ShareTicketImgRelationResult" type="ShareTicketImgDto" extends="ShareTicketImgResult">
         <result column="TIPS_NAME" property="tipsName"/>
         <collection property="tipsRelations" column="{tipsName=TIPS_NAME,otherUUID=UUID}"

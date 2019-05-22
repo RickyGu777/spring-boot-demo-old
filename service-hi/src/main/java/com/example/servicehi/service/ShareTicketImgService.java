@@ -7,6 +7,8 @@ import java.util.List;
 public interface ShareTicketImgService<T extends ShareTicketImg> {
     void insert(T t);
 
+    List<T> checktTaobaoCodeRepeat(T t);
+
     List<T> selectTitleAndTips(T t);
 
     List<T> selectTicket(T t);
