@@ -30,13 +30,13 @@ spring:
         min-idle: 0
     timeout: 300
 
-management:
-  endpoints:
-    web:
-      exposure:
-        include: '*'
-    #注意下面这个位置！！
-    enabled-by-default: true
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: '*'
+#    #注意下面这个位置！！
+#    enabled-by-default: true
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml
