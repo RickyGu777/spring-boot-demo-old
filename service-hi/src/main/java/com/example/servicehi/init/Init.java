@@ -70,6 +70,7 @@ public class Init implements InitializingBean {
         initAuth();
         selectAllConfig();
         config.setFilePath(SystemUtils.IS_OS_LINUX ? config.getLinux() : config.getWindows());
+        createAccessToken();
     }
 
     private void sendIP() throws IOException {
@@ -141,5 +142,10 @@ public class Init implements InitializingBean {
         for (DbConfig dbConfig : dbConfigs) {
             redisTemplate.opsForValue().set(dbConfig.getCode(), JSON.toJSONString(dbConfig));
         }
+    }
+
+    private void createAccessToken() {
+        redisTemplate.opsForValue().set("baiduAccessToken", BaiduTool.getAuth());
+        redisTemplate.expire("baiduAccessToken", 7200, TimeUnit.SECONDS);
     }
 }
