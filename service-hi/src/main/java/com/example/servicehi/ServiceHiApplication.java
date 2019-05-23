@@ -6,7 +6,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-//@SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
 @SpringBootApplication
 @MapperScan("com.example.servicehi.dao")
 //@EnableEurekaClient

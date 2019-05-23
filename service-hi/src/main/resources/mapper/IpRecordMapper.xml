@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.servicehi.dao.IpRecordDao">
+    <resultMap id="IpRecordResult" type="com.example.servicehi.entity.IpRecord">
+        <result column="ID" property="id"/>
+        <result column="UUID" property="uuid"/>
+        <result column="IP_ADDRESS" property="ipAddress"/>
+        <result column="DATE" property="date"/>
+        <result column="TIMES" property="times"/>
+        <result column="IS_DEL" property="isDel"/>
+        <result column="STATUS" property="status"/>
+        <result column="CREATE_USER_UUID" property="createUserUUID"/>
+        <result column="CREATE_DATE" property="createDate"/>
+        <result column="MODI_USER_UUID" property="modiUserUUID"/>
+        <result column="MODI_DATE" property="modiDate"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="IpRecord">
+        insert into IP_RECORD (UUID, IP_ADDRESS, "DATE", TIMES, CREATE_USER_UUID, CREATE_DATE, MODI_USER_UUID, MODI_DATE)
+        values (#{uuid},#{ipAddress},#{date},#{times},#{createUserUUID},#{createDate},#{modiUserUUID},#{modiDate});
+    </insert>
+
+    <insert id="insertList" parameterType="ShareTicketUrl">
+        insert into IP_RECORD (UUID, IP_ADDRESS, "DATE", TIMES, CREATE_USER_UUID, CREATE_DATE, MODI_USER_UUID, MODI_DATE)
+        values
+        <foreach collection="list" item="item" index= "index" separator ="," open="(" close=")">
+            #{item.uuid},#{item.ipAddress},#{item.date},#{item.times},#{item.createUserUUID},
+            #{item.createDate},#{item.modiUserUUID},#{item.modiDate}
+        </foreach>
+    </insert>
+</mapper>

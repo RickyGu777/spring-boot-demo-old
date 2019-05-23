@@ -20,14 +20,13 @@
         values (#{uuid},#{url},#{title},#{remark},#{isDel},#{status},#{createUserUUID},#{createDate},#{modiUserUUID},#{modiDate})
     </insert>
 
-    <insert id="insertList" parameterType="ShareTicketUrl">
+    <insert id="insertList" parameterType="java.util.List">
         insert into SHARE_TICKET_URL (UUID, URL, TITLE, REMARK, IS_DEL, STATUS, CREATE_USER_UUID, CREATE_DATE, MODI_USER_UUID, MODI_DATE)
         values
         <foreach collection="list" item="item" index= "index" separator ="," open="(" close=")">
             #{item.uuid},#{item.url},#{item.title},#{item.remark},#{item.isDel},#{item.status},#{item.createUserUUID},
             #{item.createDate},#{item.modiUserUUID},#{item.modiDate}
         </foreach>
-
     </insert>
 
     <resultMap id="ShareTicketUrlDtoResult" type="ShareTicketUrlDto" extends="ShareTicketUrlResult">

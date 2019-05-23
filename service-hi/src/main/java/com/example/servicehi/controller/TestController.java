@@ -2,6 +2,7 @@ package com.example.servicehi.controller;
 
 import com.example.servicehi.entity.HotWord;
 import com.example.servicehi.service.HotWordService;
+import com.example.servicehi.util.Baidu.BaiduTool;
 import com.example.servicehi.util.ResponseUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +28,7 @@ public class TestController {
 
     @PostMapping(value = "/ip")
     public ResponseUtil ip(HttpServletRequest request) {
+        String auth = BaiduTool.getAuth();
         return new ResponseUtil(request.getHeader("X-Real-IP"));
     }
 }
