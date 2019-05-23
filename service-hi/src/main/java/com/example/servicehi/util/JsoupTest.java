@@ -3,6 +3,7 @@ package com.example.servicehi.util;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.example.servicehi.entity.AhriUrl;
+import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -24,6 +25,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+@Slf4j
 public class JsoupTest {
     private volatile static List<AhriUrl> urlList = new ArrayList<AhriUrl>();
     private volatile static BlockingQueue<AhriUrl> bq = new ArrayBlockingQueue<AhriUrl>(10);

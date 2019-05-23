@@ -84,12 +84,12 @@ public class SaveAndPostImg {
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Connection", "Keep-Alive");
             conn.setRequestProperty("User-Agent",
-                            "Mozilla/5.0 (Windows; U; Windows NT 6.1; zh-CN; rv:1.9.2.6)");
+                    "Mozilla/5.0 (Windows; U; Windows NT 6.1; zh-CN; rv:1.9.2.6)");
             conn.setRequestProperty("Content-Type",
                     "multipart/form-data; boundary=" + BOUNDARY);
-            conn.setRequestProperty("Referer","https://images.ac.cn/cn.html");
-            conn.setRequestProperty("Origin","https://images.ac.cn");
-            conn.setRequestProperty("Content-Type","multipart/form-data; boundary=----WebKitFormBoundaryPp9Cj8sAT1oPKOFC");
+            conn.setRequestProperty("Referer", "https://images.ac.cn/cn.html");
+            conn.setRequestProperty("Origin", "https://images.ac.cn");
+            conn.setRequestProperty("Content-Type", "multipart/form-data; boundary=----WebKitFormBoundaryPp9Cj8sAT1oPKOFC");
 
 
             OutputStream out = new DataOutputStream(conn.getOutputStream());
@@ -147,7 +147,7 @@ public class SaveAndPostImg {
             res = strBuf.toString();
             reader.close();
         } catch (Exception e) {
-            System.out.println("发送POST请求出错。" + postUrl);
+            log.info("发送POST请求出错:[{}]", postUrl);
             e.printStackTrace();
         } finally {
             if (conn != null) {
@@ -157,7 +157,7 @@ public class SaveAndPostImg {
         return res;
     }
 
-    private static String  upload(File dest){
+    private static String upload(File dest) {
         String postUrl = "https://sm.ms/api/upload";
         Map<String, String> textMap = new HashMap<>();
         textMap.put("file_id", dest.getPath());

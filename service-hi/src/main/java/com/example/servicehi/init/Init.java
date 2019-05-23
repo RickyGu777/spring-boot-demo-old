@@ -145,7 +145,11 @@ public class Init implements InitializingBean {
     }
 
     private void createAccessToken() {
-        redisTemplate.opsForValue().set("baiduAccessToken", BaiduTool.getAuth());
-        redisTemplate.expire("baiduAccessToken", 7200, TimeUnit.SECONDS);
+        if (redisTemplate.opsForValue().get("baiduAccessToken") == null) {
+            redisTemplate.opsForValue().set("baiduAccessToken", BaiduTool.getAuth());
+            redisTemplate.expire("baiduAccessToken", 7200, TimeUnit.SECONDS);
+        } else {
+            log.info("baiduAccessToken:[{}]", redisTemplate.opsForValue().get("baiduAccessToken").toString());
+        }
     }
 }

@@ -1,7 +1,6 @@
 package com.example.servicehi.util.Baidu;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.TypeReference;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedReader;
@@ -66,10 +65,6 @@ public class BaiduTool {
             while ((line = in.readLine()) != null) {
                 result += line;
             }
-            /**
-             * 返回结果示例
-             */
-            log.info("result:" + result);
             Map<String,String> resultMap = JSON.parseObject(result, Map.class);
             String access_token = resultMap.get("access_token");
             return access_token;
