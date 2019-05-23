@@ -8,6 +8,7 @@ import com.example.servicehi.util.Baidu.BaiduTool;
 import com.example.servicehi.util.ResponseUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,9 +23,11 @@ public class BaiduController {
 
     private final BaiduOCRWordsService<BaiduOCRWords> baiduOCRWordsService;
 
+    private final RedisTemplate redisTemplate;
+
     @PostMapping(value = "/getAccessToke")
     public ResponseUtil<String> getAccessToke() {
-        return new ResponseUtil<>(BaiduTool.getAuth());
+        return new ResponseUtil<>(redisTemplate.opsForValue().get("baiduAccessToken").toString());
     }
 
     @PostMapping(value = "/OCR")

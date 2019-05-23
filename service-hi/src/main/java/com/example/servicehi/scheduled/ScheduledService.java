@@ -42,7 +42,7 @@ public class ScheduledService {
         redisTemplate.opsForValue().set("aMonthBeforeHotWords", JSON.toJSONString(aMonthBeforeHotWords));
     }
 
-    @Scheduled(cron = "0 0 0/2 * * ?")
+    @Scheduled(cron = "0 0/30 0/1 * * ?")
     public void getBaiduAccessToken(){
         redisTemplate.opsForValue().set("baiduAccessToken", BaiduTool.getAuth());
         redisTemplate.expire("baiduAccessToken", 7200, TimeUnit.SECONDS);

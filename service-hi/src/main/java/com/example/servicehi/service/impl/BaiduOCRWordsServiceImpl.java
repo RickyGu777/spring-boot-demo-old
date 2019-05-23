@@ -16,6 +16,7 @@ import com.example.servicehi.util.SaveAndPostImg;
 import com.example.servicehi.util.UUIDUtil;
 import org.apache.commons.lang3.SystemUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import sun.misc.BASE64Encoder;
@@ -37,6 +38,9 @@ public class BaiduOCRWordsServiceImpl<T extends BaiduOCRWords> implements BaiduO
 
     @Autowired
     private Config config;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     @Autowired
     private UploadImgService<UploadImg> uploadImgService;
@@ -94,7 +98,7 @@ public class BaiduOCRWordsServiceImpl<T extends BaiduOCRWords> implements BaiduO
         // 上传至百度
         imgData = URLEncoder.encode(imgData, "UTF-8");
         String url = "https://aip.baidubce.com/rest/2.0/ocr/v1/general_basic";
-        String param = "?language_type=CHN_ENG&access_token=" + BaiduTool.getAuth() + "&image=" + imgData;
+        String param = "?language_type=CHN_ENG&access_token=" + redisTemplate.opsForValue().get("baiduAccessToken").toString() + "&image=" + imgData;
         BaiduOCRDto baiduOCRDto = JSON.parseObject(HttpRequest.baiduOCRPost(url, param), BaiduOCRDto.class);
         baiduOCRDto.setUploadImgUUID(uploadImg.getUuid());
         baiduOCRService.insert(baiduOCRDto);
