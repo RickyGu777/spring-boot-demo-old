@@ -211,7 +211,7 @@ public class UploadImgServiceImpl<T extends UploadImg> implements UploadImgServi
         if (CollectionUtils.isEmpty(shareTicketImgService.checktTaobaoCodeRepeat(shareTicketImg))) {
             shareTicketImgService.insert(shareTicketImg);
         } else {
-            throw new GlobalException(CodeMsg.SHARE_TICKET_REPEAT_ERROR);
+            throw new GlobalException(CodeMsg.SHARE_TICKET_CONTROLLER_REPEAT_ERROR);
         }
 
         if (SystemUtils.IS_OS_WINDOWS) {

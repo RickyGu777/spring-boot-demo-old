@@ -21,7 +21,7 @@ import java.util.Map;
 /**
  * ZXing工具类
  *
- * @author 玄玉<http:               /               /               blog.csdn.net               /               jadyer>
+ * @author 玄玉<http:                               /                               /                               blog.csdn.net                               /                               jadyer>
  * @version v1.0
  * @history v1.0-->方法新建,目前仅支持二维码的生成和解析,生成二维码时支持添加logo头像
  * @editor Sep 10, 2013 9:32:23 PM
@@ -137,7 +137,9 @@ public class ZixingCodeUtil {
         BufferedImage image;
         Image src = Toolkit.getDefaultToolkit().getImage(new File(imagePath).getPath());
         image = toBufferedImage(src);
-        BufferedImage rightImageSubimage = image.getSubimage(570, 989, 150, 150);
+        int width = image.getWidth();
+        int height = image.getHeight();
+        BufferedImage rightImageSubimage = image.getSubimage(width / 2, height / 2, width / 2, height / 2);
         if (null == rightImageSubimage) {
             System.out.println("Could not decode QRCodeImage");
             return "";

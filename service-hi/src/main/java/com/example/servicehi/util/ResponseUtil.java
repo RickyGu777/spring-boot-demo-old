@@ -63,7 +63,18 @@ public class ResponseUtil<T> {
     }
 
     /**
+     * 返回设定好的错误信息，和自定义错误码
+     *
+     * @param codeMsg
+     * @return
+     */
+    public static ResponseUtil buildERROR(CodeMsg codeMsg, Integer code) {
+        return new ResponseUtil(codeMsg.getMsg(), code);
+    }
+
+    /**
      * 私有方法，仅供发生错误时使用
+     *
      * @param msg
      * @param code
      */
