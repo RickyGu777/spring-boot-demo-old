@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+
 @RequestMapping(value = "/Test")
 @RestController
 @AllArgsConstructor
@@ -21,5 +23,10 @@ public class TestController {
     public ResponseUtil add(@RequestBody HotWord hotWord) {
         hotWordService.insert(hotWord);
         return new ResponseUtil();
+    }
+
+    @PostMapping(value = "/ip")
+    public ResponseUtil ip(HttpServletRequest request) {
+        return new ResponseUtil(request.getRemoteUser());
     }
 }
