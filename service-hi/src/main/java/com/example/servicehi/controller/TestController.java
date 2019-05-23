@@ -27,6 +27,6 @@ public class TestController {
 
     @PostMapping(value = "/ip")
     public ResponseUtil ip(HttpServletRequest request) {
-        return new ResponseUtil(request.getRemoteAddr());
+        return new ResponseUtil(request.getHeader("X-Real-IP"));
     }
 }
