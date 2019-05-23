@@ -22,6 +22,8 @@ public class CodeMsg {
     public static CodeMsg IMAGE_CONTROLLER_BASE_ERROR = new CodeMsg(30001, "图片服务异常");
     public static CodeMsg IMAGE_CONTROLLER_UPLOAD_IMAGE_ERROR = new CodeMsg(30002, "保存图片数据失败");
     public static CodeMsg IMAGE_CONTROLLER_QRCODE_ERROR = new CodeMsg(30003, "二维码解析错误");
+    public static CodeMsg IMAGE_CONTROLLER_UPLOAD_FULL_IMG_ERROR = new CodeMsg(30003, "上传完整图片出错");
+    public static CodeMsg IMAGE_CONTROLLER_UPLOAD_CUT_IMG_ERROR = new CodeMsg(30003, "上传裁剪图片出错");
 
     // 优惠券
     public static CodeMsg SHARE_TICKET_CONTROLLER_REPEAT_ERROR = new CodeMsg(40001, "优惠券码已存在,请勿重复添加");

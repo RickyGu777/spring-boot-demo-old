@@ -9,6 +9,7 @@ import com.example.servicehi.entity.IpAddress;
 import com.example.servicehi.service.AuthService;
 import com.example.servicehi.service.DbConfigService;
 import com.example.servicehi.service.IpAddressService;
+import com.example.servicehi.util.Baidu.BaiduTool;
 import com.example.servicehi.util.IPAddressUtil;
 import com.example.servicehi.util.MacAddressUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +32,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @Component
 @Slf4j
@@ -68,6 +70,7 @@ public class Init implements InitializingBean {
         initAuth();
         selectAllConfig();
         config.setFilePath(SystemUtils.IS_OS_LINUX ? config.getLinux() : config.getWindows());
+        createAccessToken();
     }
 
     private void sendIP() throws IOException {
@@ -138,6 +141,13 @@ public class Init implements InitializingBean {
         List<DbConfig> dbConfigs = dbConfigService.selectAllConfig();
         for (DbConfig dbConfig : dbConfigs) {
             redisTemplate.opsForValue().set(dbConfig.getCode(), JSON.toJSONString(dbConfig));
+        }
+    }
+
+    private void createAccessToken() {
+        if (redisTemplate.opsForValue().get("baiduAccessToken") == null) {
+            redisTemplate.opsForValue().set("baiduAccessToken", BaiduTool.getAuth());
+            redisTemplate.expire("baiduAccessToken", 7200, TimeUnit.SECONDS);
         }
     }
 }
