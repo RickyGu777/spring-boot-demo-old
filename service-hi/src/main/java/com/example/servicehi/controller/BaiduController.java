@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 @RequestMapping(value = "/Baidu")
 @RestController
@@ -44,5 +45,12 @@ public class BaiduController {
     public ResponseUtil delete(@RequestBody BaiduOCR baiduOCR) {
         baiduOCRService.delete(baiduOCR);
         return new ResponseUtil();
+    }
+
+    @PostMapping(value = "/refreshAccessToken")
+    public ResponseUtil refreshAccessToken(){
+        redisTemplate.opsForValue().set("baiduAccessToken", BaiduTool.getAuth());
+        redisTemplate.expire("baiduAccessToken", 7200, TimeUnit.SECONDS);
+        return new ResponseUtil<>();
     }
 }

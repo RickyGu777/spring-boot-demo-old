@@ -2,16 +2,10 @@ package com.example.servicehi.controller;
 
 import com.example.servicehi.entity.HotWord;
 import com.example.servicehi.service.HotWordService;
-import com.example.servicehi.util.Baidu.BaiduTool;
 import com.example.servicehi.util.ResponseUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import javax.servlet.http.HttpServletRequest;
+import org.springframework.web.bind.annotation.*;
 
 @RequestMapping(value = "/Test")
 @RestController
@@ -27,8 +21,11 @@ public class TestController {
     }
 
     @PostMapping(value = "/ip")
-    public ResponseUtil ip(HttpServletRequest request) {
-        String auth = BaiduTool.getAuth();
-        return new ResponseUtil(request.getHeader("X-Real-IP"));
+    public ResponseUtil ip(@RequestParam(value = "faculty", defaultValue = "公共") String faculty, @RequestParam(value = "course_name") String course_name) {
+        log.info(faculty);
+        log.info(course_name);
+        return null;
+//        String auth = BaiduTool.getAuth();
+//        return new ResponseUtil(request.getHeader("X-Real-IP"));
     }
 }
