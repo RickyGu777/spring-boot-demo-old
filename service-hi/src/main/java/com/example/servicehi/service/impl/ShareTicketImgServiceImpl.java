@@ -42,21 +42,14 @@ public class ShareTicketImgServiceImpl<T extends ShareTicketImg> implements Shar
     @Override
     @Transactional
     public List<T> selectTitleAndTips(T t) {
-        HotWord hotWord = new HotWord();
-        hotWord.setHotWord(t.getTitle());
-        hotWord.setCreateDate(new Date());
-        HotWord todayHotWord = hotWordService.selectHotWord(hotWord);
-        if (todayHotWord == null) {
-            hotWordService.insert(hotWord);
-        } else {
-            hotWordService.updateTimes(todayHotWord);
-        }
+        hotWord(t);
         PageHelper.startPage(t.getPage(), t.getSize());
         return new PageInfo(shareTicketImgDao.selectTitleAndTips(t)).getList();
     }
 
     @Override
     public List<T> selectTicket(T t) {
+        hotWord(t);
         PageHelper.startPage(t.getPage(), t.getSize());
         return new PageInfo(shareTicketImgDao.selectTicket(t)).getList();
     }
@@ -74,5 +67,17 @@ public class ShareTicketImgServiceImpl<T extends ShareTicketImg> implements Shar
     public int updateCopyTimes(T t) {
         t.setModiDate(new Date());
         return shareTicketImgDao.updateCopyTimes(t);
+    }
+
+    private void hotWord(T t){
+        HotWord hotWord = new HotWord();
+        hotWord.setHotWord(t.getTitle());
+        hotWord.setCreateDate(new Date());
+        HotWord todayHotWord = hotWordService.selectHotWord(hotWord);
+        if (todayHotWord == null) {
+            hotWordService.insert(hotWord);
+        } else {
+            hotWordService.updateTimes(todayHotWord);
+        }
     }
 }

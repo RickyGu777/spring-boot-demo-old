@@ -27,11 +27,9 @@ import org.springframework.web.servlet.mvc.condition.RequestMethodsRequestCondit
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
+import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @Component
@@ -66,7 +64,11 @@ public class Init implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() {
-//        sendIP();
+        List<File> fileSort = getFileSort("D:\\images");
+        for (File file : fileSort) {
+            System.out.println(file.getName());
+        }
+        //        sendIP();
         initAuth();
         selectAllConfig();
         config.setFilePath(SystemUtils.IS_OS_LINUX ? config.getLinux() : config.getWindows());
@@ -152,4 +154,51 @@ public class Init implements InitializingBean {
             log.info("baiduAccessToken:[{}]", redisTemplate.opsForValue().get("baiduAccessToken").toString());
         }
     }
+
+    /**
+     * 获取目录下所有文件(按时间排序)
+     *
+     * @param path
+     * @return
+     */
+    public List<File> getFileSort(String path) {
+
+        List<File> list = getFiles(path, new ArrayList());
+
+        if (list != null && list.size() > 0) {
+            Collections.sort(list, (file, newFile) -> {
+                if (file.lastModified() < newFile.lastModified()) {
+                    return 1;
+                } else if (file.lastModified() == newFile.lastModified()) {
+                    return 0;
+                } else {
+                    return -1;
+                }
+            });
+        }
+        return list;
+    }
+
+    /**
+     * 获取目录下所有文件
+     *
+     * @param realpath
+     * @param files
+     * @return
+     */
+    public List<File> getFiles(String realpath, List<File> files) {
+        File realFile = new File(realpath);
+        if (realFile.isDirectory()) {
+            File[] subfiles = realFile.listFiles();
+            for (File file : subfiles) {
+                if (file.isDirectory()) {
+                    getFiles(file.getAbsolutePath(), files);
+                } else {
+                    files.add(file);
+                }
+            }
+        }
+        return files;
+    }
+
 }

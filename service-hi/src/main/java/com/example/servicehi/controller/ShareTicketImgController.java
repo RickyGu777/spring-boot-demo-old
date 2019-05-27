@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSON;
 import com.example.servicehi.entity.HotWord;
 import com.example.servicehi.entity.ShareTicketImg;
 import com.example.servicehi.entity.TicketInvalid;
-import com.example.servicehi.service.HotWordService;
 import com.example.servicehi.service.ShareTicketImgService;
 import com.example.servicehi.service.TicketInvalidService;
 import com.example.servicehi.util.ResponseUtil;
@@ -27,8 +26,6 @@ public class ShareTicketImgController {
     private final ShareTicketImgService<ShareTicketImg> shareTicketImgService;
 
     private final TicketInvalidService<TicketInvalid> ticketInvalidService;
-
-    private final HotWordService<HotWord> hotWordService;
 
     private final RedisTemplate redisTemplate;
 

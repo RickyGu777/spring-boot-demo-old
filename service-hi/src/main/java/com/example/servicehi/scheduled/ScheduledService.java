@@ -14,10 +14,8 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.io.File;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
@@ -60,4 +58,61 @@ public class ScheduledService {
         redisTemplate.opsForValue().set("baiduAccessToken", BaiduTool.getAuth());
         redisTemplate.expire("baiduAccessToken", 7200, TimeUnit.SECONDS);
     }
+
+    public void scannerFile() {
+        List<File> fileSort = getFileSort("D:\\images");
+        // 先扫描本地的QQ图片文件夹
+        // 扫描所有.jpg格式结尾的文件
+        // 然后上传识别
+        // 根据返回值判断是否识别成功
+        // 如果未识别成功的，则放入统一文件夹中
+//        new hashmap
+    }
+
+    /**
+     * 获取目录下所有文件(按时间从新到旧排序)
+     *
+     * @param path
+     * @return
+     */
+    public List<File> getFileSort(String path) {
+        List<File> list = getFiles(path, new ArrayList());
+        if (list != null && list.size() > 0) {
+            Collections.sort(list, (file, newFile) -> {
+                if (file.lastModified() < newFile.lastModified()) {
+                    return 1;
+                } else if (file.lastModified() == newFile.lastModified()) {
+                    return 0;
+                } else {
+                    return -1;
+                }
+            });
+        }
+        return list;
+    }
+
+    /**
+     * 获取目录下所有.jpg格式结尾的文件
+     *
+     * @param realpath
+     * @param files
+     * @return
+     */
+    public List<File> getFiles(String realpath, List<File> files) {
+        File realFile = new File(realpath);
+        if (realFile.isDirectory()) {
+            File[] subfiles = realFile.listFiles();
+            for (File file : subfiles) {
+                if (file.isDirectory()) {
+                    getFiles(file.getAbsolutePath(), files);
+                } else {
+                    if (file.getName().indexOf(".jpg") != -1) {
+                        files.add(file);
+                    }
+                }
+            }
+        }
+        return files;
+    }
+
 }
