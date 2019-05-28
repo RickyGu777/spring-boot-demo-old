@@ -44,8 +44,10 @@ mybatis:
 
 uploadImagePath:
   windows: 'D:\\images\\'
+  readQQFilePath: 'C:\\QQFilePath.txt'
   linux: '/usr/local/app/static/uploadImage/'
   linuxPath: '/static/uploadImage/'
+  backUpFilePath: 'D:\\backUpFile\\'
 
 pagehelper:
   helper-dialect: mysql

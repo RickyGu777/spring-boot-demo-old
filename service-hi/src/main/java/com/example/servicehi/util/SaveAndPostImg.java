@@ -1,9 +1,12 @@
 package com.example.servicehi.util;
 
+import com.alibaba.fastjson.JSON;
 import com.example.servicehi.common.CodeMsg;
 import com.example.servicehi.handler.GlobalException;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntity;
@@ -39,12 +42,12 @@ public class SaveAndPostImg {
         return upload(dest);
     }
 
-    public static void sendImage(String randomName) throws IOException {
+    public static ResponseUtil sendImage(String randomName) throws IOException {
         File file = new File(randomName);
         MultipartEntity multipartEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE, "--------------------HV2ymHFg03ehbqgZCaKO6jyH", Charset.defaultCharset());
         multipartEntity.addPart("img", new FileBody(file));
 
-        HttpPost request = new HttpPost("http://demo/api/Image/backUpImage");
+        HttpPost request = new HttpPost("https://www.finalfantasyxivfan.com/api/Image/backUpImage");
         request.setEntity(multipartEntity);
         request.addHeader("Content-Type", "multipart/form-data; boundary=--------------------HV2ymHFg03ehbqgZCaKO6jyH");
 
@@ -53,11 +56,55 @@ public class SaveAndPostImg {
         InputStream is = response.getEntity().getContent();
         BufferedReader in = new BufferedReader(new InputStreamReader(is));
         StringBuffer buffer = new StringBuffer();
-        String line = "";
+        String line;
         while ((line = in.readLine()) != null) {
             buffer.append(line);
         }
         log.info("发送消息收到的返回：" + buffer.toString());
+        return JSON.parseObject(buffer.toString(), ResponseUtil.class);
+    }
+
+    /**
+     * 模拟上传图片
+     *
+     * @param fileName 图片路径
+     */
+    public static ResponseUtil uploadFileWithHttpMime(String fileName) throws IOException {
+        // 定义请求url
+        String uri = "https://www.finalfantasyxivfan.com/api/Image/QRCode";
+        // 实例化http客户端
+        HttpClient httpClient = new DefaultHttpClient();
+        // 实例化post提交方式
+        HttpPost post = new HttpPost(uri);
+        // 添加json参数
+        // 实例化参数对象
+        MultipartEntity params = new MultipartEntity();
+//            // 图片文本参数
+//            params.addPart("textParams", new StringBody(
+//                    "{'user_name':'我的用户名','channel_name':'却道明','channel_address':'(123.4,30.6)'}",
+//                    Charset.forName("UTF-8")));
+        // 设置上传文件
+        File file = new File(fileName);
+        // 文件参数内容
+        FileBody fileBody = new FileBody(file);
+        // 添加文件参数
+        params.addPart("file", fileBody);
+//            params.addPart("photoName", new StringBody(file.getName()));
+        // 将参数加入post请求体中
+        post.setEntity(params);
+        // 执行post请求并得到返回对象 [ 到这一步我们的请求就开始了 ]
+        HttpResponse resp = httpClient.execute(post);
+        // 解析返回请求结果
+        HttpEntity entity = resp.getEntity();
+        InputStream is = entity.getContent();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+        StringBuffer buffer = new StringBuffer();
+        String temp;
+        while ((temp = reader.readLine()) != null) {
+            buffer.append(temp);
+        }
+        System.out.println(buffer);
+        return JSON.parseObject(buffer.toString(), ResponseUtil.class);
     }
 
     public static String sendImageToTD(MultipartFile multipartFile, String path, String fileName) throws IOException {
