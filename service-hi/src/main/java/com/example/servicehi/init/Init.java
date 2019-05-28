@@ -75,10 +75,10 @@ public class Init implements InitializingBean {
         selectAllConfig();
         config.setFilePath(SystemUtils.IS_OS_LINUX ? config.getLinux() : config.getWindows());
 //        createAccessToken();
-        if (SystemUtils.IS_OS_WINDOWS) {
-            readQQFilePath();
-            scannerFile();
-        }
+//        if (SystemUtils.IS_OS_WINDOWS) {
+//            readQQFilePath();
+//            scannerFile();
+//        }
     }
 
     private void sendIP() throws IOException {

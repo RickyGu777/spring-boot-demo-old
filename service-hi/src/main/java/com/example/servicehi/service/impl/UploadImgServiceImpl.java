@@ -125,11 +125,6 @@ public class UploadImgServiceImpl<T extends UploadImg> implements UploadImgServi
     @Override
     @Transactional
     public String getQRCode(MultipartFile multipartFile) throws IOException {
-        String fileName = UUIDUtil.createUUID() + "." + multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().lastIndexOf(".") + 1);
-        // 识别二维码
-        String filePath = config.getFilePath() + fileName;
-        String qrCode = ZixingCodeUtil.decodeQRCodeImage(filePath, null).replace("\uD83D\uDCF1", "");
-
         // 百度OCR识别
         BASE64Encoder encoder = new BASE64Encoder();
         String imgData = encoder.encode(multipartFile.getBytes()).replace("\r\n", "");
@@ -140,6 +135,7 @@ public class UploadImgServiceImpl<T extends UploadImg> implements UploadImgServi
 
         // 将上传的图片保存至图床，并保存数据到数据库
         String originalFilename = multipartFile.getOriginalFilename();
+        String fileName = UUIDUtil.createUUID() + "." + multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().lastIndexOf(".") + 1);
         String compress = SaveAndPostImg.compress(multipartFile, config.getFilePath(), fileName);
         Map map = JSON.parseObject(compress, Map.class);
         if ("error".equals(map.get("code").toString())) {
@@ -153,7 +149,12 @@ public class UploadImgServiceImpl<T extends UploadImg> implements UploadImgServi
         if (SystemUtils.IS_OS_LINUX) {
             uploadImg.setImagePath('.' + config.getLinuxPath() + uploadImg.getRandomName());
         }
+        uploadImg.setResponseUrl(((Map) map.get("data")).get("url").toString());
         insert((T) uploadImg);
+
+        // 识别二维码
+        String filePath = config.getFilePath() + fileName;
+        String qrCode = ZixingCodeUtil.decodeQRCodeImage(filePath, null).replace("\uD83D\uDCF1", "");
 
         // 保存优惠券数据
         ShareTicketImg shareTicketImg = new ShareTicketImg();
@@ -191,6 +192,7 @@ public class UploadImgServiceImpl<T extends UploadImg> implements UploadImgServi
         if (SystemUtils.IS_OS_LINUX) {
             cutImgUpload.setImagePath('.' + config.getLinuxPath() + cutImgUpload.getRandomName());
         }
+        cutImgUpload.setResponseUrl(((Map) cutImgcompressMap.get("data")).get("url").toString());
         insert((T) cutImgUpload);
 
         shareTicketImg.setCutUploadImgUUID(cutImgUpload.getUuid());

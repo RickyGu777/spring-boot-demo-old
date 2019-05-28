@@ -306,8 +306,9 @@ public class SaveAndPostImg {
 
             // 读取返回数据
             StringBuffer strBuf = new StringBuffer();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(
-                    conn.getInputStream()));
+            InputStream inputStream = conn.getInputStream();
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+            BufferedReader reader = new BufferedReader(inputStreamReader);
             String line;
             while ((line = reader.readLine()) != null) {
                 strBuf.append(line).append("\n");
