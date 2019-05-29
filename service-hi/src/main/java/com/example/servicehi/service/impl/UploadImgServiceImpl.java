@@ -130,7 +130,7 @@ public class UploadImgServiceImpl<T extends UploadImg> implements UploadImgServi
         String imgData = encoder.encode(multipartFile.getBytes()).replace("\r\n", "");
         imgData = URLEncoder.encode(imgData, "UTF-8");
         String url = "https://aip.baidubce.com/rest/2.0/ocr/v1/general_basic";
-        String param = "?language_type=CHN_ENG&access_token=" + redisTemplate.opsForValue().get("baiduAccessToken").toString() + "&image=" + imgData;
+        String param = "?language_type=CHN_ENG&access_token=" + BaiduTool.getAuth() + "&image=" + imgData;
         BaiduOCRDto baiduOCRDto = JSON.parseObject(HttpRequest.baiduOCRPost(url, param), BaiduOCRDto.class);
 
         // 将上传的图片保存至图床，并保存数据到数据库
@@ -138,18 +138,25 @@ public class UploadImgServiceImpl<T extends UploadImg> implements UploadImgServi
         String fileName = UUIDUtil.createUUID() + "." + multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().lastIndexOf(".") + 1);
         String compress = SaveAndPostImg.compress(multipartFile, config.getFilePath(), fileName);
         Map map = JSON.parseObject(compress, Map.class);
-        if ("error".equals(map.get("code").toString())) {
-            throw new GlobalException(CodeMsg.IMAGE_CONTROLLER_UPLOAD_FULL_IMG_ERROR);
-        }
+
+        HashMap<String, Object> hashMap = new HashMap<>();
         UploadImg uploadImg = new UploadImg();
         uploadImg.setOriginalName(originalFilename);
         uploadImg.setIsDel("0");
         uploadImg.setRandomName(fileName);
+        if ("success".equals(map.get("code").toString())) {
+            String responseUrl = ((Map) map.get("data")).get("url").toString();
+            uploadImg.setResponseUrl(responseUrl);
+            hashMap.put("img", ((Map) map.get("data")).get("url"));
+            hashMap.put("code", 0);
+        } else if ("error".equals(map.get("code").toString())) {
+            hashMap.put("msg", map.get("msg"));
+            hashMap.put("code", 1);
+        }
         uploadImg.setTitle(uploadImg.getRandomName());
         if (SystemUtils.IS_OS_LINUX) {
             uploadImg.setImagePath('.' + config.getLinuxPath() + uploadImg.getRandomName());
         }
-        uploadImg.setResponseUrl(((Map) map.get("data")).get("url").toString());
         insert((T) uploadImg);
 
         // 识别二维码
@@ -174,25 +181,34 @@ public class UploadImgServiceImpl<T extends UploadImg> implements UploadImgServi
 
         String cutFileName = UUIDUtil.createUUID() + "." + multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().lastIndexOf(".") + 1);
         // 裁剪图片，将二维码和粉象图标删除
-        File inFile = new File(config.getFilePath() + fileName);
+        log.info("cutImg before");
+//        BufferedImage bufferedImage = cutImg(multipartFile);
+        File inFile = new File(config.getFilePath()+fileName);
         Image src = Toolkit.getDefaultToolkit().getImage(inFile.getPath());
         BufferedImage bufferedImage = toBufferedImage(src);
         BufferedImage subimage = bufferedImage.getSubimage(0, 100, 750, 850);
         String cutImgcompress = SaveAndPostImg.compressToCut(subimage, config.getFilePath(), cutFileName);
-        Map cutImgcompressMap = JSON.parseObject(cutImgcompress, Map.class);
-        if ("error".equals(cutImgcompressMap.get("code").toString())) {
-            throw new GlobalException(CodeMsg.IMAGE_CONTROLLER_UPLOAD_CUT_IMG_ERROR);
-        }
 
+        Map cutImgcompressMap = JSON.parseObject(cutImgcompress, Map.class);
+
+        HashMap<String, Object> cutHashMap = new HashMap<>();
         UploadImg cutImgUpload = new UploadImg();
         cutImgUpload.setOriginalName(originalFilename);
         cutImgUpload.setIsDel("0");
         cutImgUpload.setRandomName(cutFileName);
+        if ("success".equals(cutImgcompressMap.get("code").toString())) {
+            String responseUrl = ((Map) cutImgcompressMap.get("data")).get("url").toString();
+            cutImgUpload.setResponseUrl(responseUrl);
+            cutHashMap.put("img", ((Map) cutImgcompressMap.get("data")).get("url"));
+            cutHashMap.put("code", 0);
+        } else if ("error".equals(cutImgcompressMap.get("code").toString())) {
+            cutHashMap.put("msg", cutImgcompressMap.get("msg"));
+            cutHashMap.put("code", 1);
+        }
         cutImgUpload.setTitle(cutImgUpload.getRandomName());
         if (SystemUtils.IS_OS_LINUX) {
             cutImgUpload.setImagePath('.' + config.getLinuxPath() + cutImgUpload.getRandomName());
         }
-        cutImgUpload.setResponseUrl(((Map) cutImgcompressMap.get("data")).get("url").toString());
         insert((T) cutImgUpload);
 
         shareTicketImg.setCutUploadImgUUID(cutImgUpload.getUuid());
