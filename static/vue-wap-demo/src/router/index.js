@@ -24,8 +24,8 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'QRCode',
-      component: QRCode
+      name: 'HomePage',
+      component: HomePage
     },
     {
       path: '/UploadJoke',
